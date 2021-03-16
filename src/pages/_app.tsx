@@ -1,5 +1,7 @@
 import GlobalStyle from "../styles/GlobalStyle";
 import App from 'next/app';
+
+import { AuthProvider } from '../hooks/auth'
 export default class MyApp extends App {
 
   render() {
@@ -9,12 +11,12 @@ export default class MyApp extends App {
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
     return (
-      <>
+      <AuthProvider>
         <GlobalStyle />
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </>
+      </AuthProvider>
     )
   }
   

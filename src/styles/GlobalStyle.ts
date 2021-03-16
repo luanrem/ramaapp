@@ -16,11 +16,11 @@ export default createGlobalStyle`
   --green: #2DEB0E;
   --text: #666666;
   --gray-line: #DCDDE0;
+  --blue-twitter: #2AA9E0;
 
   --text-highlight: #B3B9FF;
   --title: #2E384D;
   --red: #E83F5B;
-  --blue-twitter: #2AA9E0;
 
   @font-face {
     font-family: 'GoodTimes';
