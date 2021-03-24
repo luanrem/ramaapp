@@ -45,7 +45,7 @@ export const AnimationContainer = styled.div`
   }
 
   form {
-    margin: 80px 0;
+    margin: 3rem 0;
     width: 340px;
     text-align: center;
 
@@ -68,7 +68,7 @@ export const AnimationContainer = styled.div`
   }
 
   > a {
-    color: #ff9000;
+    color: #002BC3;
     display: block;
     margin-top: 24px;
     text-decoration: none;
@@ -82,16 +82,21 @@ export const AnimationContainer = styled.div`
     }
 
     &:hover {
-      color: ${shade(0.2, '#ff9000')};
+      color: ${shade(0.2, '#002BC3')};
     }
   }
 
   .googleImg {
-    text-align: end;
-    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+      width: 10rem;
     img {
-      width: 9rem;
+      width: 100%;
+      transition: 0.3s;
     }
+  }
+
+  .googleImg img:hover {
+    filter: contrast(80%);
   }
 `;
 

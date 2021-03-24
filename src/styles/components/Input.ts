@@ -14,7 +14,7 @@ export const Container = styled.div<ContainerProps>`
   padding: 0.8rem;
   width: 100%;
 
-  border: 2px solid #232129;
+  border: 2px solid var(--text);
   color: var(--blue);
   transition: border 0.2s;
   transition: color 0.2s;
@@ -35,21 +35,21 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFocused &&
     css`
-      color: #ff9000;
-      border-color: #ff9000;
+      color: #002BC3;
+      border-color: #002BC3;
     `}
 
   ${props =>
     props.isFilled &&
     css`
-      color: #ff9000;
+      color: #002BC3;
     `}
 
   input {
     flex: 1;
     background: transparent;
     border: 0;
-    color: var(--gray-line);
+    color: var(--blue-dark);
 
     &::placeholder {
       color: #666360;

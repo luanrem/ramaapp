@@ -2,7 +2,6 @@
 import { Container, Content, AnimationContainer, Background } from '../../styles/pages/auth/signin';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import * as Yup from 'yup';
 
 import logoImg from '../../assets/images/logo.gif';
@@ -12,8 +11,12 @@ import Link from 'next/link';
 import { useAuth } from '../../hooks/auth';
 
 import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
+import ButtonComponent from '../../components/Button/Button';
+
+import Button from '@material-ui/core/Button';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import { FiLock, FiMail } from 'react-icons/fi';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 interface SignInFormData {
   email: string;
@@ -45,8 +48,18 @@ export default function SignIn() {
         password: data.password,
       });
     } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
 
+        formRef.current?.setErrors(errors);
+
+        return;
+      }
     }
+  }, [])
+
+  const handleGoogleSignIn = useCallback(async () => {
+    console.log("Funcionou");
   }, [])
 
 
@@ -67,11 +80,11 @@ export default function SignIn() {
               placeholder="Senha"
             />
 
-            <a href="http://google.com" className="googleImg">
-              <img src={googleImg} alt="googleSignin"/>
-            </a>
+            <ButtonComponent type="submit">Entrar</ButtonComponent>
 
-            <Button type="submit">Entrar</Button>
+              <a onClick={handleGoogleSignIn} className="googleImg">
+                <img src={googleImg} alt="googleSignin"/>
+              </a>
 
             <Link href="/auth/forgotpassword">Esqueci minha senha</Link>
           </Form>
