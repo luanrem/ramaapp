@@ -10,11 +10,14 @@ import { Container, NameContainer, NotificationBall, NotificationList, Scrollbar
 import { Button, ClickAwayListener, Divider, ListItem, ListItemText, Paper } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import Link from 'next/link';
+import { useAuth } from '../../hooks/auth';
 
 export default function NavBarProfile() {
   const [hasNotification, setHasNotification] = useState(true);
   const [openNotification, setOpenNotification] = useState<null | HTMLElement>(null);
   const [openPhoto, setOpenPhoto] = useState<null | HTMLElement>(null);
+
+  const { signOut } = useAuth();
 
   const handleClickNotification = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setOpenNotification(openNotification ? null : event.currentTarget);
@@ -33,6 +36,11 @@ export default function NavBarProfile() {
   const handleClosePhoto = useCallback(() => {
     setOpenPhoto(null);
   }, [setOpenPhoto]);
+
+  const handleLogOff = useCallback(() => {
+    setOpenPhoto(null);
+    signOut();
+  }, [setOpenPhoto])
 
 
   return (
@@ -144,6 +152,9 @@ export default function NavBarProfile() {
                     <ListItemText primary="Configurações" />
                   </ListItem>
                 </Link>
+                  <ListItem button onClick={handleLogOff}>
+                    <ListItemText primary="Desconectar" />
+                  </ListItem>
               </List>
             </ClickAwayListener>
           </Paper>

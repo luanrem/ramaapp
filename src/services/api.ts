@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://67.207.91.82/',
+  baseURL: 'https://rama.luanrobertomartins.com.br/',
 });
 
 export default api;

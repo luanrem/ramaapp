@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import api from '../services/api';
+import { setCookie, destroyCookie } from 'nookies';
+import Router from "next/router";
 
 interface User {
   id: string;
@@ -39,13 +41,6 @@ function AuthProvider({ children }) {
   })
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('auth/local', {
-      identifier: email,
-      password,
-    });
-
-    const { token, user } = response.data;
-    console.log(response.data);
 
     // localStorage.setItem('@Gobarber:token', token);
     // localStorage.setItem('@Gobarber:user', JSON.stringify(user));
@@ -53,11 +48,44 @@ function AuthProvider({ children }) {
     // api.defaults.headers.authorization = `Bearer ${token}`;
 
     // setData({ token, user });
+
+    const logInfo = {
+      identifier: email,
+      password: password
+    }
+  
+    const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(logInfo)
+    }) 
+
+    const loginResponse = await login.json()
+
+    console.log(loginResponse);
+
+    setCookie(null, 'jwt', loginResponse.jwt, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    Router.push('/admin/dashboard')
+
   }, []);
 
-  async function signOut() {
+  const signOut = useCallback(() => {
     console.log('deslogado')
-  }
+    destroyCookie(null, 'jwt', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+
+    Router.push('/')
+
+  }, []) 
 
   return (
     <AuthContext.Provider

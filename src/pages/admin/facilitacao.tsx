@@ -1,3 +1,4 @@
+import { parseCookies } from "nookies";
 import Admin from "../../layouts/Admin";
 
 import { Container } from '../../styles/pages/admin/facilitacao';
@@ -14,4 +15,14 @@ function Facilitacao() {
 
 Facilitacao.layout = Admin;
 
+export async function getServerSideProps(context) {
+  const jwt = parseCookies(context).jwt
+
+  return {
+    props: {}
+  }
+
+}
+
 export default Facilitacao;
+
