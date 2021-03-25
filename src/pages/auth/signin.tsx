@@ -13,8 +13,6 @@ import { useAuth } from '../../hooks/auth';
 import Input from '../../components/Input/Input';
 import ButtonComponent from '../../components/Button/Button';
 
-import Button from '@material-ui/core/Button';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import { FiLock, FiMail } from 'react-icons/fi';
 import getValidationErrors from '../../utils/getValidationErrors';
 

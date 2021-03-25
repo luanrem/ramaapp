@@ -1,14 +1,9 @@
 import GlobalStyle from "../styles/GlobalStyle";
-import App from 'next/app';
 
 import { AuthProvider } from '../hooks/auth'
 import Router from "next/router";
 import { parseCookies } from "nookies";
-export default class MyApp extends App {
-
-  render() {
-    const { Component }: any = this.props;
-    const { pageProps } = this.props;
+export default function MyApp({ Component, pageProps}) {
 
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
@@ -20,7 +15,6 @@ export default class MyApp extends App {
         </Layout>
       </AuthProvider>
     )
-  }
 }
 
 function redirectUser(ctx, location) {
@@ -50,3 +44,4 @@ MyApp.getInitialProps = async ({Component, ctx}) => {
 
   return { pageProps }
 }
+

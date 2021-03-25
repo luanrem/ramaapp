@@ -15,14 +15,6 @@ function Facilitacao() {
 
 Facilitacao.layout = Admin;
 
-export async function getServerSideProps(context) {
-  const jwt = parseCookies(context).jwt
-
-  return {
-    props: {}
-  }
-
-}
 
 export default Facilitacao;
 
