@@ -17,6 +17,8 @@ import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 interface SignUpFormData {
+  username: string;
+  name: string;
   email: string;
   password: string;
 }
@@ -24,24 +26,28 @@ interface SignUpFormData {
 export default function SignUp() {
   const formRef = useRef<FormHandles>(null);
 
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
 
   const handleSubmit = useCallback(async (data: SignUpFormData) => {
     try {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
+        username: Yup.string().required('Apelido obrigatorio'),
+        name: Yup.string().required('Nome obrigatorio'),
         email: Yup.string()
           .required('E-mail obrigatorio')
           .email('Digite um e-mail valido'),
-        password: Yup.string().required('Senha Obrigatoria'),
+        password: Yup.string().min(6, 'Minimo 6 digitos'),
       });
 
       await schema.validate(data, {
         abortEarly: false,
       })
 
-      await signIn({
+      await signUp({
+        username: data.username,
+        name: data.name,
         email: data.email,
         password: data.password,
       });

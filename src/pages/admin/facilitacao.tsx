@@ -1,4 +1,3 @@
-import { parseCookies } from "nookies";
 import Admin from "../../layouts/Admin";
 
 import { Container } from '../../styles/pages/admin/facilitacao';

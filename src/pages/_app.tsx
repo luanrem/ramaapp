@@ -1,6 +1,6 @@
 import GlobalStyle from "../styles/GlobalStyle";
 
-import { AuthProvider } from '../hooks/auth'
+import AppProvider from '../hooks'
 import Router from "next/router";
 import { parseCookies } from "nookies";
 export default function MyApp({ Component, pageProps}) {
@@ -8,12 +8,12 @@ export default function MyApp({ Component, pageProps}) {
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
     return (
-      <AuthProvider>
+      <AppProvider>
         <GlobalStyle />
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </AuthProvider>
+      </AppProvider>
     )
 }
 
@@ -36,7 +36,7 @@ MyApp.getInitialProps = async ({Component, ctx}) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  if (!jwt) {
+  if (!jwt || jwt === undefined) {
     if(ctx.pathname.indexOf("/admin") >= 0) {
       redirectUser(ctx, "/auth/signin")
     }

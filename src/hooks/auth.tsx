@@ -20,10 +20,18 @@ interface SignInCredentials {
   password: string;
 }
 
+interface SignUpCredentials {
+  username: string;
+  name: string;
+  email: string;
+  password: string;
+}
+
 interface AuthContextData {
   user: object;
   signed: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
+  signUp(credentials: SignUpCredentials): Promise<void>;
   signOut(): void;
 }
 
@@ -40,6 +48,10 @@ function AuthProvider({ children }) {
     }
   })
 
+  const [userData, setUserData] = useState({
+    
+  })
+
   const signIn = useCallback(async ({ email, password }) => {
 
     // localStorage.setItem('@Gobarber:token', token);
@@ -47,34 +59,33 @@ function AuthProvider({ children }) {
 
     // api.defaults.headers.authorization = `Bearer ${token}`;
 
-    // setData({ token, user });
-
-    const logInfo = {
+    
+    const response = await api.post('auth/local', {
       identifier: email,
       password: password
-    }
-  
-    const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
-      method: "POST",
+    }, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(logInfo)
-    }) 
+      }
+    })
 
-    const loginResponse = await login.json()
-
-    console.log(loginResponse);
-
-    setCookie(null, 'jwt', loginResponse.jwt, {
+    const { jwt: token, user } = response.data;
+    
+    console.log("axios login", response.data);
+    
+    setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
       path: '/',
     });
-
-    Router.push('/admin/dashboard')
+    
+    setData({ token, user });
 
   }, []);
+
+  const signUp = useCallback(async ({ username, name, email, password }) => {
+    
+  }, [])
 
   const signOut = useCallback(() => {
     console.log('deslogado')
@@ -89,7 +100,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{user: data.user, signed: false, signIn, signOut}}
+      value={{user: data.user, signed: false, signIn, signUp, signOut}}
     >
       {children}
     </AuthContext.Provider>

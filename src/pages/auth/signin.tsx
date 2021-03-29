@@ -15,6 +15,8 @@ import ButtonComponent from '../../components/Button/Button';
 
 import { FiLock, FiMail } from 'react-icons/fi';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { useToast } from '../../hooks/toast';
+import Router from 'next/router';
 
 interface SignInFormData {
   email: string;
@@ -25,6 +27,7 @@ export default function SignIn() {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
@@ -45,6 +48,8 @@ export default function SignIn() {
         email: data.email,
         password: data.password,
       });
+
+      Router.push('/admin/dashboard');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -53,8 +58,14 @@ export default function SignIn() {
 
         return;
       }
+
+      addToast({
+        type: 'error',
+        title: 'Erro na autenticação',
+        description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+      });
     }
-  }, [])
+  }, [signIn])
 
   const handleGoogleSignIn = useCallback(async () => {
     console.log("Funcionou");
