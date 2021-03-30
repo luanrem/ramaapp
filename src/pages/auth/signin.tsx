@@ -4,9 +4,11 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
+import { motion } from 'framer-motion';
+
 import logoImg from '../../assets/images/logo.gif';
 import googleImg from '../../assets/images/google_signin.png';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../hooks/auth';
 
@@ -14,9 +16,11 @@ import Input from '../../components/Input/Input';
 import ButtonComponent from '../../components/Button/Button';
 
 import { FiLock, FiMail } from 'react-icons/fi';
+import { VscLoading } from 'react-icons/vsc';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useToast } from '../../hooks/toast';
 import Router from 'next/router';
+import LoadingIcon from '../../components/LoadingIcon/LoadingIcon';
 
 interface SignInFormData {
   email: string;
@@ -25,11 +29,13 @@ interface SignInFormData {
 
 export default function SignIn() {
   const formRef = useRef<FormHandles>(null);
+  const [entering, setEntering] = useState(false);
 
   const { signIn } = useAuth();
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
+    setEntering(true);
     try {
       formRef.current?.setErrors({});
 
@@ -43,7 +49,7 @@ export default function SignIn() {
       await schema.validate(data, {
         abortEarly: false,
       })
-      
+
       await signIn({
         email: data.email,
         password: data.password,
@@ -56,9 +62,11 @@ export default function SignIn() {
 
         formRef.current?.setErrors(errors);
 
+        setEntering(false);
         return;
       }
 
+      setEntering(false);
       addToast({
         type: 'error',
         title: 'Erro na autenticação',
@@ -70,6 +78,7 @@ export default function SignIn() {
   const handleGoogleSignIn = useCallback(async () => {
     console.log("Funcionou");
   }, [])
+
 
 
   return (
@@ -89,17 +98,23 @@ export default function SignIn() {
               placeholder="Senha"
             />
 
-            <ButtonComponent type="submit">Entrar</ButtonComponent>
+            <ButtonComponent type="submit">{entering === true ?
+              <motion.div>
+                <LoadingIcon />
+              </motion.div> :
+              "Entrar"
+            }
+            </ButtonComponent>
 
-              <a onClick={handleGoogleSignIn} className="googleImg">
-                <img src={googleImg} alt="googleSignin"/>
-              </a>
+            <a onClick={handleGoogleSignIn} className="googleImg">
+              <img src={googleImg} alt="googleSignin" />
+            </a>
 
             <Link href="/auth/forgotpassword">Esqueci minha senha</Link>
           </Form>
 
-            <Link href="/auth/signup">
-              Criar conta
+          <Link href="/auth/signup">
+            Criar conta
             </Link>
         </AnimationContainer>
       </Content>
