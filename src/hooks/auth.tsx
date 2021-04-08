@@ -111,7 +111,37 @@ function AuthProvider({ children }) {
   }, []);
   
   const signUp = useCallback(async ({ username, name, email, password }) => {
+    const response = await api.post('auth/local/register', {
+      username: username,
+      nome_completo: name,
+      email: email,
+      password: password,
+      funcao: {
+        id: 5
+      }
+    }, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
     
+    const { jwt: token, user } = response.data;
+    
+    console.log("axios login", response.data);
+    
+    setCookie(null, 'jwt', token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    });
+    setCookie(null, 'user', JSON.stringify(user), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    })
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
+    
+    setData({ token, user });
   }, [])
 
   const signOut = useCallback(() => {

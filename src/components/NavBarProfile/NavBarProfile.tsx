@@ -113,7 +113,7 @@ export default function NavBarProfile() {
 
       <NameContainer>
         <h2>{user.username}</h2>
-        <span>{`Grupo: ${user.grupo.nome_abreviado}`}</span>
+        <span>{user.grupo ? `Grupo: ${user.grupo.nome_abreviado}` : `Usuário`}</span>
       </NameContainer>
 
       <Button onClick={handleClickPhoto}>
