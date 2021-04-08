@@ -2,8 +2,7 @@ import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import Admin from "../../layouts/Admin";
 
-function Atas({jwt}) {
-  console.log("jwt",jwt);
+function Atas() {
   return (
     <div>Atas</div>
   )
@@ -11,22 +10,22 @@ function Atas({jwt}) {
 
 Atas.layout = Admin;
 
-export const getServerSideProps: GetServerSideProps = async (cxt) => {
-  const jwt = parseCookies(cxt).jwt;
-  console.log("JWT", jwt)
+// export const getServerSideProps: GetServerSideProps = async (cxt) => {
+//   const jwt = parseCookies(cxt).jwt;
+//   console.log("JWT", jwt)
 
-  if (!jwt) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false
-      }
-    }
-  }
+//   if (!jwt) {
+//     return {
+//       redirect: {
+//         destination: '/auth/signin',
+//         permanent: false
+//       }
+//     }
+//   }
 
-  return {
-    props: {jwt}
-  }
-}
+//   return {
+//     props: {jwt}
+//   }
+// }
 
 export default Atas;

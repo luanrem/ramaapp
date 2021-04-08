@@ -17,34 +17,34 @@ function Dashboard({ authData }) {
 
 Dashboard.layout = Admin;
 
-export async function getServerSideProps(context) {
+// export async function getServerSideProps(context) {
 
-  const logInfo = {
-    identifier: 'camilacvberti@gmail.com',
-    password: 'camilacvberti'
-  }
+//   const logInfo = {
+//     identifier: 'camilacvberti@gmail.com',
+//     password: 'camilacvberti'
+//   }
 
-  const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(logInfo)
-  }) 
+//   const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
+//     method: "POST",
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(logInfo)
+//   }) 
 
-  // const response = await api.post(`auth/local`, {
-  //   identifier: 'camilacvberti@gmail.com',
-  //   password: 'camilacvberti'
-  // })
+//   // const response = await api.post(`auth/local`, {
+//   //   identifier: 'camilacvberti@gmail.com',
+//   //   password: 'camilacvberti'
+//   // })
 
-  const loginResponse = await login.json()
+//   const loginResponse = await login.json()
 
-  return {
-    props: {
-      authData: loginResponse
-    }
-  };
-}
+//   return {
+//     props: {
+//       authData: loginResponse
+//     }
+//   };
+// }
 
 export default Dashboard;

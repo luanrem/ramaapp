@@ -150,6 +150,10 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/',
     });
+    destroyCookie(null, 'user', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    })
 
     Router.push('/')
 
