@@ -7,8 +7,10 @@ import routes from '../../routes/routes';
 import { Avatar, Button, Icon, List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import Link from 'next/link';
+import { useAuth } from '../../hooks/auth';
 
 export default function DrawerSideBar({ setOpen, open }) {
+  const { user } = useAuth()
 
   const HandleOpenDrawer = useCallback(() => {
     setOpen(!open);
@@ -33,8 +35,8 @@ export default function DrawerSideBar({ setOpen, open }) {
             alt="Profile Image"
             className="avatar"
           />
-          <h2>Luan Martins</h2>
-          <span>Facilitador</span>
+          <h2>{user.username}</h2>
+        <span>{`Grupo: ${user.grupo.nome_abreviado}`}</span>
         </AvatarContainer>
 
         {

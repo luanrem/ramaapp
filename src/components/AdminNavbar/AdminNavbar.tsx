@@ -10,9 +10,12 @@ import Menu from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
 import DrawerSideBar from '../DrawerSideBar/DrawerSideBar';
 import { useCallback, useState } from 'react';
+import { useAuth } from '../../hooks/auth';
 
 export default function AdminNavbar() {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
+
   const router = useRouter();
 
   const HandleOpenDrawer = useCallback(() => {

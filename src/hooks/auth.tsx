@@ -1,13 +1,38 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import api from '../services/api';
-import { setCookie, destroyCookie } from 'nookies';
+import { setCookie, destroyCookie, parseCookies } from 'nookies';
 import Router from "next/router";
 
 interface User {
-  id: string;
-  avatar_url: string;
+  avatar: string;
+  blocked: boolean;
+  confirmed: boolean;
   email: string;
+  ex_participante: boolean;
+  grupo: Group;
+  id: number;
+  nome_completo: string;
+  provider: string;
+  role: Role;
+  telefone: string;
+  username: string;
+}
+
+interface Group {
+  ccreated_at: string;
+  data_inicial: string;
+  id: number;
+  nome: string;
+  nome_abreviado: string;
+  // published_at: "2021-03-26T02:16:41.711Z"
+  // updated_at: "2021-03-26T02:16:41.751Z"
+}
+
+interface Role {
+  description: string;
+  id: number;
   name: string;
+  type: string;
 }
 
 interface AuthState {
@@ -28,7 +53,7 @@ interface SignUpCredentials {
 }
 
 interface AuthContextData {
-  user: object;
+  user: User;
   signed: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signUp(credentials: SignUpCredentials): Promise<void>;
@@ -38,28 +63,24 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children }) {
-  const [data, setData] = useState<AuthState>({
-    token: "lfjkalsdkfjasdlkfj",
-    user: {
-      id: "1",
-      avatar_url: "lasdkfjsl",
-      email: "luanrem@gmail.com",
-      name: "Luan Roberto Estrada Martins"
+  const [data, setData] = useState<AuthState>(() => {
+    const {jwt, user} = parseCookies();
+
+    if(jwt && user) {
+      api.defaults.headers.authorization = `Bearer ${jwt}`;
+
+      return { token: jwt, user: JSON.parse(user)};
     }
+    
+    return {} as AuthState;
   })
 
-  const [userData, setUserData] = useState({
-    
-  })
+  useEffect(() => {
+    const cookies = parseCookies()
+    console.log('chegou aqui', cookies);
+  }, [data])
 
   const signIn = useCallback(async ({ email, password }) => {
-
-    // localStorage.setItem('@Gobarber:token', token);
-    // localStorage.setItem('@Gobarber:user', JSON.stringify(user));
-
-    // api.defaults.headers.authorization = `Bearer ${token}`;
-
-    
     const response = await api.post('auth/local', {
       identifier: email,
       password: password
@@ -69,7 +90,7 @@ function AuthProvider({ children }) {
         'Content-Type': 'application/json'
       }
     })
-
+    
     const { jwt: token, user } = response.data;
     
     console.log("axios login", response.data);
@@ -78,11 +99,17 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/',
     });
+    setCookie(null, 'user', JSON.stringify(user), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    })
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
     
     setData({ token, user });
-
+    
   }, []);
-
+  
   const signUp = useCallback(async ({ username, name, email, password }) => {
     
   }, [])
