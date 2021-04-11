@@ -1,11 +1,9 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
 function Forum() {
-  return (
-    <div>Forum</div>
-  )
+  return <div>Forum</div>
 }
 
-Forum.layout = Admin;
+Forum.layout = Admin
 
-export default Forum;
+export default Forum

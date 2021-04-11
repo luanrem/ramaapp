@@ -1,11 +1,9 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
 function Calendario() {
-  return (
-    <div>Calendario</div>
-  )
+  return <div>Calendario</div>
 }
 
-Calendario.layout = Admin;
+Calendario.layout = Admin
 
-export default Calendario;
+export default Calendario

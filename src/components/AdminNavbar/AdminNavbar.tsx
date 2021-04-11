@@ -1,31 +1,34 @@
-
-import { Content, Container, Title, MobileHeader } from '../../styles/components/AdminNavbar';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import NavBarProfile from '../NavBarProfile/NavBarProfile';
+import {
+  Content,
+  Container,
+  Title,
+  MobileHeader
+} from '../../styles/components/AdminNavbar'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import NavBarProfile from '../NavBarProfile/NavBarProfile'
 import Button from '@material-ui/core/Button'
 
-import Hidden from '@material-ui/core/Hidden';
-import Menu from "@material-ui/icons/Menu";
-import Drawer from "@material-ui/core/Drawer";
-import DrawerSideBar from '../DrawerSideBar/DrawerSideBar';
-import { useCallback, useState } from 'react';
-import { useAuth } from '../../hooks/auth';
+import Hidden from '@material-ui/core/Hidden'
+import Menu from '@material-ui/icons/Menu'
+import Drawer from '@material-ui/core/Drawer'
+import DrawerSideBar from '../DrawerSideBar/DrawerSideBar'
+import { useCallback, useState } from 'react'
+// import { useAuth } from '../../hooks/auth'
 
 export default function AdminNavbar() {
-  const [open, setOpen] = useState(false);
-  const { user } = useAuth();
+  const [open, setOpen] = useState(false)
+  // const { user } = useAuth()
 
-  const router = useRouter();
+  const router = useRouter()
 
   const HandleOpenDrawer = useCallback(() => {
-    setOpen(!open);
-  }, [open]);
+    setOpen(!open)
+  }, [open])
 
   return (
     <Content>
       <Container>
-
         <Hidden smDown>
           <Title>
             <Button>
@@ -34,10 +37,7 @@ export default function AdminNavbar() {
               </Link>
             </Button>
 
-            <Button
-              size="small"
-              onClick={() => router.back()}
-            >
+            <Button size="small" onClick={() => router.back()}>
               Voltar
             </Button>
           </Title>
@@ -53,28 +53,22 @@ export default function AdminNavbar() {
                   <h2>MISSÃO RAMA</h2>
                 </Link>
               </Button>
-
             </Title>
 
             <Button onClick={HandleOpenDrawer}>
               <Menu />
             </Button>
-
           </MobileHeader>
-            <Drawer
-              variant="temporary"
-              className="drawerPaper"
-              anchor="right"
-              open={open}
-              onClick={HandleOpenDrawer}
-            >
-              <DrawerSideBar
-                setOpen={setOpen}
-                open={open}
-              />
-            </Drawer>
+          <Drawer
+            variant="temporary"
+            className="drawerPaper"
+            anchor="right"
+            open={open}
+            onClick={HandleOpenDrawer}
+          >
+            <DrawerSideBar setOpen={setOpen} open={open} />
+          </Drawer>
         </Hidden>
-
       </Container>
     </Content>
   )

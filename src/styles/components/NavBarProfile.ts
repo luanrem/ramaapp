@@ -1,15 +1,15 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars'
 
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
 
   color: var(--gray-line);
-  
+
   .avatar {
     width: 3.5rem;
     height: 3.5rem;
@@ -26,7 +26,7 @@ export const Container = styled.div`
     width: 0.3rem;
     margin-left: 0.5rem;
   }
-`;
+`
 
 export const NameContainer = styled.div`
   text-align: end;
@@ -35,11 +35,11 @@ export const NameContainer = styled.div`
   h2 {
     font-size: 24px;
   }
-`;
+`
 
 export const NotificationBall = styled.div`
   width: 0.7rem;
-  height: 0.7rem; 
+  height: 0.7rem;
   background-color: var(--green);
 
   border-radius: 50%;
@@ -47,7 +47,7 @@ export const NotificationBall = styled.div`
   position: absolute;
   top: 0.5rem;
   right: 1rem;
-`;
+`
 
 export const NotificationList = styled.div`
   width: 20rem;
@@ -61,12 +61,10 @@ export const NotificationList = styled.div`
   > div {
     height: 100%;
   }
-`;
+`
 
 export const ScrollbarsContainer = styled(Scrollbars)`
   height: 100px;
-`;
+`
 
-export const MotionDiv = styled(motion.div)`
-
-`;
+export const MotionDiv = styled(motion.div)``

@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
 interface ContainerProps {
-  isActive: boolean;
+  isActive: boolean
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -31,10 +31,9 @@ export const Container = styled.div<ContainerProps>`
       props.isActive &&
       css`
         color: var(--blue);
-      `
-    }
+      `}
   }
-`;
+`
 
 export const Slide = styled(motion.div)`
   justify-self: start;
@@ -48,4 +47,4 @@ export const Slide = styled(motion.div)`
   background: var(--background);
 
   z-index: -1;
-`;
+`

@@ -1,11 +1,9 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
 function Materiais() {
-  return (
-    <div>Materiais</div>
-  )
+  return <div>Materiais</div>
 }
 
-Materiais.layout = Admin;
+Materiais.layout = Admin
 
-export default Materiais;
+export default Materiais

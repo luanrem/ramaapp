@@ -1,7 +1,7 @@
-import Admin from "../../layouts/Admin";
-import api from "../../services/api";
+import Admin from '../../layouts/Admin'
+// import api from '../../services/api'
 
-import { Container } from '../../styles/pages/admin/dashboard';
+import { Container } from '../../styles/pages/admin/dashboard'
 
 function Dashboard({ authData }) {
   console.log('data', authData)
@@ -15,7 +15,7 @@ function Dashboard({ authData }) {
   )
 }
 
-Dashboard.layout = Admin;
+Dashboard.layout = Admin
 
 // export async function getServerSideProps(context) {
 
@@ -31,7 +31,7 @@ Dashboard.layout = Admin;
 //       'Content-Type': 'application/json'
 //     },
 //     body: JSON.stringify(logInfo)
-//   }) 
+//   })
 
 //   // const response = await api.post(`auth/local`, {
 //   //   identifier: 'camilacvberti@gmail.com',
@@ -47,4 +47,4 @@ Dashboard.layout = Admin;
 //   };
 // }
 
-export default Dashboard;
+export default Dashboard

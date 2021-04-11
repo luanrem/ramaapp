@@ -1,6 +1,6 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
-import { Container } from '../../styles/pages/admin/facilitacao';
+import { Container } from '../../styles/pages/admin/facilitacao'
 
 function Facilitacao() {
   return (
@@ -12,8 +12,6 @@ function Facilitacao() {
   )
 }
 
-Facilitacao.layout = Admin;
+Facilitacao.layout = Admin
 
-
-export default Facilitacao;
-
+export default Facilitacao

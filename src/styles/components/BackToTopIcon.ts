@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
 export const Container = styled(motion.div)`
   z-index: 2;
@@ -11,7 +11,6 @@ export const Container = styled(motion.div)`
   border-radius: 50%;
   border: 3px solid gray;
 
-
   &:hover {
     border-color: var(--blue-dark);
     transition: 0.5s;
@@ -21,4 +20,4 @@ export const Container = styled(motion.div)`
     color: var(--blue-dark);
     transition: 0.5s;
   }
-`;
+`

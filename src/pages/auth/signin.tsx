@@ -1,85 +1,89 @@
+import { useCallback, useRef, useState } from 'react'
+import {
+  Container,
+  Content,
+  AnimationContainer,
+  Background
+} from '../../styles/pages/auth/signin'
+import { FormHandles } from '@unform/core'
+import { Form } from '@unform/web'
+import * as Yup from 'yup'
 
-import { Container, Content, AnimationContainer, Background } from '../../styles/pages/auth/signin';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import * as Yup from 'yup';
+import { motion } from 'framer-motion'
 
-import { motion } from 'framer-motion';
+import logoImg from '../../assets/images/logo.gif'
+import googleImg from '../../assets/images/google_signin.png'
+import Link from 'next/link'
+import { useAuth } from '../../hooks/auth'
 
-import logoImg from '../../assets/images/logo.gif';
-import googleImg from '../../assets/images/google_signin.png';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { useAuth } from '../../hooks/auth';
+import Input from '../../components/Input/Input'
+import ButtonComponent from '../../components/Button/Button'
 
-import Input from '../../components/Input/Input';
-import ButtonComponent from '../../components/Button/Button';
-
-import { FiLock, FiMail } from 'react-icons/fi';
-import { VscLoading } from 'react-icons/vsc';
-import getValidationErrors from '../../utils/getValidationErrors';
-import { useToast } from '../../hooks/toast';
-import Router from 'next/router';
-import LoadingIcon from '../../components/LoadingIcon/LoadingIcon';
+import { FiLock, FiMail } from 'react-icons/fi'
+import getValidationErrors from '../../utils/getValidationErrors'
+import { useToast } from '../../hooks/toast'
+import Router from 'next/router'
+import LoadingIcon from '../../components/LoadingIcon/LoadingIcon'
 
 interface SignInFormData {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export default function SignIn() {
-  const formRef = useRef<FormHandles>(null);
-  const [entering, setEntering] = useState(false);
+  const formRef = useRef<FormHandles>(null)
+  const [entering, setEntering] = useState(false)
 
-  const { signIn } = useAuth();
-  const { addToast } = useToast();
+  const { signIn } = useAuth()
+  const { addToast } = useToast()
 
-  const handleSubmit = useCallback(async (data: SignInFormData) => {
-    setEntering(true);
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      setEntering(true)
+      try {
+        formRef.current?.setErrors({})
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatorio')
-          .email('Digite um e-mail valido'),
-        password: Yup.string().required('Senha Obrigatoria'),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatorio')
+            .email('Digite um e-mail valido'),
+          password: Yup.string().required('Senha Obrigatoria')
+        })
 
-      await schema.validate(data, {
-        abortEarly: false,
-      })
+        await schema.validate(data, {
+          abortEarly: false
+        })
 
-      await signIn({
-        email: data.email,
-        password: data.password,
-      });
+        await signIn({
+          email: data.email,
+          password: data.password
+        })
 
-      Router.push('/admin/dashboard');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        Router.push('/admin/dashboard')
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err)
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors)
 
-        setEntering(false);
-        return;
+          setEntering(false)
+          return
+        }
+
+        setEntering(false)
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais.'
+        })
       }
-
-      setEntering(false);
-      addToast({
-        type: 'error',
-        title: 'Erro na autenticação',
-        description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
-      });
-    }
-  }, [signIn])
+    },
+    [signIn]
+  )
 
   const handleGoogleSignIn = useCallback(async () => {
-    console.log("Funcionou");
+    console.log('Funcionou')
   }, [])
-
-
 
   return (
     <Container>
@@ -98,12 +102,14 @@ export default function SignIn() {
               placeholder="Senha"
             />
 
-            <ButtonComponent type="submit">{entering === true ?
-              <motion.div>
-                <LoadingIcon />
-              </motion.div> :
-              "Entrar"
-            }
+            <ButtonComponent type="submit">
+              {entering === true ? (
+                <motion.div>
+                  <LoadingIcon />
+                </motion.div>
+              ) : (
+                'Entrar'
+              )}
             </ButtonComponent>
 
             <a onClick={handleGoogleSignIn} className="googleImg">
@@ -113,9 +119,7 @@ export default function SignIn() {
             <Link href="/auth/forgotpassword">Esqueci minha senha</Link>
           </Form>
 
-          <Link href="/auth/signup">
-            Criar conta
-            </Link>
+          <Link href="/auth/signup">Criar conta</Link>
         </AnimationContainer>
       </Content>
 

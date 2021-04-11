@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { css } from 'styled-components'
+import { motion } from 'framer-motion'
 
 interface ContainerProps {
-  type?: 'success' | 'error' | 'info';
-  hasDescription: number;
+  type?: 'success' | 'error' | 'info'
+  hasDescription: number
 }
 const toastTypeVariations = {
   info: css`
@@ -17,8 +17,8 @@ const toastTypeVariations = {
   error: css`
     background: #fddede;
     color: #c53030;
-  `,
-};
+  `
+}
 
 export const Container = styled(motion.div)<ContainerProps>`
   width: 360px;
@@ -70,4 +70,4 @@ export const Container = styled(motion.div)<ContainerProps>`
         margin-top: 0;
       }
     `}
-`;
+`

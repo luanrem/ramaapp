@@ -1,11 +1,9 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
 function Perfil() {
-  return (
-    <div>Perfil</div>
-  )
+  return <div>Perfil</div>
 }
 
-Perfil.layout = Admin;
+Perfil.layout = Admin
 
-export default Perfil;
+export default Perfil

@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { maxWidthContainer, navBarHeight } from '../../config/stylesconfig';
+import { maxWidthContainer, navBarHeight } from '../../config/stylesconfig'
 
 export const Content = styled.div`
   width: 100%;
   background: var(--blue);
-`;
+`
 
 export const Container = styled.div`
   max-width: ${maxWidthContainer};
@@ -14,15 +14,14 @@ export const Container = styled.div`
 
   padding: 0 1rem;
 
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
+`
 
 export const Title = styled.div`
   display: flex;
-  
+
   span {
     margin-right: 3rem;
   }
@@ -42,13 +41,11 @@ export const Title = styled.div`
   button {
     color: var(--gray-line);
   }
-
-
-`;
+`
 
 export const MobileHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`

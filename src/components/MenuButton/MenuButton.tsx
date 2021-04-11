@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import { Icon } from "@material-ui/core";
-import ButtonBase from '@material-ui/core/ButtonBase';
+import { Icon } from '@material-ui/core'
+import ButtonBase from '@material-ui/core/ButtonBase'
 
-import { Container, Slide } from '../../styles/components/MenuButton';
+import { Container, Slide } from '../../styles/components/MenuButton'
 
 export default function ManuButton({ layout, path, name, icon }) {
-  const router = useRouter();
-  const [active, setActive] = useState(false);
+  const router = useRouter()
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     router.pathname === layout + path ? setActive(true) : setActive(false)
@@ -21,8 +21,8 @@ export default function ManuButton({ layout, path, name, icon }) {
         <Container isActive={active}>
           <Icon className="Icon">{icon}</Icon>
           <h2>{name}</h2>
-          { active ?
-            <Slide 
+          {active ? (
+            <Slide
               initial={{
                 scaleX: 0,
                 x: 100
@@ -32,15 +32,14 @@ export default function ManuButton({ layout, path, name, icon }) {
                 x: 0
               }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 260,
                 damping: 30
               }}
-            /> :
-            null
-          }
+            />
+          ) : null}
         </Container>
       </ButtonBase>
     </Link>
-  );
+  )
 }

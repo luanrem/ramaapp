@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled from 'styled-components'
+import { shade } from 'polished'
 
 export const Container = styled.button`
   background: linear-gradient(267.79deg, var(--blue-dark) 0%, #001593 99.18%);
@@ -20,4 +20,4 @@ export const Container = styled.button`
   &:active {
     background: ${shade(0.2, '#001593')};
   }
-`;
+`

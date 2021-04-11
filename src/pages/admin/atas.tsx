@@ -1,14 +1,12 @@
-import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
-import Admin from "../../layouts/Admin";
+// import { GetServerSideProps } from 'next'
+// import { parseCookies } from 'nookies'
+import Admin from '../../layouts/Admin'
 
 function Atas() {
-  return (
-    <div>Atas</div>
-  )
+  return <div>Atas</div>
 }
 
-Atas.layout = Admin;
+Atas.layout = Admin
 
 // export const getServerSideProps: GetServerSideProps = async (cxt) => {
 //   const jwt = parseCookies(cxt).jwt;
@@ -28,4 +26,4 @@ Atas.layout = Admin;
 //   }
 // }
 
-export default Atas;
+export default Atas

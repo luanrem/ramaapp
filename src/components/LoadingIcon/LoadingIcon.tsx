@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
 const loadingContainer = {
   width: '3rem',
@@ -20,15 +20,15 @@ const loadingCircle = {
 const loadingContainerVariants = {
   start: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.1
     }
   },
   end: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.1
     }
-  },
-};
+  }
+}
 
 const loadingCircleVariants = {
   start: {
@@ -42,30 +42,30 @@ const loadingCircleVariants = {
 const loadingCircleTransition = {
   duration: 0.4,
   yoyo: Infinity,
-  ease: "easeInOut"
+  ease: 'easeInOut'
 }
 
 export default function LoadingIcon() {
   return (
-    <motion.div 
+    <motion.div
       style={loadingContainer}
-      variants={loadingContainerVariants} 
-      initial="start" 
+      variants={loadingContainerVariants}
+      initial="start"
       animate="end"
     >
-      <motion.span 
-        style={loadingCircle} 
-        variants={loadingCircleVariants} 
+      <motion.span
+        style={loadingCircle}
+        variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
-      <motion.span 
-        style={loadingCircle} 
-        variants={loadingCircleVariants} 
+      <motion.span
+        style={loadingCircle}
+        variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
-      <motion.span 
-        style={loadingCircle} 
-        variants={loadingCircleVariants} 
+      <motion.span
+        style={loadingCircle}
+        variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
     </motion.div>

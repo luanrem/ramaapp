@@ -1,34 +1,32 @@
+import React, { useEffect } from 'react'
+import { FiAlertCircle, FiCheckCircle, FiInfo, FiXCircle } from 'react-icons/fi'
+import { ToastMessage, useToast } from '../../../hooks/toast'
 
-import React, { useEffect } from 'react';
-import { FiAlertCircle, FiCheckCircle, FiInfo, FiXCircle } from 'react-icons/fi';
-import { ToastMessage, useToast } from '../../../hooks/toast';
-
-import { Container } from '../../../styles/components/Toast';
+import { Container } from '../../../styles/components/Toast'
 
 interface ToastProps {
-  message: ToastMessage;
+  message: ToastMessage
 }
 
 const icons = {
   info: <FiInfo size={24} />,
   error: <FiAlertCircle size={24} />,
-  success: <FiCheckCircle size={24} />,
-};
+  success: <FiCheckCircle size={24} />
+}
 
 export default function Toast({ message }: ToastProps) {
-  const { removeToast } = useToast();
+  const { removeToast } = useToast()
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      removeToast(message.id);
-    }, 3000);
+      removeToast(message.id)
+    }, 3000)
 
     // Se eu coloco uma função no return, a função é executada toda vez que o componente deixar de existir
     return () => {
-      clearTimeout(timer);
-    };
-  }, [removeToast, message.id]);
-
+      clearTimeout(timer)
+    }
+  }, [removeToast, message.id])
 
   return (
     <Container
@@ -41,12 +39,11 @@ export default function Toast({ message }: ToastProps) {
         x: 0
       }}
       transition={{
-        type: "spring",
+        type: 'spring',
         stiffness: 260,
         damping: 30
       }}
     >
-
       {icons[message.type || 'info']}
 
       <div>
@@ -57,7 +54,6 @@ export default function Toast({ message }: ToastProps) {
       <button onClick={() => removeToast(message.id)} type="button">
         <FiXCircle size={18} />
       </button>
-
     </Container>
-  );
+  )
 }

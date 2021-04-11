@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { navBarHeight, sideBarWidth } from '../../config/stylesconfig';
+import { navBarHeight, sideBarWidth } from '../../config/stylesconfig'
 
 export const Container = styled.div`
   background: var(--blue-dark);
@@ -14,14 +14,14 @@ export const Container = styled.div`
   flex-direction: column;
 
   justify-content: flex-start;
-  
+
   position: fixed;
 
   button:first-child {
     margin-top: 5rem;
   }
-  
+
   .space {
     flex-grow: 1;
   }
-`;
+`

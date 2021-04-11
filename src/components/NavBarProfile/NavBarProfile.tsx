@@ -1,64 +1,78 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react'
 
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Avatar from '@material-ui/core/Avatar';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import Avatar from '@material-ui/core/Avatar'
 
-import Poppers from "@material-ui/core/Popper";
+import Poppers from '@material-ui/core/Popper'
 
-import { Container, NameContainer, NotificationBall, NotificationList, ScrollbarsContainer, MotionDiv } from '../../styles/components/NavBarProfile';
-import { Button, ClickAwayListener, Divider, ListItem, ListItemText, Paper } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import Link from 'next/link';
+import {
+  Container,
+  NameContainer,
+  NotificationBall,
+  NotificationList,
+  ScrollbarsContainer,
+  MotionDiv
+} from '../../styles/components/NavBarProfile'
+import {
+  Button,
+  ClickAwayListener,
+  Divider,
+  ListItem,
+  ListItemText,
+  Paper
+} from '@material-ui/core'
+import List from '@material-ui/core/List'
+import Link from 'next/link'
 
-import { useAuth } from '../../hooks/auth';
+import { useAuth } from '../../hooks/auth'
 
 export default function NavBarProfile() {
-  const [hasNotification, setHasNotification] = useState(true);
-  const [openNotification, setOpenNotification] = useState<null | HTMLElement>(null);
-  const [openPhoto, setOpenPhoto] = useState<null | HTMLElement>(null);
+  const [hasNotification, setHasNotification] = useState(true)
+  const [openNotification, setOpenNotification] = useState<null | HTMLElement>(
+    null
+  )
+  const [openPhoto, setOpenPhoto] = useState<null | HTMLElement>(null)
 
-  const { signOut, user } = useAuth();
+  const { signOut, user } = useAuth()
 
-  const handleClickNotification = useCallback((event: React.MouseEvent<HTMLElement>) => {
-    setOpenNotification(openNotification ? null : event.currentTarget);
-    setHasNotification(!hasNotification);
-  }, [openNotification]);
+  const handleClickNotification = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setOpenNotification(openNotification ? null : event.currentTarget)
+      setHasNotification(!hasNotification)
+    },
+    [openNotification]
+  )
 
   const handleCloseNotification = useCallback(() => {
-    setOpenNotification(null);
-    setHasNotification(!hasNotification);
-  }, [setOpenNotification]);
+    setOpenNotification(null)
+    setHasNotification(!hasNotification)
+  }, [setOpenNotification])
 
-  const handleClickPhoto = useCallback((event: React.MouseEvent<HTMLElement>) => {
-    setOpenPhoto(openPhoto ? null : event.currentTarget);
-  }, [openPhoto]);
+  const handleClickPhoto = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setOpenPhoto(openPhoto ? null : event.currentTarget)
+    },
+    [openPhoto]
+  )
 
   const handleClosePhoto = useCallback(() => {
-    setOpenPhoto(null);
-  }, [setOpenPhoto]);
-
-  const handleLogOff = useCallback(() => {
-    setOpenPhoto(null);
-    signOut();
+    setOpenPhoto(null)
   }, [setOpenPhoto])
 
+  const handleLogOff = useCallback(() => {
+    setOpenPhoto(null)
+    signOut()
+  }, [setOpenPhoto])
 
   return (
-    <Container >
+    <Container>
       <Button onClick={handleClickNotification}>
         <NotificationsNoneIcon fontSize="large" className="Notifications" />
-        {hasNotification &&
-          <NotificationBall />
-        }
+        {hasNotification && <NotificationBall />}
       </Button>
 
-
-
-      <Poppers
-        open={Boolean(openNotification)}
-        anchorEl={openNotification}
-      >
+      <Poppers open={Boolean(openNotification)} anchorEl={openNotification}>
         <MotionDiv
           initial={{
             scaleY: 0,
@@ -69,7 +83,7 @@ export default function NavBarProfile() {
             y: 0
           }}
           transition={{
-            type: "tween"
+            type: 'tween'
           }}
         >
           <Paper>
@@ -107,17 +121,18 @@ export default function NavBarProfile() {
             </ClickAwayListener>
           </Paper>
         </MotionDiv>
-
       </Poppers>
-
 
       <NameContainer>
         <h2>{user.username}</h2>
-        <span>{user.grupo ? `Grupo: ${user.grupo.nome_abreviado}` : `Usuário`}</span>
+        <span>
+          {user.grupo ? `Grupo: ${user.grupo.nome_abreviado}` : `Usuário`}
+        </span>
       </NameContainer>
 
-      <Button >
-        <Avatar src="https://avatars.githubusercontent.com/u/46967826?s=460&u=b03c7750b76f86e592f9f3b0e02fe025846ee38c&v=4"
+      <Button>
+        <Avatar
+          src="https://avatars.githubusercontent.com/u/46967826?s=460&u=b03c7750b76f86e592f9f3b0e02fe025846ee38c&v=4"
           alt="Profile Image"
           className="avatar"
         />
@@ -127,10 +142,7 @@ export default function NavBarProfile() {
         <MoreVertIcon fontSize="large" />
       </Button>
 
-      <Poppers
-        open={Boolean(openPhoto)}
-        anchorEl={openPhoto}
-      >
+      <Poppers open={Boolean(openPhoto)} anchorEl={openPhoto}>
         <MotionDiv
           initial={{
             scaleY: 0,
@@ -141,7 +153,7 @@ export default function NavBarProfile() {
             y: 0
           }}
           transition={{
-            type: "tween",
+            type: 'tween'
           }}
         >
           <Paper>
@@ -157,9 +169,9 @@ export default function NavBarProfile() {
                     <ListItemText primary="Configurações" />
                   </ListItem>
                 </Link>
-                  <ListItem button onClick={handleLogOff}>
-                    <ListItemText primary="Desconectar" />
-                  </ListItem>
+                <ListItem button onClick={handleLogOff}>
+                  <ListItemText primary="Desconectar" />
+                </ListItem>
               </List>
             </ClickAwayListener>
           </Paper>

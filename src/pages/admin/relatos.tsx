@@ -1,11 +1,9 @@
-import Admin from "../../layouts/Admin";
+import Admin from '../../layouts/Admin'
 
 function Relatos() {
-  return (
-    <div>Relatos</div>
-  )
+  return <div>Relatos</div>
 }
 
-Relatos.layout = Admin;
+Relatos.layout = Admin
 
-export default Relatos;
+export default Relatos

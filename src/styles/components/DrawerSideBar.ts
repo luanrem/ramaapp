@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { navBarHeight, drawerSideBarWidth } from '../../config/stylesconfig';
+import { drawerSideBarWidth } from '../../config/stylesconfig'
 
 export const Container = styled.div`
   background: var(--blue-dark);
@@ -10,7 +10,6 @@ export const Container = styled.div`
   flex-direction: column;
 
   justify-content: flex-start;
-
 
   #nested-list-subheader {
     color: var(--gray-line);
@@ -31,7 +30,7 @@ export const Container = styled.div`
       padding-right: 3rem;
     }
   }
-`;
+`
 
 export const AvatarContainer = styled.div`
   display: flex;
@@ -51,8 +50,8 @@ export const AvatarContainer = styled.div`
     font-size: 1rem;
     padding-top: 1rem;
   }
-  
+
   span {
     font-size: 0.9rem;
   }
-`;
+`
