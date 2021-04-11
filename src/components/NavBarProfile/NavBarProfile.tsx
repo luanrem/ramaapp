@@ -116,11 +116,15 @@ export default function NavBarProfile() {
         <span>{user.grupo ? `Grupo: ${user.grupo.nome_abreviado}` : `Usuário`}</span>
       </NameContainer>
 
-      <Button onClick={handleClickPhoto}>
+      <Button >
         <Avatar src="https://avatars.githubusercontent.com/u/46967826?s=460&u=b03c7750b76f86e592f9f3b0e02fe025846ee38c&v=4"
           alt="Profile Image"
           className="avatar"
         />
+      </Button>
+
+      <Button className="VertIcon" onClick={handleClickPhoto}>
+        <MoreVertIcon fontSize="large" />
       </Button>
 
       <Poppers
@@ -161,11 +165,6 @@ export default function NavBarProfile() {
           </Paper>
         </MotionDiv>
       </Poppers>
-
-      <Button className="VertIcon">
-        <MoreVertIcon fontSize="large" />
-      </Button>
-
     </Container>
   )
 }
