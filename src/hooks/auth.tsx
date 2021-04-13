@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { createContext, useCallback, useContext, useState } from 'react'
 import api from '../services/api'
-// import routes from '../routes/routes'
+import routes from '../routes/routes'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 
@@ -45,7 +45,14 @@ interface Menus {
 interface AuthState {
   token: string
   user: User
-  menus: Array<Menus>
+  menus: Array<Routes>
+}
+
+interface Routes {
+  name: string
+  icon: string
+  path: string
+  layout: string
 }
 
 interface SignInCredentials {
@@ -62,7 +69,7 @@ interface SignUpCredentials {
 
 interface AuthContextData {
   user: User
-  menus: Array<Menus>
+  menus: Array<Routes>
   signed: boolean
   signIn(credentials: SignInCredentials): Promise<void>
   signUp(credentials: SignUpCredentials): Promise<void>
@@ -84,19 +91,22 @@ function AuthProvider({ children }) {
     return {} as AuthState
   })
 
-  // const menuValidation = useCallback(() => {
-  //   const menusResult = []
+  const menuValidation = useCallback(
+    (sideMenus: Array<Menus>): Array<Routes> => {
+      const menusResult = []
 
-  //   data.menus.forEach(element => {
-  //     const found = routes.find(e => e.path === element.path)
-  //     if (found && element.Ativo === true) {
-  //       menusResult.push(found)
-  //     }
-  //   })
+      sideMenus.forEach(element => {
+        const found = routes.find(e => e.path === element.path)
+        if (found && element.Ativo === true) {
+          menusResult.push(found)
+        }
+      })
 
-  //   console.log('resultado do menuValidation', menusResult)
-  //   return menusResult
-  // }, [])
+      console.log('resultado do menuValidation', menusResult)
+      return menusResult
+    },
+    []
+  )
 
   const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post(
@@ -107,6 +117,7 @@ function AuthProvider({ children }) {
       },
       {
         headers: {
+          Authorization: '',
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
@@ -125,8 +136,10 @@ function AuthProvider({ children }) {
     })
 
     const { menus } = menusResponse.data
-
     console.log('menus', menus)
+
+    const paths = menuValidation(menus)
+    console.log(paths)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -136,14 +149,14 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
-    setCookie(null, 'menus', JSON.stringify(menus), {
+    setCookie(null, 'menus', JSON.stringify(paths), {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
-    setData({ token, user, menus })
+    setData({ token, user, menus: paths })
   }, [])
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
@@ -178,8 +191,10 @@ function AuthProvider({ children }) {
     })
 
     const { menus } = menusResponse.data
-
     console.log('menus', menus)
+
+    const paths = menuValidation(menus)
+    console.log(paths)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -189,14 +204,14 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
-    setCookie(null, 'menus', JSON.stringify(menus), {
+    setCookie(null, 'menus', JSON.stringify(paths), {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
-    setData({ token, user, menus })
+    setData({ token, user, menus: paths })
   }, [])
 
   const signOut = useCallback(() => {

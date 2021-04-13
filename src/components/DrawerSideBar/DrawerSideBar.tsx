@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import {
   Container,
   AvatarContainer
@@ -6,7 +6,6 @@ import {
 
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 
-import routes from '../../routes/routes'
 import {
   Avatar,
   Button,
@@ -22,23 +21,7 @@ import { useAuth } from '../../hooks/auth'
 export default function DrawerSideBar({ setOpen, open }) {
   const { user } = useAuth()
   const { menus } = useAuth()
-  const [sideMenus, setSideMenus] = useState([])
-
-  useEffect(() => {
-    console.log('menus', menus)
-
-    const menusResult = []
-
-    menus.forEach(element => {
-      const found = routes.find(e => e.path === element.path)
-      if (found && element.Ativo === true) {
-        menusResult.push(found)
-      }
-    })
-
-    setSideMenus(menusResult)
-    console.log('resultado', menusResult)
-  }, [menus])
+  console.log('Menus dentro do drawer', menus)
 
   const HandleOpenDrawer = useCallback(() => {
     setOpen(!open)
@@ -68,7 +51,7 @@ export default function DrawerSideBar({ setOpen, open }) {
           <span>{`Grupo: ${user.grupo.nome_abreviado}`}</span>
         </AvatarContainer>
 
-        {sideMenus.map((prop, key) => {
+        {menus.map((prop, key) => {
           return (
             <div className="menuButtons" key={key}>
               <Link href={prop.layout + prop.path}>
