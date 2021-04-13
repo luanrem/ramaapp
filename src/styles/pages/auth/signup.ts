@@ -1,15 +1,15 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components'
 
-import { shade } from 'polished';
+import { shade } from 'polished'
 
-import signUpBackgroundImg from '../../../assets/images/sign-up-background.jpg';
+import signUpBackgroundImg from '../../../assets/images/sign-up-background.jpg'
 
 export const Container = styled.div`
   height: 100vh;
 
   display: flex;
   align-items: stretch;
-`;
+`
 
 export const Content = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ export const Content = styled.div`
 
   width: 100%;
   max-width: 700px;
-`;
+`
 
 const appearFromRight = keyframes`
   from {
@@ -30,7 +30,7 @@ const appearFromRight = keyframes`
     opacity: 1;
     transform: translateX(0);
   }
-`;
+`
 
 export const AnimationContainer = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ export const AnimationContainer = styled.div`
 
     h1 {
       margin-bottom: 2rem;
-      color: var(--text)
+      color: var(--text);
     }
 
     a {
@@ -68,7 +68,7 @@ export const AnimationContainer = styled.div`
   }
 
   > a {
-    color: #002BC3;
+    color: #002bc3;
     display: block;
     margin-top: 24px;
     text-decoration: none;
@@ -88,7 +88,7 @@ export const AnimationContainer = styled.div`
 
   .googleImg {
     padding-top: 0.5rem;
-      width: 10rem;
+    width: 10rem;
     img {
       width: 100%;
       transition: 0.3s;
@@ -98,10 +98,10 @@ export const AnimationContainer = styled.div`
   .googleImg img:hover {
     filter: contrast(80%);
   }
-`;
+`
 
 export const Background = styled.div`
   flex: 1;
   background: url(${signUpBackgroundImg}) no-repeat center;
   background-size: cover;
-`;
+`

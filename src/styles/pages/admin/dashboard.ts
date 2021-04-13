@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
   background: var(--background);
@@ -7,4 +7,4 @@ export const Container = styled.div`
     height: 2000px;
     background: var(--background);
   }
-`;
+`

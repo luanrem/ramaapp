@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Container,
   Content,
@@ -24,6 +24,7 @@ import getValidationErrors from '../../utils/getValidationErrors'
 import { useToast } from '../../hooks/toast'
 import Router from 'next/router'
 import LoadingIcon from '../../components/LoadingIcon/LoadingIcon'
+import { parseCookies } from 'nookies'
 
 interface SignInFormData {
   email: string
@@ -80,6 +81,14 @@ export default function SignIn() {
     },
     [signIn]
   )
+
+  useEffect(() => {
+    const { jwt, user, menus } = parseCookies()
+
+    if (jwt && user && menus) {
+      Router.push('/admin/dashboard')
+    }
+  }, [])
 
   const handleGoogleSignIn = useCallback(async () => {
     console.log('Funcionou')

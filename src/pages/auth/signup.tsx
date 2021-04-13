@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Container,
   Content,
@@ -24,6 +24,7 @@ import { FiLock, FiMail, FiUser } from 'react-icons/fi'
 import getValidationErrors from '../../utils/getValidationErrors'
 import { useToast } from '../../hooks/toast'
 import LoadingIcon from '../../components/LoadingIcon/LoadingIcon'
+import { parseCookies } from 'nookies'
 
 interface SignUpFormData {
   username: string
@@ -93,9 +94,18 @@ export default function SignUp() {
     [signUp]
   )
 
+  useEffect(() => {
+    const { jwt, user, menus } = parseCookies()
+
+    if (jwt && user && menus) {
+      Router.push('/admin/dashboard')
+    }
+  }, [])
+
   const handleGoogleSignUp = useCallback(async () => {
     console.log('Funcionou')
   }, [])
+
   return (
     <Container>
       <Background />
