@@ -14,6 +14,13 @@ const routes = [
     layout: '/admin'
   },
   {
+    name: 'Coordenação',
+    icon: 'Star',
+
+    path: '/coordenacao',
+    layout: '/admin'
+  },
+  {
     name: 'Atas',
     icon: 'description',
 

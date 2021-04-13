@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Container,
   AvatarContainer
@@ -21,6 +21,24 @@ import { useAuth } from '../../hooks/auth'
 
 export default function DrawerSideBar({ setOpen, open }) {
   const { user } = useAuth()
+  const { menus } = useAuth()
+  const [sideMenus, setSideMenus] = useState([])
+
+  useEffect(() => {
+    console.log('menus', menus)
+
+    const menusResult = []
+
+    menus.forEach(element => {
+      const found = routes.find(e => e.path === element.path)
+      if (found && element.Ativo === true) {
+        menusResult.push(found)
+      }
+    })
+
+    setSideMenus(menusResult)
+    console.log('resultado', menusResult)
+  }, [menus])
 
   const HandleOpenDrawer = useCallback(() => {
     setOpen(!open)
@@ -50,14 +68,16 @@ export default function DrawerSideBar({ setOpen, open }) {
           <span>{`Grupo: ${user.grupo.nome_abreviado}`}</span>
         </AvatarContainer>
 
-        {routes.map((prop, key) => {
+        {sideMenus.map((prop, key) => {
           return (
-            <Link key={prop.path} href={prop.layout + prop.path}>
-              <ListItem>
-                <Icon className="Icon">{prop.icon}</Icon>
-                <ListItemText primary={prop.name} />
-              </ListItem>
-            </Link>
+            <div className="menuButtons" key={key}>
+              <Link href={prop.layout + prop.path}>
+                <ListItem>
+                  <Icon className="Icon">{prop.icon}</Icon>
+                  <ListItemText primary={prop.name} />
+                </ListItem>
+              </Link>
+            </div>
           )
         })}
       </List>

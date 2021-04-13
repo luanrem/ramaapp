@@ -11,6 +11,10 @@ export const Container = styled.div`
 
   justify-content: flex-start;
 
+  .menuButtons {
+    cursor: pointer;
+  }
+
   #nested-list-subheader {
     color: var(--gray-line);
     display: flex;

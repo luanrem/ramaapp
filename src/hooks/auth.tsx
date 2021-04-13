@@ -1,12 +1,7 @@
 /* eslint-disable camelcase */
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 import api from '../services/api'
+// import routes from '../routes/routes'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 
@@ -40,9 +35,17 @@ interface User {
   username: string
 }
 
+interface Menus {
+  id: number
+  Ativo: boolean
+  Name: string
+  path: string
+}
+
 interface AuthState {
   token: string
   user: User
+  menus: Array<Menus>
 }
 
 interface SignInCredentials {
@@ -59,6 +62,7 @@ interface SignUpCredentials {
 
 interface AuthContextData {
   user: User
+  menus: Array<Menus>
   signed: boolean
   signIn(credentials: SignInCredentials): Promise<void>
   signUp(credentials: SignUpCredentials): Promise<void>
@@ -69,21 +73,30 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children }) {
   const [data, setData] = useState<AuthState>(() => {
-    const { jwt, user } = parseCookies()
+    const { jwt, user, menus } = parseCookies()
 
-    if (jwt && user) {
+    if (jwt && user && menus) {
       api.defaults.headers.authorization = `Bearer ${jwt}`
 
-      return { token: jwt, user: JSON.parse(user) }
+      return { token: jwt, user: JSON.parse(user), menus: JSON.parse(menus) }
     }
 
     return {} as AuthState
   })
 
-  useEffect(() => {
-    const cookies = parseCookies()
-    console.log('chegou aqui', cookies)
-  }, [data])
+  // const menuValidation = useCallback(() => {
+  //   const menusResult = []
+
+  //   data.menus.forEach(element => {
+  //     const found = routes.find(e => e.path === element.path)
+  //     if (found && element.Ativo === true) {
+  //       menusResult.push(found)
+  //     }
+  //   })
+
+  //   console.log('resultado do menuValidation', menusResult)
+  //   return menusResult
+  // }, [])
 
   const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post(
@@ -101,8 +114,19 @@ function AuthProvider({ children }) {
     )
 
     const { jwt: token, user } = response.data
-
     console.log('axios login', response.data)
+
+    const menusResponse = await api.get('funcaos/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const { menus } = menusResponse.data
+
+    console.log('menus', menus)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -112,10 +136,14 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
+    setCookie(null, 'menus', JSON.stringify(menus), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
-    setData({ token, user })
+    setData({ token, user, menus })
   }, [])
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
@@ -139,8 +167,19 @@ function AuthProvider({ children }) {
     )
 
     const { jwt: token, user } = response.data
-
     console.log('axios login', response.data)
+
+    const menusResponse = await api.get('funcaos/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const { menus } = menusResponse.data
+
+    console.log('menus', menus)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -150,10 +189,14 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
+    setCookie(null, 'menus', JSON.stringify(menus), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
-    setData({ token, user })
+    setData({ token, user, menus })
   }, [])
 
   const signOut = useCallback(() => {
@@ -166,13 +209,24 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
+    destroyCookie(null, 'menus', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
 
     Router.push('/')
   }, [])
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signed: false, signIn, signUp, signOut }}
+      value={{
+        user: data.user,
+        menus: data.menus,
+        signed: false,
+        signIn,
+        signUp,
+        signOut
+      }}
     >
       {children}
     </AuthContext.Provider>
