@@ -15,6 +15,10 @@ export const Container = styled.div`
     cursor: pointer;
   }
 
+  .menuButtons:hover {
+    background: white;
+  }
+
   #nested-list-subheader {
     color: var(--gray-line);
     display: flex;

@@ -26,6 +26,10 @@ interface User {
   confirmed: boolean
   email: string
   ex_participante: boolean
+  funcao: {
+    id: number
+    Funcao: string
+  }
   grupo: Group
   id: number
   nome_completo: string
@@ -33,6 +37,12 @@ interface User {
   role: Role
   telefone: string
   username: string
+  Cidade: string
+  Estado: string
+  Nacimento: Date
+  sobre_mim: string
+  endereco: string
+  endereco_adicional: string
 }
 
 interface Menus {
@@ -67,12 +77,26 @@ interface SignUpCredentials {
   password: string
 }
 
+interface UserUpdateCredentials {
+  email?: string
+  nome_completo?: string
+  telefone?: string
+  username?: string
+  Cidade?: string
+  Estado?: string
+  Nacimento?: Date
+  sobre_mim?: string
+  endereco?: string
+  endereco_adicional?: string
+}
+
 interface AuthContextData {
   user: User
   menus: Array<Routes>
   signed: boolean
   signIn(credentials: SignInCredentials): Promise<void>
   signUp(credentials: SignUpCredentials): Promise<void>
+  updateUser(data: UserUpdateCredentials): Promise<void>
   signOut(): void
 }
 
@@ -109,6 +133,7 @@ function AuthProvider({ children }) {
   )
 
   const signIn = useCallback(async ({ email, password }) => {
+    delete api.defaults.headers.authorization
     const response = await api.post(
       'auth/local',
       {
@@ -117,7 +142,6 @@ function AuthProvider({ children }) {
       },
       {
         headers: {
-          Authorization: '',
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
@@ -154,7 +178,7 @@ function AuthProvider({ children }) {
       path: '/'
     })
 
-    api.defaults.headers.authorization = `Bearer ${token}`
+    api.defaults.headers.Authorization = `Bearer ${token}`
 
     setData({ token, user, menus: paths })
   }, [])
@@ -232,6 +256,62 @@ function AuthProvider({ children }) {
     Router.push('/')
   }, [])
 
+  const updateUser = useCallback(
+    async ({
+      email,
+      nome_completo,
+      telefone,
+      username,
+      Cidade,
+      Estado,
+      Nacimento,
+      sobre_mim,
+      endereco,
+      endereco_adicional
+    }) => {
+      const requestData: UserUpdateCredentials = {}
+
+      if (email) requestData.email = email
+      if (nome_completo) requestData.nome_completo = nome_completo
+      if (telefone) requestData.telefone = telefone
+      if (username) requestData.username = username
+      if (Cidade) requestData.Cidade = Cidade
+      if (Estado) requestData.Estado = Estado
+      if (Nacimento) requestData.Nacimento = Nacimento
+      if (sobre_mim) requestData.sobre_mim = sobre_mim
+      if (endereco) requestData.endereco = endereco
+      if (endereco_adicional)
+        requestData.endereco_adicional = endereco_adicional
+
+      console.log('requestData', requestData)
+
+      const response = await api.put('users/me', requestData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+
+      console.log('Usuario Atualizado', response.data)
+
+      destroyCookie(null, 'jwt', {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+      destroyCookie(null, 'user', {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+      destroyCookie(null, 'menus', {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+
+      Router.push('/auth/signin')
+    },
+    []
+  )
+
   return (
     <AuthContext.Provider
       value={{
@@ -240,7 +320,8 @@ function AuthProvider({ children }) {
         signed: false,
         signIn,
         signUp,
-        signOut
+        signOut,
+        updateUser
       }}
     >
       {children}

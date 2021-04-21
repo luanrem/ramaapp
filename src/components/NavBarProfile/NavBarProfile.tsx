@@ -17,7 +17,6 @@ import {
 import {
   Button,
   ClickAwayListener,
-  Divider,
   ListItem,
   ListItemText,
   Paper
@@ -26,6 +25,7 @@ import List from '@material-ui/core/List'
 import Link from 'next/link'
 
 import { useAuth } from '../../hooks/auth'
+import Divisor from '../Divisor/Divisor'
 
 export default function NavBarProfile() {
   const [hasNotification, setHasNotification] = useState(true)
@@ -94,27 +94,57 @@ export default function NavBarProfile() {
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                     <ListItem button>
                       <ListItemText primary="Notificacao" />
                     </ListItem>
-                    <Divider />
+                    <Divisor
+                      orientation="horizontal"
+                      variant="middle"
+                      padding={0}
+                      percent={80}
+                    />
                   </List>
                 </ScrollbarsContainer>
               </NotificationList>

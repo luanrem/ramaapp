@@ -42,6 +42,7 @@ export default function SignUp() {
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
+      console.log('formulario', data)
       setEntering(true)
       try {
         formRef.current?.setErrors({})
