@@ -21,7 +21,9 @@ interface Role {
 }
 
 interface User {
-  avatar: string
+  avatar: {
+    url: string
+  }
   blocked: boolean
   confirmed: boolean
   email: string
@@ -56,6 +58,8 @@ interface AuthState {
   token: string
   user: User
   menus: Array<Routes>
+  photoURL: string
+  smallPhotoURL: string
 }
 
 interface Routes {
@@ -97,6 +101,9 @@ interface AuthContextData {
   signIn(credentials: SignInCredentials): Promise<void>
   signUp(credentials: SignUpCredentials): Promise<void>
   updateUser(data: UserUpdateCredentials): Promise<void>
+  updateProfilePicture(data: FormData): Promise<void>
+  photoURL: string
+  smallPhotoURL: string
   signOut(): void
 }
 
@@ -104,12 +111,18 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AuthProvider({ children }) {
   const [data, setData] = useState<AuthState>(() => {
-    const { jwt, user, menus } = parseCookies()
+    const { jwt, user, menus, photoURL, smallPhotoURL } = parseCookies()
 
-    if (jwt && user && menus) {
+    if (jwt && user && menus && photoURL && smallPhotoURL) {
       api.defaults.headers.authorization = `Bearer ${jwt}`
 
-      return { token: jwt, user: JSON.parse(user), menus: JSON.parse(menus) }
+      return {
+        token: jwt,
+        user: JSON.parse(user),
+        menus: JSON.parse(menus),
+        photoURL,
+        smallPhotoURL
+      }
     }
 
     return {} as AuthState
@@ -151,6 +164,15 @@ function AuthProvider({ children }) {
     const { jwt: token, user } = response.data
     console.log('axios login', response.data)
 
+    console.log('resposne', response)
+
+    const photoURL =
+      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+
+    const smallPhotoURL =
+      process.env.NEXT_PUBLIC_API_URL +
+      response.data.user.avatar.formats.small.url
+
     const menusResponse = await api.get('funcaos/me', {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -177,10 +199,18 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
+    setCookie(null, 'photoURL', photoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    setCookie(null, 'smallPhotoURL', smallPhotoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
 
     api.defaults.headers.Authorization = `Bearer ${token}`
 
-    setData({ token, user, menus: paths })
+    setData({ token, user, menus: paths, photoURL, smallPhotoURL })
   }, [])
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
@@ -202,6 +232,13 @@ function AuthProvider({ children }) {
         }
       }
     )
+
+    const photoURL =
+      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+
+    const smallPhotoURL =
+      process.env.NEXT_PUBLIC_API_URL +
+      response.data.user.avatar.formats.small.url
 
     const { jwt: token, user } = response.data
     console.log('axios login', response.data)
@@ -232,10 +269,18 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
+    setCookie(null, 'photoURL', photoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    setCookie(null, 'smallPhotoURL', smallPhotoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
-    setData({ token, user, menus: paths })
+    setData({ token, user, menus: paths, photoURL, smallPhotoURL })
   }, [])
 
   const signOut = useCallback(() => {
@@ -249,6 +294,14 @@ function AuthProvider({ children }) {
       path: '/'
     })
     destroyCookie(null, 'menus', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    destroyCookie(null, 'photoURL', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    destroyCookie(null, 'smallPhotoURL', {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
@@ -306,11 +359,63 @@ function AuthProvider({ children }) {
         maxAge: 30 * 24 * 60 * 60,
         path: '/'
       })
+      destroyCookie(null, 'photoURL', {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+      destroyCookie(null, 'smallPhotoURL', {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
 
       Router.push('/auth/signin')
     },
     []
   )
+
+  const updateProfilePicture = useCallback(async form => {
+    // Upload photo to repo
+    const response = await api.post('/upload', form, {
+      headers: {
+        'Content-Type': 'multipart/form-data;'
+      }
+    })
+    console.log('response of repo put', response)
+
+    const photoURL = process.env.NEXT_PUBLIC_API_URL + response.data[0].url
+
+    const smallPhotoURL =
+      process.env.NEXT_PUBLIC_API_URL + response.data[0].formats.small.url
+
+    setCookie(null, 'photoURL', photoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+
+    setCookie(null, 'smallPhotoURL', smallPhotoURL, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+
+    // Delete the last ID
+    if (response.data[0].id > 1) {
+      const id = response.data[0].id - 1
+      api
+        .delete(`upload/files/${id}`)
+        .then(response => console.log('foto deletada', response))
+    }
+
+    // update the actual profile picture
+    api
+      .put('/users/me', {
+        avatar: {
+          id: response.data[0].id
+        }
+      })
+      .then(response => console.log('atualizado perfil', response))
+
+    Router.reload()
+  }, [])
 
   return (
     <AuthContext.Provider
@@ -321,7 +426,10 @@ function AuthProvider({ children }) {
         signIn,
         signUp,
         signOut,
-        updateUser
+        updateUser,
+        photoURL: data.photoURL,
+        smallPhotoURL: data.smallPhotoURL,
+        updateProfilePicture
       }}
     >
       {children}

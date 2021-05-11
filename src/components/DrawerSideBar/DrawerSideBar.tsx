@@ -19,7 +19,7 @@ import Link from 'next/link'
 import { useAuth } from '../../hooks/auth'
 
 export default function DrawerSideBar({ setOpen, open }) {
-  const { user } = useAuth()
+  const { user, photoURL } = useAuth()
   const { menus } = useAuth()
   console.log('Menus dentro do drawer', menus)
 
@@ -42,11 +42,7 @@ export default function DrawerSideBar({ setOpen, open }) {
         }
       >
         <AvatarContainer>
-          <Avatar
-            src="https://avatars.githubusercontent.com/u/46967826?s=460&u=b03c7750b76f86e592f9f3b0e02fe025846ee38c&v=4"
-            alt="Profile Image"
-            className="avatar"
-          />
+          <Avatar src={photoURL} alt="Profile Image" className="avatar" />
           <h2>{user.username}</h2>
           <span>{`Grupo: ${user.grupo.nome_abreviado}`}</span>
         </AvatarContainer>

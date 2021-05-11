@@ -34,7 +34,7 @@ export default function NavBarProfile() {
   )
   const [openPhoto, setOpenPhoto] = useState<null | HTMLElement>(null)
 
-  const { signOut, user } = useAuth()
+  const { signOut, user, smallPhotoURL } = useAuth()
 
   const handleClickNotification = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -161,11 +161,7 @@ export default function NavBarProfile() {
       </NameContainer>
 
       <Button>
-        <Avatar
-          src="https://avatars.githubusercontent.com/u/46967826?s=460&u=b03c7750b76f86e592f9f3b0e02fe025846ee38c&v=4"
-          alt="Profile Image"
-          className="avatar"
-        />
+        <Avatar src={smallPhotoURL} alt="Profile Image" className="avatar" />
       </Button>
 
       <Button className="VertIcon" onClick={handleClickPhoto}>
