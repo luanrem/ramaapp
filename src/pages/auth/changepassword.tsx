@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Container,
   Content,
@@ -22,6 +22,7 @@ import { FiLock, FiMail } from 'react-icons/fi'
 import getValidationErrors from '../../utils/getValidationErrors'
 import { useToast } from '../../hooks/toast'
 import LoadingIcon from '../../components/LoadingIcon/LoadingIcon'
+import { parseCookies } from 'nookies'
 // import { parseCookies } from 'nookies'
 
 interface SignUpFormData {
@@ -99,13 +100,13 @@ export default function ChangePassword() {
     [changePassword]
   )
 
-  // useEffect(() => {
-  //   const { jwt, user, menus } = parseCookies()
+  useEffect(() => {
+    const { jwt } = parseCookies()
 
-  //   if (jwt && user && menus) {
-  //     Router.push('/admin/dashboard')
-  //   }
-  // }, [])
+    if (!jwt) {
+      Router.push('/auth/signin')
+    }
+  }, [])
 
   return (
     <Container>
@@ -116,7 +117,12 @@ export default function ChangePassword() {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Altere sua senha</h1>
             <Input name="email" icon={FiMail} placeholder="E-mail" />
-            <Input name="password" icon={FiLock} placeholder="Senha Antiga" />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha Antiga"
+            />
 
             <Input
               name="newPassword"
