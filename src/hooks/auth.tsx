@@ -94,6 +94,13 @@ interface UserUpdateCredentials {
   endereco_adicional?: string
 }
 
+interface ChangePasswordCredentials {
+  email: string
+  password: string
+  newPassword: string
+  confirmPassword: string
+}
+
 interface AuthContextData {
   user: User
   menus: Array<Routes>
@@ -102,6 +109,7 @@ interface AuthContextData {
   signUp(credentials: SignUpCredentials): Promise<void>
   updateUser(data: UserUpdateCredentials): Promise<void>
   updateProfilePicture(data: FormData): Promise<void>
+  changePassword(data: ChangePasswordCredentials): Promise<void>
   photoURL: string
   smallPhotoURL: string
   signOut(): void
@@ -417,6 +425,40 @@ function AuthProvider({ children }) {
     Router.reload()
   }, [])
 
+  const changePassword = useCallback(
+    async ({ email, password, newPassword, confirmPassword }) => {
+      console.log('chegou aqui')
+
+      const response = await api.post(
+        'users/updatepassword',
+        {
+          identifier: email,
+          password,
+          newPassword,
+          confirmPassword
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      const { jwt: token } = response.data
+
+      api.defaults.headers.Authorization = `Bearer ${token}`
+
+      setCookie(null, 'jwt', token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+
+      console.log('Usuario Atualizado', response.data)
+    },
+    []
+  )
+
   return (
     <AuthContext.Provider
       value={{
@@ -427,6 +469,7 @@ function AuthProvider({ children }) {
         signUp,
         signOut,
         updateUser,
+        changePassword,
         photoURL: data.photoURL,
         smallPhotoURL: data.smallPhotoURL,
         updateProfilePicture

@@ -195,6 +195,11 @@ export default function NavBarProfile() {
                     <ListItemText primary="Configurações" />
                   </ListItem>
                 </Link>
+                <Link href="/auth/changepassword">
+                  <ListItem button onClick={handleClosePhoto}>
+                    <ListItemText primary="Alterar Senha" />
+                  </ListItem>
+                </Link>
                 <ListItem button onClick={handleLogOff}>
                   <ListItemText primary="Desconectar" />
                 </ListItem>
