@@ -12,7 +12,7 @@ import * as Yup from 'yup'
 import { motion } from 'framer-motion'
 
 import logoImg from '../../assets/images/logo.gif'
-import googleImg from '../../assets/images/google_signin.png'
+// import googleImg from '../../assets/images/google_signin.png'
 import Link from 'next/link'
 import { useAuth } from '../../hooks/auth'
 
@@ -90,9 +90,9 @@ export default function SignIn() {
     }
   }, [])
 
-  const handleGoogleSignIn = useCallback(async () => {
-    console.log('Funcionou')
-  }, [])
+  // const handleGoogleSignIn = useCallback(async () => {
+  //   console.log('Funcionou')
+  // }, [])
 
   return (
     <Container>
@@ -121,9 +121,9 @@ export default function SignIn() {
               )}
             </ButtonComponent>
 
-            <a onClick={handleGoogleSignIn} className="googleImg">
+            {/* <a onClick={handleGoogleSignIn} className="googleImg">
               <img src={googleImg} alt="googleSignin" />
-            </a>
+            </a> */}
 
             <Link href="/auth/forgotpassword">Esqueci minha senha</Link>
           </Form>

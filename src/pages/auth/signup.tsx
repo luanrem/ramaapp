@@ -12,7 +12,7 @@ import * as Yup from 'yup'
 import { motion } from 'framer-motion'
 
 import logoImg from '../../assets/images/logo.gif'
-import googleImg from '../../assets/images/google_signin.png'
+// import googleImg from '../../assets/images/google_signin.png'
 import Link from 'next/link'
 import Router from 'next/router'
 import { useAuth } from '../../hooks/auth'
@@ -103,9 +103,9 @@ export default function SignUp() {
     }
   }, [])
 
-  const handleGoogleSignUp = useCallback(async () => {
-    console.log('Funcionou')
-  }, [])
+  // const handleGoogleSignUp = useCallback(async () => {
+  //   console.log('Funcionou')
+  // }, [])
 
   return (
     <Container>
@@ -138,9 +138,9 @@ export default function SignUp() {
               )}
             </ButtonComponent>
 
-            <a onClick={handleGoogleSignUp} className="googleImg">
+            {/* <a onClick={handleGoogleSignUp} className="googleImg">
               <img src={googleImg} alt="googleSignin" />
-            </a>
+            </a> */}
           </Form>
 
           <Link href="/auth/signin">Voltar para logon</Link>
