@@ -8,8 +8,8 @@ import { Container, Content } from '../../styles/pages/admin/facilitacao'
 
 function Facilitacao() {
   const [value, setValue] = useState(0)
-
-  const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
+  //missao-rama-sistema.vercel.app/
+  https: const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
   }
 
