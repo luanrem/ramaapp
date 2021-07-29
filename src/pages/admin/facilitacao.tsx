@@ -55,6 +55,9 @@ function Facilitacao() {
               case 1:
                 return <ADMTest1 />
 
+              case 2:
+                return <div>Teste</div>
+
               default:
                 return <div>You are a User.</div>
             }

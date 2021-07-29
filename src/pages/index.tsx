@@ -50,7 +50,7 @@ import LoadingIcon from '../components/LoadingIcon/LoadingIcon'
 import { motion } from 'framer-motion'
 import { MdPersonOutline, MdMailOutline } from 'react-icons/md'
 
-export default function Home() {
+export default function Home({ data, carousel }) {
   const formRef = useRef<FormHandles>(null)
   const [sending, setSending] = useState(false)
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null)
@@ -138,7 +138,11 @@ export default function Home() {
       <HomeBanner
         className="HomeBanner"
         height={500}
-        imgURL="https://rama.luanrobertomartins.com.br/uploads/universe_banner_6492998f40.jpg"
+        imgURL={
+          data[0].image[0]
+            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[0].url}`
+            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        }
       >
         <h1 className="nomeSite">Missão Rama Brasil</h1>
       </HomeBanner>
@@ -176,7 +180,11 @@ export default function Home() {
 
       <HomeBanner
         height={500}
-        imgURL="https://rama.luanrobertomartins.com.br/uploads/universe_banner3_d4fd5d0b42.jpg"
+        imgURL={
+          data[0].image[1]
+            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[1].url}`
+            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        }
       />
 
       <NossaMetaSection id="NossaMeta">
@@ -261,7 +269,11 @@ export default function Home() {
 
       <HomeBanner
         height={500}
-        imgURL="https://rama.luanrobertomartins.com.br/uploads/universe_banner3_d4fd5d0b42.jpg"
+        imgURL={
+          data[0].image[2]
+            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[2].url}`
+            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        }
       />
 
       <ComoParticiparSection id="ComoParticipar">
@@ -282,7 +294,11 @@ export default function Home() {
           >
             <Grid item md={5} xs={11} className="image">
               <img
-                src="https://rama.luanrobertomartins.com.br/uploads/como_participar_f92a60460c.jpg"
+                src={
+                  data[0].image[2]
+                    ? `${process.env.NEXT_PUBLIC_API_URL}${carousel[0].image[0].url}`
+                    : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+                }
                 alt="ComoParticiparFoto"
               />
             </Grid>
@@ -321,28 +337,42 @@ export default function Home() {
 
       <HomeBanner
         height={500}
-        imgURL="https://rama.luanrobertomartins.com.br/uploads/universe_banner3_d4fd5d0b42.jpg"
+        imgURL={
+          data[0].image[3]
+            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[3].url}`
+            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        }
       />
 
       <GaleriaAtividadesSection>
         <h1>Galeria de atividades</h1>
         <hr />
-        <Carousel autoPlay interval={5000} infiniteLoop swipeable width="80%">
-          <div>
-            <img src="https://rama.luanrobertomartins.com.br/uploads/como_participar_f92a60460c.jpg" />
-          </div>
-          <div>
-            <img src="https://rama.luanrobertomartins.com.br/uploads/woman2_d9ad632b1a.jpg" />
-          </div>
-          <div>
-            <img src="https://rama.luanrobertomartins.com.br/uploads/woman3_e922bad048.jpg" />
-            {/* <p className="legend">Legend 3</p> */}
-          </div>
+        <Carousel
+          autoPlay
+          interval={5000}
+          infiniteLoop
+          swipeable
+          width="80%"
+          dynamicHeight
+          showThumbs={false}
+        >
+          {carousel[0].image.map((prop, key) => {
+            // console.log(menus);
+            return (
+              <div key={key}>
+                <img src={`${process.env.NEXT_PUBLIC_API_URL}${prop.url}`} />
+              </div>
+            )
+          })}
         </Carousel>
       </GaleriaAtividadesSection>
 
       <HomeBanner
-        imgURL="https://rama.luanrobertomartins.com.br/uploads/universe_banner3_d4fd5d0b42.jpg"
+        imgURL={
+          data[0].image[4]
+            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[4].url}`
+            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        }
         height={500}
       >
         <FaremosContatoSection>
@@ -397,4 +427,33 @@ export default function Home() {
       <BackToTopIcon showBelow={80} />
     </Container>
   )
+}
+
+export async function getStaticProps(context) {
+  // let res
+  // api.get(`/fotos`, { params: { name: 'index' } }).then(response => {
+  //   res = response
+  // })
+
+  const indexBackgroundPhotos = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/fotos?name=index`,
+    {
+      method: 'GET'
+    }
+  )
+
+  const data = await indexBackgroundPhotos.json()
+
+  const indexCarousel = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/fotos?name=carousel_index`,
+    {
+      method: 'GET'
+    }
+  )
+
+  const carousel = await indexCarousel.json()
+
+  return {
+    props: { data, carousel } // will be passed to the page component as props
+  }
 }
