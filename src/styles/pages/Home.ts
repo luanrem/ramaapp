@@ -260,6 +260,7 @@ export const FaremosContatoSection = styled.div`
   height: auto;
   background: white;
   border-radius: 10px;
+  margin: 3rem 0;
 
   h2 {
     font-family: GoodTimes;

@@ -3,7 +3,7 @@ import { Container } from '../../styles/components/HomeBanner'
 
 interface HomeBannerDTO {
   children?: ReactElement
-  height?: number
+  height?: number | string
   imgURL?: string
   className?: string
 }

@@ -17,6 +17,7 @@ import {
   FaInstagram,
   FaWhatsapp
 } from 'react-icons/fa'
+import { FiMessageSquare } from 'react-icons/fi'
 import logoImg from '../assets/images/logo.gif'
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
@@ -49,6 +50,7 @@ import HomeBanner from '../components/HomeBanner/HomeBanner'
 import LoadingIcon from '../components/LoadingIcon/LoadingIcon'
 import { motion } from 'framer-motion'
 import { MdPersonOutline, MdMailOutline } from 'react-icons/md'
+import Textarea from '../components/Textarea/Textarea'
 
 export default function Home({ data, carousel }) {
   const formRef = useRef<FormHandles>(null)
@@ -67,9 +69,15 @@ export default function Home({ data, carousel }) {
     setOpenMenu(null)
   }, [setOpenMenu])
 
-  const handleSubmit = useCallback(() => {
-    setSending(true)
-  }, [sending, setSending])
+  const handleSubmit = useCallback(
+    data => {
+      const nameInput = formRef.current.getFieldRef('mensagem')
+      console.log('dadorecebido', nameInput)
+      console.log('dados', data)
+      setSending(true)
+    },
+    [sending, setSending]
+  )
 
   return (
     <Container>
@@ -373,18 +381,22 @@ export default function Home({ data, carousel }) {
             ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[4].url}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
-        height={500}
+        height="auto"
       >
         <FaremosContatoSection>
           <h2>Faremos Contato</h2>
 
           <hr />
-          <Form ref={formRef} onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit} className="ContatoForm">
             <Input name="nome" icon={MdPersonOutline} placeholder="Nome *" />
             <Input name="email" icon={MdMailOutline} placeholder="E-mail" />
             <Input name="cel" icon={FaWhatsapp} placeholder="WhatsApp *" />
 
-            <textarea name="mensagem" placeholder="Mensagem" />
+            <Textarea
+              name="mensagem"
+              icon={FiMessageSquare}
+              placeholder="Insira sua Mensagem"
+            />
 
             <ButtonComponent type="submit">
               {sending === true ? (

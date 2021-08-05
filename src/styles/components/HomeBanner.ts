@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 interface ContainerProps {
-  bannerHeight: number
+  bannerHeight: number | string
   backgroundImage: string
 }
 
