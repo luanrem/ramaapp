@@ -8,6 +8,7 @@ import Input from '../components/Input/Input'
 import ButtonComponent from '../components/Button/Button'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
+import * as Yup from 'yup'
 // import * as Yup from 'yup'
 
 import BackToTopIcon from '../components/BackToTopIcon/BackToTopIcon'
@@ -51,12 +52,23 @@ import LoadingIcon from '../components/LoadingIcon/LoadingIcon'
 import { motion } from 'framer-motion'
 import { MdPersonOutline, MdMailOutline } from 'react-icons/md'
 import Textarea from '../components/Textarea/Textarea'
+import { useToast } from '../hooks/toast'
+import getValidationErrors from '../utils/getValidationErrors'
+import api from '../services/api'
+
+interface ContactFormData {
+  name: string
+  email: string
+  phone: string
+  message: string
+}
 
 export default function Home({ data, carousel }) {
   const formRef = useRef<FormHandles>(null)
   const [sending, setSending] = useState(false)
   const [openMenu, setOpenMenu] = useState<null | HTMLElement>(null)
   const { y } = useWindowScroll()
+  const { addToast } = useToast()
 
   const handleClickMenu = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -70,11 +82,69 @@ export default function Home({ data, carousel }) {
   }, [setOpenMenu])
 
   const handleSubmit = useCallback(
-    data => {
-      const nameInput = formRef.current.getFieldRef('mensagem')
-      console.log('dadorecebido', nameInput)
+    async (data: ContactFormData) => {
       console.log('dados', data)
       setSending(true)
+      try {
+        formRef.current?.setErrors({})
+
+        const schema = Yup.object().shape({
+          email: Yup.string().email('Digite um e-mail valido'),
+          name: Yup.string().required('Nome obrigatorio'),
+          phone: Yup.string().required('Telefone obrigatorio'),
+          message: Yup.string()
+        })
+
+        await schema.validate(data, {
+          abortEarly: false
+        })
+
+        const result = await api.post(
+          'email/contato',
+          {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            message: data.message
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+
+        if (result.statusText === 'OK') {
+          addToast({
+            type: 'success',
+            title: 'Email enviado com sucesso',
+            description:
+              'O email foi enviado com sucesso, logo a coordenação da Missão Rama entrará em contato.'
+          })
+        }
+
+        setSending(false)
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err)
+
+          formRef.current?.setErrors(errors)
+
+          setSending(false)
+          return
+        }
+
+        console.log('err', err)
+
+        setSending(false)
+        addToast({
+          type: 'error',
+          title: 'Erro ao enviar email',
+          description:
+            'Ocorreu um erro ao entrar em contato, favor tentar mais tarde'
+        })
+      }
     },
     [sending, setSending]
   )
@@ -387,13 +457,13 @@ export default function Home({ data, carousel }) {
           <h2>Faremos Contato</h2>
 
           <hr />
-          <Form ref={formRef} onSubmit={handleSubmit} className="ContatoForm">
-            <Input name="nome" icon={MdPersonOutline} placeholder="Nome *" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input name="name" icon={MdPersonOutline} placeholder="Nome *" />
             <Input name="email" icon={MdMailOutline} placeholder="E-mail" />
-            <Input name="cel" icon={FaWhatsapp} placeholder="WhatsApp *" />
+            <Input name="phone" icon={FaWhatsapp} placeholder="WhatsApp *" />
 
             <Textarea
-              name="mensagem"
+              name="message"
               icon={FiMessageSquare}
               placeholder="Insira sua Mensagem"
             />
