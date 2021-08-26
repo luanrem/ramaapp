@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import api from '../../services/api'
+import api from '../../../services/api'
 
 // import { Container } from './styles';
 
-function ADMTest1() {
+function AdminGroups() {
   const [data, setData] = useState({ username: 'luan' })
 
   useEffect(() => {
@@ -16,4 +16,4 @@ function ADMTest1() {
   return <div>{data.username}</div>
 }
 
-export default ADMTest1
+export default AdminGroups

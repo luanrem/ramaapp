@@ -2,16 +2,24 @@ import { AppBar, Tabs, Tab } from '@material-ui/core'
 import { ChangeEvent, useState } from 'react'
 import Admin from '../../layouts/Admin'
 
-import ADMTest1 from '../../components/ADMTest1/ADMTest1'
+import ADMTest1 from '../../components/AdminTabs/ADMTest1/ADMTest1'
 
 import { Container, Content } from '../../styles/pages/admin/facilitacao'
+import AdminUsers from '../../components/AdminTabs/AdminUsers/AdminUsers'
+import AdminGroups from '../../components/AdminTabs/AdminGroups/AdminGroups'
+import { parseCookies } from 'nookies'
+import { useEffect } from 'react'
 
-function Facilitacao() {
+function Facilitacao({ response: userList }) {
   const [value, setValue] = useState(0)
   // https://missao-rama-sistema.vercel.app/
   const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    console.log('userList', userList)
+  }, [userList])
 
   // const IsShowing = useEffect(() => {
   //   console.log(value)
@@ -34,15 +42,9 @@ function Facilitacao() {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Item 1" />
-            <Tab label="Item 2" />
-            <Tab label="Item 3" />
-            <Tab label="Item 4" />
-            <Tab label="Item 5" />
-            <Tab label="Item 6" />
-            <Tab label="Item 7" />
-            <Tab label="Item 8" />
-            <Tab label="Item 9" />
+            <Tab label="Usuários" />
+            <Tab label="Grupos" />
+            <Tab label="Eventos" />
           </Tabs>
         </AppBar>
 
@@ -50,10 +52,10 @@ function Facilitacao() {
           {(() => {
             switch (value) {
               case 0:
-                return <div>You are a Admin.</div>
+                return <AdminUsers />
 
               case 1:
-                return <ADMTest1 />
+                return <AdminGroups />
 
               case 2:
                 return <div>Teste</div>
@@ -69,5 +71,28 @@ function Facilitacao() {
 }
 
 Facilitacao.layout = Admin
+
+export async function getServerSideProps(context) {
+  const jwt = parseCookies(context).jwt
+
+  const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`
+    }
+  })
+
+  const response = await login.json()
+
+  console.log('users', response)
+
+  return {
+    props: {
+      response
+    }
+  }
+}
 
 export default Facilitacao

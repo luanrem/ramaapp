@@ -222,6 +222,7 @@ function AuthProvider({ children }) {
   }, [])
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
+    delete api.defaults.headers.authorization
     const response = await api.post(
       'auth/local/register',
       {
@@ -241,12 +242,16 @@ function AuthProvider({ children }) {
       }
     )
 
+    console.log('response', response.data)
+
     const photoURL =
       process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
 
     const smallPhotoURL =
       process.env.NEXT_PUBLIC_API_URL +
       response.data.user.avatar.formats.small.url
+
+    console.log('photo')
 
     const { jwt: token, user } = response.data
     console.log('axios login', response.data)
