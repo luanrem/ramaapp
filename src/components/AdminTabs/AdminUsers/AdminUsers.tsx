@@ -17,12 +17,14 @@ import {
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import api from '../../../services/api'
+import { filter } from 'lodash'
 
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import EditIcon from '@material-ui/icons/Edit'
 
 import { Container } from './styles'
+import UserListToolbar from '../components/UserListToolbar/UserListToolbar'
 
 const TABLE_HEAD = [
   { id: 'avatar', label: 'Avatar' },
@@ -45,24 +47,45 @@ interface UserListFormat {
   function: string
 }
 
+// ===========================================
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1
+  }
+  return 0
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
 function AdminUsers() {
-  const [data, setData] = useState({ username: 'luan' })
+  // const [data, setData] = useState({ username: 'luan' })
   const [usersList, setUsersList] = useState<UserListFormat[]>()
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
   const [userOpenEdit, setOpenEdit] = useState(false)
+  const [selected, setSelected] = useState([])
+  const [filterName, setFilterName] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState([])
 
-  useEffect(() => {
-    api.get(`users/me`).then(response => {
-      setData(response.data)
-      // console.log(response.data)
-    })
+  // useEffect(() => {
+  //   api.get(`users/me`).then(response => {
+  //     setData(response.data)
+  //     // console.log(response.data)
+  //   })
 
-    // api.get('users').then(response => {
-    //   setUsersList(response.data)
-    //   console.log(response.data)
-    // })
-  }, [setData])
+  //   // api.get('users').then(response => {
+  //   //   setUsersList(response.data)
+  //   //   console.log(response.data)
+  //   // })
+  // }, [setData])
 
   useEffect(() => {
     api.get('users').then(response => {
@@ -84,6 +107,7 @@ function AdminUsers() {
         }
       })
       setUsersList(userList)
+      setFilteredUsers(userList)
       console.log('userList', userList)
     })
   }, [])
@@ -102,9 +126,57 @@ function AdminUsers() {
     setOpenEdit(false)
   }
 
+  const handleClick = (event, nome_completo) => {
+    const selectedIndex = selected.indexOf(nome_completo)
+    let newSelected = []
+    // selectedIndex === -1 =>  didn't find the user in "selected" so add it
+    // selectedIndex === 0 => nobody in "selected" so erase it
+    // selectedIndex > 0 => if you are removing some user from "selected"
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, nome_completo)
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1))
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1))
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      )
+    }
+    setSelected(newSelected)
+  }
+
+  const handleFilterByName = event => {
+    setFilterName(event.target.value)
+  }
+
+  useEffect(() => {
+    if (usersList && filterName) {
+      const filtered = filter(usersList, usersList =>
+        usersList.nome_completo
+          ? usersList.nome_completo
+              .toLowerCase()
+              .indexOf(filterName.toLowerCase()) !== -1
+          : null
+      )
+      setFilteredUsers(filtered)
+    }
+    if (filterName === '') {
+      setFilteredUsers(usersList)
+    }
+  }, [filterName, usersList])
+
+  // applySortFilter()
+
   return (
     <Container>
       <Card>
+        <UserListToolbar
+          numSelected={selected.length}
+          filterName={filterName}
+          onFilterName={handleFilterByName}
+        />
         <TableContainer>
           <Table>
             <TableHead>
@@ -133,17 +205,27 @@ function AdminUsers() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {usersList &&
-                usersList.map(row => {
-                  console.log('row username', row)
+              {filteredUsers &&
+                filteredUsers.map(row => {
+                  const { nome_completo } = row
+                  const isItemSelected = selected.indexOf(nome_completo) !== -1
                   const group = row.grupo ? row.grupo : 'SEM GRUPO'
                   const userFunction = row.function
                     ? row.function
                     : 'SEM FUNÇÃO'
                   return (
-                    <TableRow hover key={row.id}>
+                    <TableRow
+                      hover
+                      key={row.id}
+                      tabIndex={-1}
+                      role="checkbox"
+                      selected={isItemSelected}
+                    >
                       <TableCell>
-                        <Checkbox />
+                        <Checkbox
+                          checked={isItemSelected}
+                          onChange={event => handleClick(event, nome_completo)}
+                        />
                       </TableCell>
                       <TableCell>
                         <Avatar alt={row.nome_completo} src={row.avatar_url} />
