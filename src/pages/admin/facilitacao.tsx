@@ -1,14 +1,11 @@
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import Admin from '../../layouts/Admin'
-
-import ADMTest1 from '../../components/AdminTabs/ADMTest1/ADMTest1'
 
 import { Container, Content } from '../../styles/pages/admin/facilitacao'
 import AdminUsers from '../../components/AdminTabs/AdminUsers/AdminUsers'
 import AdminGroups from '../../components/AdminTabs/AdminGroups/AdminGroups'
 import { parseCookies } from 'nookies'
-import { useEffect } from 'react'
 
 function Facilitacao({ response: userList }) {
   const [value, setValue] = useState(0)
@@ -32,7 +29,7 @@ function Facilitacao({ response: userList }) {
   return (
     <Container>
       <div>
-        <AppBar position="static" color="default">
+        <AppBar className="AppBarHeader" position="static" color="default">
           <Tabs
             value={value}
             onChange={handleTabChange}
