@@ -1,7 +1,6 @@
 import React from 'react'
 
 import {
-  Box,
   Checkbox,
   TableCell,
   TableHead,
@@ -70,7 +69,11 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox />
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+          />
         </TableCell>
         {TABLE_HEAD.map(headCell => (
           <TableCell
@@ -83,11 +86,6 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {/* {orderBy === headCell.id ? (
-                <Box>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null} */}
             </TableSortLabel>
           </TableCell>
         ))}

@@ -31,7 +31,6 @@ import {
 } from '../components/EnhancedTableHead/EnhancedTableHead'
 
 function AdminUsers() {
-  // const [data, setData] = useState({ username: 'luan' })
   const [usersList, setUsersList] = useState<UserListFormat[]>()
   const [order, setOrder] = useState<Order>('asc') // asc or desc
   const [orderBy, setOrderBy] = useState<keyof UserListFormat>('id') // which field in header
@@ -39,22 +38,6 @@ function AdminUsers() {
   const [selected, setSelected] = useState([])
   const [filterName, setFilterName] = useState('')
   const [filteredUsers, setFilteredUsers] = useState<UserListFormat[]>()
-
-  // useEffect(() => {
-  //   api.get(`users/me`).then(response => {
-  //     setData(response.data)
-  //     // console.log(response.data)
-  //   })
-
-  //   // api.get('users').then(response => {
-  //   //   setUsersList(response.data)
-  //   //   console.log(response.data)
-  //   // })
-  // }, [setData])
-
-  useEffect(() => {
-    console.log('filteredUser', filteredUsers)
-  }, [filteredUsers])
 
   useEffect(() => {
     api.get('users').then(response => {
@@ -124,7 +107,14 @@ function AdminUsers() {
     setFilterName(event.target.value)
   }
 
-  const handleSelectAllClick = () => {}
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelecteds = filteredUsers.map(n => n.nome_completo)
+      setSelected(newSelecteds)
+      return
+    }
+    setSelected([])
+  }
 
   useEffect(() => {
     if (usersList && filterName) {
@@ -250,10 +240,8 @@ function AdminUsers() {
                     )
                   }
                 )}
-              <TableRow>
-                <TableCell>
-                  <div>Body</div>
-                </TableCell>
+              <TableRow className="TableFooter">
+                Total: {usersList && usersList.length}
               </TableRow>
             </TableBody>
           </Table>
