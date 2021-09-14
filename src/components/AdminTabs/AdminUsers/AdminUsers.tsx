@@ -199,7 +199,7 @@ function AdminUsers() {
                     return (
                       <TableRow
                         hover
-                        onClick={event => handleClick(event, nome_completo)}
+                        // onClick={event => handleClick(event, nome_completo)}
                         key={Number(id)}
                         tabIndex={-1}
                         role="checkbox"
