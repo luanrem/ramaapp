@@ -12,6 +12,8 @@ import SearchIcon from '@material-ui/icons/Search'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import { useAdmin } from '../../../../hooks/admin'
 import { useToast } from '../../../../hooks/toast'
+import { useState } from 'react'
+import DialogConfirmation from '../DialogConfirmation/DialogConfirmation'
 
 export default function UserListToolbar({
   numSelected,
@@ -22,7 +24,31 @@ export default function UserListToolbar({
   const { deleteUser } = useAdmin()
   const { addToast } = useToast()
 
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [textToConfirm, setTextToConfirm] = useState(
+    'Estou ciente que vou deletar estes usuarios'
+  )
+
+  const handleConfirmDialog = data => {
+    if (data === textToConfirm) {
+      handleDeleteUser()
+      setTextToConfirm(textToConfirm + ' de novo')
+    } else {
+      addToast({
+        type: 'error',
+        title: 'Falha ao remover usuarios',
+        description: `O texto digitado não é o mesmo que o escrito acima.`
+      })
+    }
+  }
+
+  const handleCancelDialog = () => {
+    setDialogOpen(false)
+  }
+
   const handleDeleteUser = () => {
+    setDialogOpen(false)
+
     try {
       deleteUser(selectedUsers)
     } catch (err) {
@@ -57,13 +83,20 @@ export default function UserListToolbar({
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={handleDeleteUser}>
+          <IconButton onClick={() => setDialogOpen(true)}>
             <DeleteOutlineIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <></>
       )}
+
+      <DialogConfirmation
+        handleConfirm={handleConfirmDialog}
+        handleCancel={handleCancelDialog}
+        open={dialogOpen}
+        textToConfirm={textToConfirm}
+      />
     </Container>
   )
 }
