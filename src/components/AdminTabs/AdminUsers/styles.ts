@@ -7,4 +7,6 @@ export const Container = styled.div`
     height: 3rem;
     margin-left: 1rem;
   }
+
+  margin-bottom: 3rem;
 `

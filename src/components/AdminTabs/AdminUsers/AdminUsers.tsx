@@ -60,7 +60,7 @@ function AdminUsers() {
       })
       setUsersList(userList)
       setFilteredUsers(userList)
-      console.log('userList', userList)
+      // console.log('userList', userList)
     })
   }, [])
 
@@ -82,14 +82,14 @@ function AdminUsers() {
     setOpenEdit(false)
   }
 
-  const handleClick = (event, nome_completo) => {
-    const selectedIndex = selected.indexOf(nome_completo)
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id)
     let newSelected = []
     // selectedIndex === -1 =>  didn't find the user in "selected" so add it
     // selectedIndex === 0 => nobody in "selected" so erase it
     // selectedIndex > 0 => if you are removing some user from "selected"
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, nome_completo)
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
@@ -169,6 +169,7 @@ function AdminUsers() {
       <Card>
         <UserListToolbar
           numSelected={selected.length}
+          selectedUsers={selected}
           filterName={filterName}
           onFilterName={handleFilterByName}
         />
@@ -190,8 +191,7 @@ function AdminUsers() {
                 stableSort(filteredUsers, getComparator(order, orderBy)).map(
                   row => {
                     const { id, nome_completo, avatar_url } = row
-                    const isItemSelected =
-                      selected.indexOf(nome_completo) !== -1
+                    const isItemSelected = selected.indexOf(id) !== -1
                     const group = row.grupo ? row.grupo : 'SEM GRUPO'
                     const userFunction = row.function
                       ? row.function
@@ -199,7 +199,7 @@ function AdminUsers() {
                     return (
                       <TableRow
                         hover
-                        // onClick={event => handleClick(event, nome_completo)}
+                        // onClick={event => handleClick(event, Number(id))}
                         key={Number(id)}
                         tabIndex={-1}
                         role="checkbox"
@@ -208,9 +208,7 @@ function AdminUsers() {
                         <TableCell>
                           <Checkbox
                             checked={isItemSelected}
-                            onChange={event =>
-                              handleClick(event, nome_completo)
-                            }
+                            onChange={event => handleClick(event, Number(id))}
                           />
                         </TableCell>
                         <TableCell>
