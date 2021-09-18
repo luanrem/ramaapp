@@ -36,11 +36,16 @@ export const AboutMeView = styled.div`
   align-items: center;
   justify-content: space-evenly;
   margin: 1rem 0;
+  flex-wrap: wrap;
 
   .textFields {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  div {
+    margin: 0.5rem 0;
   }
 `
 

@@ -49,13 +49,13 @@ export default function DialogUserEdit({ user, open, handleOpen }: DataFormat) {
 
   return (
     <Container>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">{user.username}</DialogTitle>
-        {user && (
+      {user && (
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">{user.username}</DialogTitle>
           <DialogContent>
             <UserAccountView>
               <Avatar src={user.avatar_url} />
@@ -132,23 +132,25 @@ export default function DialogUserEdit({ user, open, handleOpen }: DataFormat) {
                   type="text"
                 />
               </div>
-              <FormControlLabel
-                control={
-                  <Switch color="secondary" defaultChecked={user.blocked} />
-                }
-                label="Blocked"
-                labelPlacement="top"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="primary"
-                    defaultChecked={user.ex_participante}
-                  />
-                }
-                label="Ex Participante"
-                labelPlacement="top"
-              />
+              <div>
+                <FormControlLabel
+                  control={
+                    <Switch color="secondary" defaultChecked={user.blocked} />
+                  }
+                  label="Blocked"
+                  labelPlacement="top"
+                />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      color="primary"
+                      defaultChecked={user.ex_participante}
+                    />
+                  }
+                  label="Ex Participante"
+                  labelPlacement="top"
+                />
+              </div>
             </AboutMeView>
 
             <Divider />
@@ -200,16 +202,16 @@ export default function DialogUserEdit({ user, open, handleOpen }: DataFormat) {
               </div>
             </AddressView>
           </DialogContent>
-        )}
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleClose} color="primary">
+              Atualizar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Container>
   )
 }
