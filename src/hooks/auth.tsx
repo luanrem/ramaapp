@@ -224,6 +224,7 @@ function AuthProvider({ children }) {
   const signUp = useCallback(async ({ username, name, email, password }) => {
     delete api.defaults.headers.authorization
     const response = await api.post(
+      // TODO field blocked needs to be false as default
       'auth/local/register',
       {
         username: username,

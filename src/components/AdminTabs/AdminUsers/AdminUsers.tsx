@@ -29,12 +29,17 @@ import {
   UserListFormat,
   Order
 } from '../components/EnhancedTableHead/EnhancedTableHead'
+import DialogUserEdit, {
+  UsersFormat
+} from '../components/DialogUserEdit/DialogUserEdit'
 
 function AdminUsers() {
+  const [users, setUsers] = useState<UsersFormat[]>()
+  const [userOpenEdit, setUserOpenEdit] = useState(false)
+  const [userOpened, setUserOpened] = useState<UsersFormat>(null)
   const [usersList, setUsersList] = useState<UserListFormat[]>()
   const [order, setOrder] = useState<Order>('asc') // asc or desc
   const [orderBy, setOrderBy] = useState<keyof UserListFormat>('id') // which field in header
-  const [userOpenEdit, setOpenEdit] = useState(false)
   const [selected, setSelected] = useState([])
   const [filterName, setFilterName] = useState('')
   const [filteredUsers, setFilteredUsers] = useState<UserListFormat[]>()
@@ -42,9 +47,9 @@ function AdminUsers() {
   useEffect(() => {
     api.get('users').then(response => {
       const userList: UserListFormat[] = response.data.map(user => {
-        // console.log('userSingle', user)
+        console.log('userSingle', user)
         const avatar = user.avatar
-          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.formats.small.url}`
+          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
           : null
         const funcao = user.funcao ? user.funcao.Funcao : null
         const group = user.grupo ? user.grupo.nome_abreviado : null
@@ -58,9 +63,35 @@ function AdminUsers() {
           function: funcao
         }
       })
+      const usersCompletedList: UsersFormat[] = response.data.map(user => {
+        // console.log('userSingle', user)
+        const avatar = user.avatar
+          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
+          : null
+        const funcao = user.funcao ? user.funcao.Funcao : null
+        const group = user.grupo ? user.grupo.nome_abreviado : null
+        return {
+          id: user.id,
+          avatar_url: avatar,
+          username: user.username,
+          nome_completo: user.nome_completo,
+          blocked: user.blocked,
+          grupo: group,
+          function: funcao,
+          nacimento: user.Nacimento,
+          email: user.email,
+          ex_participante: user.ex_participante,
+          endereco: user.endereco,
+          endereco_adicional: user.endereco_adicional,
+          cidade: user.Cidade,
+          estado: user.Estado,
+          telefone: user.telefone
+        }
+      })
+      setUsers(usersCompletedList)
       setUsersList(userList)
       setFilteredUsers(userList)
-      // console.log('userList', userList)
+      console.log('userList', response.data)
     })
   }, [])
 
@@ -73,13 +104,16 @@ function AdminUsers() {
     setOrderBy(property)
   }
 
-  const handleOpenEdit = usuario => {
-    console.log('event', usuario)
-    setOpenEdit(true)
+  const handleOpenEdit = userId => {
+    console.log('event', userId)
+    const foundUser = users.find(element => element.id === userId)
+    console.log('foundUser', foundUser)
+    setUserOpened(foundUser)
+    setUserOpenEdit(true)
   }
 
   const handleCloseEdit = () => {
-    setOpenEdit(false)
+    setUserOpenEdit(false)
   }
 
   const handleClick = (event, id) => {
@@ -230,7 +264,7 @@ function AdminUsers() {
                         </TableCell>
                         <TableCell>{userFunction}</TableCell>
                         <TableCell>
-                          <Button onClick={() => handleOpenEdit(row.username)}>
+                          <Button onClick={() => handleOpenEdit(id)}>
                             <EditIcon />
                           </Button>
                         </TableCell>
@@ -246,13 +280,15 @@ function AdminUsers() {
         </TableContainer>
       </Card>
 
-      <Dialog
-        open={userOpenEdit}
-        onClose={handleCloseEdit}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle id="draggable-dialog-title">Subscribe</DialogTitle>
+      <Dialog open={userOpenEdit} onClose={handleCloseEdit}>
+        <DialogTitle>Subscribe</DialogTitle>
       </Dialog>
+
+      <DialogUserEdit
+        user={userOpened}
+        open={userOpenEdit}
+        handleOpen={setUserOpenEdit}
+      />
     </Container>
   )
 }
