@@ -45,9 +45,10 @@ function AdminUsers() {
   const [filteredUsers, setFilteredUsers] = useState<UserListFormat[]>()
 
   useEffect(() => {
+    // TODO[epic=project] Create a function to update the list without reload
     api.get('users').then(response => {
       const userList: UserListFormat[] = response.data.map(user => {
-        console.log('userSingle', user)
+        // console.log('userSingle', user)
         const avatar = user.avatar
           ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
           : null
@@ -69,7 +70,7 @@ function AdminUsers() {
           ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
           : null
         const funcao = user.funcao ? user.funcao.Funcao : null
-        const group = user.grupo ? user.grupo.nome_abreviado : null
+        const group = user.grupo ? user.grupo.nome : null
         return {
           id: user.id,
           avatar_url: avatar,

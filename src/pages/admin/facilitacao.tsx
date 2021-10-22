@@ -14,9 +14,9 @@ function Facilitacao({ response: userList }) {
     setValue(newValue)
   }
 
-  useEffect(() => {
-    console.log('userList', userList)
-  }, [userList])
+  // useEffect(() => {
+  //   console.log('userList', userList)
+  // }, [userList])
 
   // const IsShowing = useEffect(() => {
   //   console.log(value)

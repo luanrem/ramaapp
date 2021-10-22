@@ -15,12 +15,19 @@ interface UserUpdateCredentials {
   endereco_adicional?: string
 }
 
+interface previousUserCredentials extends UserUpdateCredentials {
+  id: number
+}
+
 interface DeleteUserCredentials {
   id: number
 }
 
 interface AuthContextData {
-  updateUser(data: UserUpdateCredentials): Promise<void>
+  updateUser(
+    currentUser: previousUserCredentials,
+    updatedUser: UserUpdateCredentials
+  ): Promise<void>
   deleteUser(data: DeleteUserCredentials[]): Promise<void>
 }
 
@@ -29,7 +36,33 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 function AdminProvider({ children }) {
   const { addToast } = useToast()
 
-  const updateUser = useCallback(async () => {}, [])
+  const updateUser = useCallback(async (currentUser, updatedUser) => {
+    console.log('User', currentUser)
+    console.log('updatedUser', updatedUser)
+
+    var finalUserRequest = {}
+
+    const updatedUsersKeys = Object.keys(updatedUser)
+
+    updatedUsersKeys.forEach(key => {
+      // TODO[epic=project] Group needs to send the number
+      // console.log('compare', user[key], updatedUser[key])
+      // If the passed update is null we don't need to update
+      // if the updatedUser is diferent of the curent user we send the update
+      if (updatedUser[key] !== '' && updatedUser[key] !== currentUser[key]) {
+        finalUserRequest[key] = updatedUser[key]
+      }
+    })
+
+    console.log('final', finalUserRequest)
+
+    await api.put(`users/${currentUser.id}`, finalUserRequest, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+  }, [])
 
   const deleteUser = useCallback(async data => {
     data.forEach(async e => {
