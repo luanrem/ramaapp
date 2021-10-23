@@ -1,11 +1,12 @@
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useState } from 'react'
 import Admin from '../../layouts/Admin'
 
 import { Container, Content } from '../../styles/pages/admin/facilitacao'
 import AdminUsers from '../../components/AdminTabs/AdminUsers/AdminUsers'
 import AdminGroups from '../../components/AdminTabs/AdminGroups/AdminGroups'
 import { parseCookies } from 'nookies'
+import { DragDropContext } from 'react-beautiful-dnd'
 
 function Facilitacao({ response: userList }) {
   const [value, setValue] = useState(0)
@@ -27,43 +28,45 @@ function Facilitacao({ response: userList }) {
   // }, [value])
 
   return (
-    <Container>
-      <div>
-        <AppBar className="AppBarHeader" position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="scrollable auto tabs example"
-          >
-            <Tab label="Usuários" />
-            <Tab label="Grupos" />
-            <Tab label="Eventos" />
-          </Tabs>
-        </AppBar>
+    <DragDropContext onDragEnd={() => {}}>
+      <Container>
+        <div>
+          <AppBar className="AppBarHeader" position="static" color="default">
+            <Tabs
+              value={value}
+              onChange={handleTabChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+              aria-label="scrollable auto tabs example"
+            >
+              <Tab label="Usuários" />
+              <Tab label="Grupos" />
+              <Tab label="Eventos" />
+            </Tabs>
+          </AppBar>
 
-        <Content>
-          {(() => {
-            switch (value) {
-              case 0:
-                return <AdminUsers />
+          <Content>
+            {(() => {
+              switch (value) {
+                case 0:
+                  return <AdminUsers />
 
-              case 1:
-                return <AdminGroups />
+                case 1:
+                  return <AdminGroups />
 
-              case 2:
-                return <div>Teste</div>
+                case 2:
+                  return <div>Teste</div>
 
-              default:
-                return <div>You are a User.</div>
-            }
-          })()}
-        </Content>
-      </div>
-    </Container>
+                default:
+                  return <div>You are a User.</div>
+              }
+            })()}
+          </Content>
+        </div>
+      </Container>
+    </DragDropContext>
   )
 }
 
