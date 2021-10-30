@@ -231,6 +231,7 @@ function AuthProvider({ children }) {
         nome_completo: name,
         email: email,
         password: password,
+        blocked: true,
         funcao: {
           id: 5
         }
@@ -245,12 +246,9 @@ function AuthProvider({ children }) {
 
     console.log('response', response.data)
 
-    const photoURL =
-      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+    const photoURL = process.env.NEXT_PUBLIC_API_URL
 
-    const smallPhotoURL =
-      process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.formats.small.url
+    const smallPhotoURL = process.env.NEXT_PUBLIC_API_URL
 
     console.log('photo')
 

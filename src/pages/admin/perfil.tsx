@@ -318,11 +318,7 @@ function Perfil({ response: updatedUser }) {
               </AvatarContainer>
               <UserContent>
                 <div>
-                  <span>
-                    {user.grupo.nome_abreviado
-                      ? user.grupo.nome_abreviado
-                      : 'APU'}
-                  </span>
+                  <span>{user.grupo ? user.grupo.nome_abreviado : 'APU'}</span>
                   <p>Grupo</p>
                 </div>
                 <div>
