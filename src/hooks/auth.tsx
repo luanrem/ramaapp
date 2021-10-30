@@ -172,14 +172,25 @@ function AuthProvider({ children }) {
     const { jwt: token, user } = response.data
     console.log('axios login', response.data)
 
-    console.log('resposne', response)
+    console.log('response', response)
 
-    const photoURL =
-      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+    let photoURL: string = ''
+    let smallPhotoURL: string = ''
 
-    const smallPhotoURL =
-      process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.formats.small.url
+    if (response.data.user.avatar != null) {
+      photoURL = photoURL.concat(
+        process.env.NEXT_PUBLIC_API_URL,
+        response.data.user.avatar.url
+      )
+      console.log('photoURL', photoURL)
+      smallPhotoURL = smallPhotoURL.concat(
+        process.env.NEXT_PUBLIC_API_URL,
+        response.data.user.avatar.formats.small.url
+      )
+    } else {
+      photoURL = ''
+      smallPhotoURL = ''
+    }
 
     const menusResponse = await api.get('funcaos/me', {
       headers: {
