@@ -34,6 +34,7 @@ import DialogUserEdit, {
 } from '../components/DialogUserEdit/DialogUserEdit'
 
 function AdminUsers() {
+  // TODO[epic=project] Create add user Function
   const [users, setUsers] = useState<UsersFormat[]>()
   const [userOpenEdit, setUserOpenEdit] = useState(false)
   const [userOpened, setUserOpened] = useState<UsersFormat>(null)

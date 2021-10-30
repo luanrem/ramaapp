@@ -27,7 +27,7 @@ function AdminGroups() {
   return (
     <Container>
       <Grid container spacing={1} direction="row" alignItems="center">
-        <Grid item xl={4}>
+        <Grid item xl={2}>
           <GroupCard elevation={3}>
             <GroupItem />
             <GroupItem />
@@ -37,7 +37,7 @@ function AdminGroups() {
             <GroupItem />
           </GroupCard>
         </Grid>
-        <Grid item xl={4}>
+        <Grid item xl={2}>
           <GroupCard elevation={3}>
             <GroupItem />
             <GroupItem />
@@ -47,7 +47,37 @@ function AdminGroups() {
             <GroupItem />
           </GroupCard>
         </Grid>
-        <Grid item xl={4}>
+        <Grid item xl={2}>
+          <GroupCard elevation={3}>
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+          </GroupCard>
+        </Grid>
+        <Grid item xl={2}>
+          <GroupCard elevation={3}>
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+          </GroupCard>
+        </Grid>
+        <Grid item xl={2}>
+          <GroupCard elevation={3}>
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+            <GroupItem />
+          </GroupCard>
+        </Grid>
+        <Grid item xl={2}>
           <GroupCard elevation={3}>
             <GroupItem />
             <GroupItem />
