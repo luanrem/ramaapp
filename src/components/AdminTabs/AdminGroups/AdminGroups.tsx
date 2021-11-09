@@ -1,32 +1,106 @@
-import { Grid } from '@material-ui/core'
+import { FormControlLabel, Grid, Switch } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 // import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import api from '../../../services/api'
 import GroupCard from '../components/GroupCard/GroupCard'
-import GroupItem from '../components/GroupItem/GroupItem'
-import { Container } from './styles'
+import { Container, Header, Content } from './styles'
 
 // import { Container } from './styles';
 
+export interface facilitadorProps {
+  id: number
+  nome: string
+  nome_usuario: number
+}
+
+interface avatarProps {
+  id: number
+  url: string
+}
+
+export interface userProps {
+  id: number
+  username: string
+  Cidade: string
+  Estado: string
+  Nacimento: string
+  avatar: avatarProps
+  blocked: boolean
+  confirmed: boolean
+  email: string
+  endereco: string
+  endereco_adicional: string
+  ex_participante: boolean
+  funcao: number
+  grupo: number
+  nome_completo: string
+  role: number
+  telefone: string
+}
+
+export interface groupsProps {
+  id: number
+  facilitadores: facilitadorProps[]
+  nome: string
+  nome_abreviado: string
+  users: userProps[]
+}
+
 function AdminGroups() {
-  const [data, setData] = useState({ username: 'luan' })
-  const [groups, setGroups] = useState()
+  // const [data, setData] = useState({ username: 'luan' })
+  const [groups, setGroups] = useState<null | groupsProps[]>()
+  const [wrapState, setWrapState] = useState<boolean>(false)
 
   useEffect(() => {
-    api.get(`users/me`).then(response => {
-      setData(response.data)
-      console.log(response.data)
-    })
+    // api.get(`users/me`).then(response => {
+    //   setData(response.data)
+    //   console.log(response.data)
+    // })
 
     api.get('grupos').then(response => {
       console.log('resposta', response.data)
       setGroups(response.data)
     })
-  }, [setData])
+  }, [setGroups])
+
+  function handleWrap() {
+    setWrapState(!wrapState)
+  }
 
   return (
     <Container>
-      <Grid container spacing={1} direction="row" alignItems="center">
+      <Header>
+        <FormControlLabel
+          control={
+            <Switch
+              name="wrapState"
+              color="primary"
+              checked={wrapState}
+              onChange={handleWrap}
+            />
+          }
+          label="Quebrar linha"
+          labelPlacement="start"
+        />
+      </Header>
+      <Content>
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          alignItems="flex-start"
+          wrap={wrapState === true ? 'wrap' : 'nowrap'}
+        >
+          {groups &&
+            groups.map(element => {
+              console.log('element', element)
+              return (
+                <Grid key={element.id} item>
+                  <GroupCard data={element} elevation={3} />
+                </Grid>
+              )
+            })}
+          {/*
         <Grid item xl={2}>
           <GroupCard elevation={3}>
             <GroupItem />
@@ -46,48 +120,9 @@ function AdminGroups() {
             <GroupItem />
             <GroupItem />
           </GroupCard>
+        </Grid> */}
         </Grid>
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid>
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid>
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid>
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid>
-      </Grid>
+      </Content>
     </Container>
 
     // <div>

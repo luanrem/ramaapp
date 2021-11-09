@@ -1,10 +1,24 @@
-import { Avatar, CardHeader, IconButton } from '@material-ui/core'
+import {
+  Avatar,
+  CardHeader,
+  IconButton,
+  CardProps,
+  Divider
+} from '@material-ui/core'
 import React from 'react'
 import { MoreVert } from '@material-ui/icons'
 
-import { Container, CardDnd } from './styles'
+import { groupsProps } from '../../AdminGroups/AdminGroups'
 
-export default function GroupCard({ children, ...rest }) {
+import { Container, CardDnd, SectionTitle } from './styles'
+import GroupItem from '../GroupItem/GroupItem'
+
+interface GroupCardDTO extends CardProps {
+  data: groupsProps
+}
+
+export default function GroupCard({ data, ...rest }: GroupCardDTO) {
+  const { facilitadores, users } = data
   return (
     <Container>
       <CardDnd {...rest}>
@@ -15,10 +29,27 @@ export default function GroupCard({ children, ...rest }) {
               <MoreVert />
             </IconButton>
           }
-          title="Curitiba 1"
-          subheader="6 integrantes"
+          title={data.nome}
+          subheader={data.users.length.toString().concat(' Integrantes')}
         />
-        {children}
+        <SectionTitle>Facilitadores:</SectionTitle>
+        <Divider />
+        {facilitadores.length === 0 ? (
+          <div>Usuario vazio</div>
+        ) : (
+          facilitadores.map(facilitador => {
+            return <GroupItem facilitador={facilitador} key={facilitador.id} />
+          })
+        )}
+        <SectionTitle>Integrantes:</SectionTitle>
+        <Divider />
+        {users.length === 0 ? (
+          <div>Usuario vazio</div>
+        ) : (
+          users.map(user => {
+            return <GroupItem user={user} key={user.id} />
+          })
+        )}
       </CardDnd>
     </Container>
   )

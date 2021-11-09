@@ -31,6 +31,15 @@ export const Container = styled.div`
       font-size: 0.85rem;
       font-weight: 400;
       color: rgba(0, 0, 0, 0.54);
+      max-width: 100%;
+
+      /* 3 dots in the end */
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    div {
+      max-width: 100%;
     }
 
     button {

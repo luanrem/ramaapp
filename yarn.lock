@@ -387,6 +387,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-custom-scrollbars@^4.0.9":
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.9.tgz#a2d61f428e84aa3bf114d7bc4f61b22d60a34fca"
+  integrity sha512-Dv3OVJyRiOziq4D5sXNHB1Y9nZIkdazo1XCI4oMAtcxGZeSE8NjubW1qmPenWFiXSFuKNO3fpKR2LhYonNSynQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^17.0.3":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.3.tgz#7fdf37b8af9d6d40127137865bb3fff8871d7ee1"

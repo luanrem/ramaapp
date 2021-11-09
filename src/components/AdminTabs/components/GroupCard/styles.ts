@@ -9,3 +9,8 @@ export const CardDnd = styled(Card)`
   padding: 1rem;
   margin: 0 1rem;
 `
+export const SectionTitle = styled.div`
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.54);
+`
