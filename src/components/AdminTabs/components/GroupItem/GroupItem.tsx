@@ -90,9 +90,8 @@ export default function GroupItem({ user, facilitador }: GroupItemDTO) {
             >
               <Avatar
                 src={
-                  user.avatar
-                    ? process.env.NEXT_PUBLIC_API_URL.concat(user.avatar.url)
-                    : 'https://avatars.githubusercontent.com/u/46967826?v=4'
+                  user.avatar &&
+                  process.env.NEXT_PUBLIC_API_URL.concat(user.avatar.url)
                 }
                 alt="Profile Image"
               />
