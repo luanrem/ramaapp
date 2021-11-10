@@ -114,10 +114,6 @@ function AdminUsers() {
     setUserOpenEdit(true)
   }
 
-  const handleCloseEdit = () => {
-    setUserOpenEdit(false)
-  }
-
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected = []
@@ -281,10 +277,6 @@ function AdminUsers() {
           </Table>
         </TableContainer>
       </Card>
-
-      <Dialog open={userOpenEdit} onClose={handleCloseEdit}>
-        <DialogTitle>Subscribe</DialogTitle>
-      </Dialog>
 
       <DialogUserEdit
         user={userOpened}
