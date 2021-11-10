@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+export const Content = styled.div``
+
 export const Container = styled.div`
   margin: 1rem 0;
 

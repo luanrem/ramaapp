@@ -37,8 +37,15 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
         {facilitadores.length === 0 ? (
           <div>Usuario vazio</div>
         ) : (
-          facilitadores.map(facilitador => {
-            return <GroupItem facilitador={facilitador} key={facilitador.id} />
+          facilitadores.map((facilitador, index) => {
+            return (
+              <GroupItem
+                group={data.nome_abreviado}
+                facilitador={facilitador}
+                index={index}
+                key={facilitador.id}
+              />
+            )
           })
         )}
         <SectionTitle>Integrantes:</SectionTitle>
@@ -46,8 +53,15 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
         {users.length === 0 ? (
           <div>Usuario vazio</div>
         ) : (
-          users.map(user => {
-            return <GroupItem user={user} key={user.id} />
+          users.map((user, index) => {
+            return (
+              <GroupItem
+                group={data.nome_abreviado}
+                user={user}
+                index={index}
+                key={user.id}
+              />
+            )
           })
         )}
       </CardDnd>

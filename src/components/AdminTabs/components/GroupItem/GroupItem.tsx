@@ -8,11 +8,12 @@ import {
 } from '@material-ui/core'
 import { ExpandMoreTwoTone, Edit } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
+import { Draggable } from 'react-beautiful-dnd'
 import api from '../../../../services/api'
 import { facilitadorProps, userProps } from '../../AdminGroups/AdminGroups'
 import DialogUserEdit, { UsersFormat } from '../DialogUserEdit/DialogUserEdit'
 
-import { Container } from './styles'
+import { Content, Container } from './styles'
 
 interface NomeUsuarioprops {
   avatar: {
@@ -22,16 +23,24 @@ interface NomeUsuarioprops {
 }
 
 interface FacilitadorDataProps {
+  id: number
   nome: string
   nome_usuario: NomeUsuarioprops
 }
 
 interface GroupItemDTO {
   user?: userProps
+  group: string
+  index: number
   facilitador?: facilitadorProps
 }
 
-export default function GroupItem({ user, facilitador }: GroupItemDTO) {
+export default function GroupItem({
+  user,
+  group,
+  index,
+  facilitador
+}: GroupItemDTO) {
   const [userOpenEdit, setUserOpenEdit] = useState(false)
   const [userOpened, setUserOpened] = useState<UsersFormat>(null)
   const [
@@ -45,7 +54,7 @@ export default function GroupItem({ user, facilitador }: GroupItemDTO) {
         console.log('facilitador resposta', response.data)
         setFacilitadorData(response.data)
       })
-    console.log('usuario entrou', user)
+    console.log('usuario entrou', user, index)
   }, [facilitador])
 
   const handleOpenEdit = userId => {
@@ -74,91 +83,119 @@ export default function GroupItem({ user, facilitador }: GroupItemDTO) {
         telefone: user.telefone
       }
       setUserOpened(UserToEdit)
-      console.log('finalUser', userOpened)
+      // console.log('finalUser', userOpened)
       setUserOpenEdit(true)
     })
   }
 
   return (
-    <>
+    <Content>
       {user && (
-        <Container>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreTwoTone />}
-              className="AccordionSummary"
+        <Draggable
+          draggableId={
+            'user - ' + group + user.id.toString() + index.toString()
+          }
+          index={index}
+        >
+          {provided => (
+            <Container
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
             >
-              <Avatar
-                src={
-                  user.avatar &&
-                  process.env.NEXT_PUBLIC_API_URL.concat(user.avatar.url)
-                }
-                alt="Profile Image"
-              />
-              <div className="profileUser">
-                <h4>
-                  {user.id} - {user.username ? user.username : 'SemNome'}
-                </h4>
-                <span>Integrante</span>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails className="AccordionDetails">
-              <Grid container spacing={1}>
-                <Grid item>
-                  <h4>Nome:</h4>
-                  <p>
-                    {user.nome_completo
-                      ? user.nome_completo
-                      : 'Usuário sem nome'}
-                  </p>
-                </Grid>
-                <Grid item>
-                  <h4>Email:</h4>
-                  <p>{user.email ? user.email : 'Usuário sem email'}</p>
-                </Grid>
-                <Grid item>
-                  <h4>Telefone:</h4>
-                  <p>{user.telefone ? user.telefone : '(11) 1111-1111'}</p>
-                </Grid>
-                <IconButton onClick={() => handleOpenEdit(user.id)}>
-                  <Edit />
-                  {/* // TODO[epic=project] Create a button to edit user from Group menu */}
-                </IconButton>
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        </Container>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreTwoTone />}
+                  className="AccordionSummary"
+                >
+                  <Avatar
+                    src={
+                      user.avatar &&
+                      process.env.NEXT_PUBLIC_API_URL.concat(user.avatar.url)
+                    }
+                    alt="Profile Image"
+                  />
+                  <div className="profileUser">
+                    <h4>
+                      {user.id} - {user.username ? user.username : 'SemNome'}
+                    </h4>
+                    <span>Integrante</span>
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails className="AccordionDetails">
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <h4>Nome:</h4>
+                      <p>
+                        {user.nome_completo
+                          ? user.nome_completo
+                          : 'Usuário sem nome'}
+                      </p>
+                    </Grid>
+                    <Grid item>
+                      <h4>Email:</h4>
+                      <p>{user.email ? user.email : 'Usuário sem email'}</p>
+                    </Grid>
+                    <Grid item>
+                      <h4>Telefone:</h4>
+                      <p>{user.telefone ? user.telefone : '(11) 1111-1111'}</p>
+                    </Grid>
+                    <IconButton onClick={() => handleOpenEdit(user.id)}>
+                      <Edit />
+                    </IconButton>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+            </Container>
+          )}
+        </Draggable>
       )}
       {facilitadorData && (
-        <Container>
-          <Accordion expanded>
-            <AccordionSummary className="AccordionSummary">
-              <Avatar
-                src={
-                  facilitadorData.nome_usuario.avatar &&
-                  process.env.NEXT_PUBLIC_API_URL.concat(
-                    facilitadorData.nome_usuario.avatar.url
-                  )
-                }
-                alt="Profile Image"
-              />
-              <div className="profileUser">
-                <h4>
-                  {facilitadorData.nome_usuario.username
-                    ? facilitadorData.nome_usuario.username
-                    : 'SemNome'}
-                </h4>
-                <span>Facilitador</span>
-              </div>
-            </AccordionSummary>
-          </Accordion>
-        </Container>
+        <Draggable
+          draggableId={
+            'facilitador - ' +
+            group +
+            facilitadorData.id.toString() +
+            index.toString()
+          }
+          index={index}
+        >
+          {provided => (
+            <Container
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              <Accordion expanded>
+                <AccordionSummary className="AccordionSummary">
+                  <Avatar
+                    src={
+                      facilitadorData.nome_usuario.avatar &&
+                      process.env.NEXT_PUBLIC_API_URL.concat(
+                        facilitadorData.nome_usuario.avatar.url
+                      )
+                    }
+                    alt="Profile Image"
+                  />
+                  <div className="profileUser">
+                    <h4>
+                      {facilitadorData.nome_usuario.username
+                        ? facilitadorData.nome_usuario.username
+                        : 'SemNome'}
+                    </h4>
+                    <span>Facilitador</span>
+                  </div>
+                </AccordionSummary>
+              </Accordion>
+            </Container>
+          )}
+        </Draggable>
       )}
       <DialogUserEdit
         user={userOpened}
         open={userOpenEdit}
         handleOpen={setUserOpenEdit}
       />
-    </>
+    </Content>
   )
 }

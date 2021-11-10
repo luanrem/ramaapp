@@ -1,6 +1,6 @@
 import { FormControlLabel, Grid, Switch } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import api from '../../../services/api'
 import GroupCard from '../components/GroupCard/GroupCard'
 import { Container, Header, Content } from './styles'
@@ -84,44 +84,36 @@ function AdminGroups() {
         />
       </Header>
       <Content>
-        <Grid
-          container
-          spacing={1}
-          direction="row"
-          alignItems="flex-start"
-          wrap={wrapState === true ? 'wrap' : 'nowrap'}
-        >
-          {groups &&
-            groups.map(element => {
-              console.log('element', element)
-              return (
-                <Grid key={element.id} item>
-                  <GroupCard data={element} elevation={3} />
-                </Grid>
-              )
-            })}
-          {/*
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid>
-        <Grid item xl={2}>
-          <GroupCard elevation={3}>
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-            <GroupItem />
-          </GroupCard>
-        </Grid> */}
-        </Grid>
+        <DragDropContext onDragEnd={() => {}}>
+          <Grid
+            container
+            spacing={1}
+            direction="row"
+            alignItems="flex-start"
+            wrap={wrapState === true ? 'wrap' : 'nowrap'}
+          >
+            {groups &&
+              groups.map(element => {
+                console.log('element', element)
+                return (
+                  <Droppable
+                    key={element.id}
+                    droppableId={element.nome_abreviado}
+                  >
+                    {provided => (
+                      <Grid
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        item
+                      >
+                        <GroupCard data={element} elevation={3} />
+                      </Grid>
+                    )}
+                  </Droppable>
+                )
+              })}
+          </Grid>
+        </DragDropContext>
       </Content>
     </Container>
 
