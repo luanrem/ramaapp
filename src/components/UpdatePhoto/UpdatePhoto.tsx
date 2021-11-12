@@ -49,7 +49,7 @@ export default function UpdatePhoto({ selectedId, setSelectedId }) {
   const handleSelectImage = useCallback(() => {
     inputRef.current.click()
     // inputRef.current.onchange()
-    console.log('inputCurrent', inputRef.current.removeEventListener)
+    // console.log('inputCurrent', inputRef.current.removeEventListener)
     setImageSelected(true)
   }, [inputRef, setImageSelected])
 

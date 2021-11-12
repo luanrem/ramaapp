@@ -52,13 +52,8 @@ function AdminGroups() {
   const [wrapState, setWrapState] = useState<boolean>(false)
 
   useEffect(() => {
-    // api.get(`users/me`).then(response => {
-    //   setData(response.data)
-    //   console.log(response.data)
-    // })
-
     api.get('grupos').then(response => {
-      console.log('resposta', response.data)
+      // console.log('resposta', response.data)
       setGroups(response.data)
     })
   }, [setGroups])
@@ -94,7 +89,7 @@ function AdminGroups() {
           >
             {groups &&
               groups.map(element => {
-                console.log('element', element)
+                // console.log('element', element)
                 return (
                   <Droppable
                     key={element.id}
@@ -116,46 +111,6 @@ function AdminGroups() {
         </DragDropContext>
       </Content>
     </Container>
-
-    // <div>
-    //   <Droppable droppableId="TodosList">
-    //     {provided => (
-    //       <div
-    //         className="container"
-    //         ref={provided.innerRef}
-    //         {...provided.droppableProps}
-    //       >
-    //         <Draggable draggableId="1" index="1">
-    //           {provided => (
-    //             <div
-    //               className="todos"
-    //               {...provided.draggableProps}
-    //               {...provided.dragHandleProps}
-    //               ref={provided.innerRef}
-    //             >
-    //               <span className="todos_headings">Active</span>
-    //             </div>
-    //           )}
-    //         </Draggable>
-    //         {provided.placeholder}
-    //       </div>
-    //     )}
-    //   </Droppable>
-
-    //   <Droppable droppableId="TodoRemove">
-    //     {provided => (
-    //       <div
-    //         className="container"
-    //         ref={provided.innerRef}
-    //         {...provided.droppableProps}
-    //       >
-    //         <div className="todos">
-    //           <span className="todos_headings">Active</span>
-    //         </div>
-    //       </div>
-    //     )}
-    //   </Droppable>
-    // </div>
   )
 }
 

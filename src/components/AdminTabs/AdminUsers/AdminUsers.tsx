@@ -93,7 +93,7 @@ function AdminUsers() {
       setUsers(usersCompletedList)
       setUsersList(userList)
       setFilteredUsers(userList)
-      console.log('userList', response.data)
+      // console.log('userList', response.data)
     })
   }, [])
 
@@ -107,9 +107,9 @@ function AdminUsers() {
   }
 
   const handleOpenEdit = userId => {
-    console.log('event', userId)
+    // console.log('event', userId)
     const foundUser = users.find(element => element.id === userId)
-    console.log('foundUser', foundUser)
+    // console.log('foundUser', foundUser)
     setUserOpened(foundUser)
     setUserOpenEdit(true)
   }

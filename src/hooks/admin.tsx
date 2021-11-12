@@ -37,8 +37,8 @@ function AdminProvider({ children }) {
   const { addToast } = useToast()
 
   const updateUser = useCallback(async (currentUser, updatedUser) => {
-    console.log('User', currentUser)
-    console.log('updatedUser', updatedUser)
+    // console.log('User', currentUser)
+    // console.log('updatedUser', updatedUser)
 
     var finalUserRequest = {}
 
@@ -54,7 +54,7 @@ function AdminProvider({ children }) {
       }
     })
 
-    console.log('final', finalUserRequest)
+    // console.log('final', finalUserRequest)
 
     await api.put(`users/${currentUser.id}`, finalUserRequest, {
       headers: {

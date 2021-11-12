@@ -21,7 +21,7 @@ import { useAuth } from '../../hooks/auth'
 export default function DrawerSideBar({ setOpen, open }) {
   const { user, photoURL } = useAuth()
   const { menus } = useAuth()
-  console.log('Menus dentro do drawer', menus)
+  // console.log('Menus dentro do drawer', menus)
 
   const HandleOpenDrawer = useCallback(() => {
     setOpen(!open)

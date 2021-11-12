@@ -147,7 +147,7 @@ function AuthProvider({ children }) {
         }
       })
 
-      console.log('resultado do menuValidation', menusResult)
+      // console.log('resultado do menuValidation', menusResult)
       return menusResult
     },
     []
@@ -170,9 +170,9 @@ function AuthProvider({ children }) {
     )
 
     const { jwt: token, user } = response.data
-    console.log('axios login', response.data)
+    // console.log('axios login', response.data)
 
-    console.log('resposne', response)
+    // console.log('resposne', response)
 
     const photoURL =
       process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
@@ -190,10 +190,10 @@ function AuthProvider({ children }) {
     })
 
     const { menus } = menusResponse.data
-    console.log('menus', menus)
+    // console.log('menus', menus)
 
     const paths = menuValidation(menus)
-    console.log(paths)
+    // console.log(paths)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -243,7 +243,7 @@ function AuthProvider({ children }) {
       }
     )
 
-    console.log('response', response.data)
+    // console.log('response', response.data)
 
     const photoURL =
       process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
@@ -252,10 +252,10 @@ function AuthProvider({ children }) {
       process.env.NEXT_PUBLIC_API_URL +
       response.data.user.avatar.formats.small.url
 
-    console.log('photo')
+    // console.log('photo')
 
     const { jwt: token, user } = response.data
-    console.log('axios login', response.data)
+    // console.log('axios login', response.data)
 
     const menusResponse = await api.get('funcaos/me', {
       headers: {
@@ -266,10 +266,10 @@ function AuthProvider({ children }) {
     })
 
     const { menus } = menusResponse.data
-    console.log('menus', menus)
+    // console.log('menus', menus)
 
     const paths = menuValidation(menus)
-    console.log(paths)
+    // console.log(paths)
 
     setCookie(null, 'jwt', token, {
       maxAge: 30 * 24 * 60 * 60,
@@ -298,7 +298,7 @@ function AuthProvider({ children }) {
   }, [])
 
   const signOut = useCallback(() => {
-    console.log('deslogado')
+    // console.log('deslogado')
     destroyCookie(null, 'jwt', {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
@@ -350,7 +350,7 @@ function AuthProvider({ children }) {
       if (endereco_adicional)
         requestData.endereco_adicional = endereco_adicional
 
-      console.log('requestData', requestData)
+      // console.log('requestData', requestData)
 
       const response = await api.put('users/me', requestData, {
         headers: {
@@ -394,7 +394,7 @@ function AuthProvider({ children }) {
         'Content-Type': 'multipart/form-data;'
       }
     })
-    console.log('response of repo put', response)
+    // console.log('response of repo put', response)
 
     const photoURL = process.env.NEXT_PUBLIC_API_URL + response.data[0].url
 
@@ -433,7 +433,7 @@ function AuthProvider({ children }) {
 
   const changePassword = useCallback(
     async ({ email, password, newPassword, confirmPassword }) => {
-      console.log('chegou aqui')
+      // console.log('chegou aqui')
 
       const response = await api.post(
         'users/updatepassword',
@@ -460,7 +460,7 @@ function AuthProvider({ children }) {
         path: '/'
       })
 
-      console.log('Usuario Atualizado', response.data)
+      // console.log('Usuario Atualizado', response.data)
     },
     []
   )

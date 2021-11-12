@@ -9,7 +9,7 @@ function ADMTest1() {
   useEffect(() => {
     api.get(`users/me`).then(response => {
       setData(response.data)
-      console.log(response.data)
+      // console.log(response.data)
     })
   }, [setData])
 
