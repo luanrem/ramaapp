@@ -9,12 +9,21 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
+    max-width: 100%;
     .profileUser {
-      margin: 0 1rem;
+      margin: 0 0 0 1rem;
+      flex-grow: 1;
+      max-width: 80%;
 
       h4 {
         font-size: 1rem;
         font-weight: 400;
+        max-width: 100%;
+
+        /* 3 dots in the end */
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
       span {
         font-size: 0.85rem;

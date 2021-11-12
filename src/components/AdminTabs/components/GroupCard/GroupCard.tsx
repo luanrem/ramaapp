@@ -8,13 +8,12 @@ import {
 import React from 'react'
 import { MoreVert } from '@material-ui/icons'
 
-import { groupsProps } from '../../AdminGroups/AdminGroups'
-
 import { Container, CardDnd, SectionTitle } from './styles'
 import GroupItem from '../GroupItem/GroupItem'
+import { GroupsData } from '../../../../hooks/admin'
 
 interface GroupCardDTO extends CardProps {
-  data: groupsProps
+  data: GroupsData
 }
 
 export default function GroupCard({ data, ...rest }: GroupCardDTO) {

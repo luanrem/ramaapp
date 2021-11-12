@@ -7,34 +7,25 @@ import {
   IconButton
 } from '@material-ui/core'
 import { ExpandMoreTwoTone, Edit, HighlightOff } from '@material-ui/icons'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import {
+  GroupFacilitadoresData,
+  GroupUsersData,
+  useAdmin
+} from '../../../../hooks/admin'
 import { useToast } from '../../../../hooks/toast'
 import api from '../../../../services/api'
-import { facilitadorProps, userProps } from '../../AdminGroups/AdminGroups'
 import DialogConfirmation from '../DialogConfirmation/DialogConfirmation'
 import DialogUserEdit, { UsersFormat } from '../DialogUserEdit/DialogUserEdit'
 
 import { Content, Container } from './styles'
 
-interface NomeUsuarioprops {
-  avatar: {
-    url: string
-  }
-  username: string
-}
-
-interface FacilitadorDataProps {
-  id: number
-  nome: string
-  nome_usuario: NomeUsuarioprops
-}
-
 interface GroupItemDTO {
-  user?: userProps
+  user?: GroupUsersData
   group: string
   index: number
-  facilitador?: facilitadorProps
+  facilitador?: GroupFacilitadoresData
 }
 
 export default function GroupItem({
@@ -45,23 +36,11 @@ export default function GroupItem({
 }: GroupItemDTO) {
   const [userOpenEdit, setUserOpenEdit] = useState(false)
   const [userOpened, setUserOpened] = useState<UsersFormat>(null)
-  const [
-    facilitadorData,
-    setFacilitadorData
-  ] = useState<FacilitadorDataProps | null>()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [userToDelete, setUserToDelete] = useState<number | null>()
 
   const { addToast } = useToast()
-
-  useEffect(() => {
-    facilitador &&
-      api.get(`facilitadores/${facilitador.id}`).then(response => {
-        console.log('facilitador resposta', response.data)
-        setFacilitadorData(response.data)
-      })
-    // console.log('usuario entrou', user, index)
-  }, [facilitador])
+  const { removeFacilitadorFromGroup } = useAdmin()
 
   const handleOpenEdit = userId => {
     api.get(`users/${userId}`).then(response => {
@@ -101,7 +80,8 @@ export default function GroupItem({
 
   const handleConfirmDialog = async () => {
     try {
-      await handleRemoveFacilitador(userToDelete)
+      // await handleRemoveFacilitador(userToDelete)
+      await removeFacilitadorFromGroup(userToDelete, group)
 
       addToast({
         type: 'success',
@@ -124,33 +104,6 @@ export default function GroupItem({
   const handleCancelDialog = () => {
     setDialogOpen(false)
     setUserToDelete(null)
-  }
-
-  const handleRemoveFacilitador = async userId => {
-    // console.log('remove facilitador', userId, group)
-    api
-      .get('grupos', {
-        params: {
-          nome_abreviado: group
-        }
-      })
-      .then(response => {
-        // console.log('grupo chamado', response.data)
-        // eslint-disable-next-line array-callback-return
-        const newFacilitadores = response.data[0].facilitadores.filter(user => {
-          if (user.id !== userId) return user
-        })
-        // console.log('usuario', newFacilitadores)
-        return [response.data[0].id, newFacilitadores]
-      })
-      .then(response => {
-        // console.log(response)
-        api
-          .put(`grupos/${response[0]}`, {
-            facilitadores: response[1]
-          })
-          .then(response => console.log('resposta final', response))
-      })
   }
 
   return (
@@ -215,25 +168,19 @@ export default function GroupItem({
           )}
         </Draggable>
       )}
-      {facilitadorData && (
+      {facilitador && (
         <Container>
           <Accordion>
             <AccordionSummary className="AccordionSummary">
               <Avatar
                 src={
-                  facilitadorData.nome_usuario.avatar &&
-                  process.env.NEXT_PUBLIC_API_URL.concat(
-                    facilitadorData.nome_usuario.avatar.url
-                  )
+                  facilitador.avatar &&
+                  process.env.NEXT_PUBLIC_API_URL.concat(facilitador.avatar.url)
                 }
                 alt="Profile Image"
               />
               <div className="profileUser">
-                <h4>
-                  {facilitadorData.nome_usuario.username
-                    ? facilitadorData.nome_usuario.username
-                    : 'SemNome'}
-                </h4>
+                <h4>{facilitador.nome ? facilitador.nome : 'SemNome'}</h4>
                 <span>Facilitador</span>
               </div>
             </AccordionSummary>
@@ -241,7 +188,7 @@ export default function GroupItem({
               <Grid container spacing={1}>
                 <Grid item xs>
                   <IconButton
-                    onClick={() => handleOpenConfirmation(facilitadorData.id)}
+                    onClick={() => handleOpenConfirmation(facilitador.id)}
                   >
                     <HighlightOff color="secondary" />
                   </IconButton>

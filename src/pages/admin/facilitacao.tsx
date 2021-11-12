@@ -1,19 +1,24 @@
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Admin from '../../layouts/Admin'
 
 import { Container, Content } from '../../styles/pages/admin/facilitacao'
 import AdminUsers from '../../components/AdminTabs/AdminUsers/AdminUsers'
 import AdminGroups from '../../components/AdminTabs/AdminGroups/AdminGroups'
-import { parseCookies } from 'nookies'
 import { DragDropContext } from 'react-beautiful-dnd'
+import { useAdmin } from '../../hooks/admin'
 
-function Facilitacao({ response: userList }) {
+function Facilitacao() {
   const [value, setValue] = useState(0)
+  const { getGroupsData } = useAdmin()
   // https://missao-rama-sistema.vercel.app/
   const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    getGroupsData()
+  }, [])
 
   // useEffect(() => {
   //   console.log('userList', userList)
@@ -72,27 +77,27 @@ function Facilitacao({ response: userList }) {
 
 Facilitacao.layout = Admin
 
-export async function getServerSideProps(context) {
-  const jwt = parseCookies(context).jwt
+// export async function getServerSideProps(context) {
+//   const jwt = parseCookies(context).jwt
 
-  const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${jwt}`
-    }
-  })
+//   const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+//     method: 'GET',
+//     headers: {
+//       Accept: 'application/json',
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${jwt}`
+//     }
+//   })
 
-  const response = await login.json()
+//   const response = await login.json()
 
-  console.log('users', response)
+//   console.log('users', response)
 
-  return {
-    props: {
-      response
-    }
-  }
-}
+//   return {
+//     props: {
+//       response
+//     }
+//   }
+// }
 
 export default Facilitacao

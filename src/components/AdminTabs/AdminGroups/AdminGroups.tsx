@@ -1,62 +1,24 @@
 import { FormControlLabel, Grid, Switch } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import api from '../../../services/api'
+import { useAdmin } from '../../../hooks/admin'
 import GroupCard from '../components/GroupCard/GroupCard'
 import { Container, Header, Content } from './styles'
 
 // import { Container } from './styles';
 
-export interface facilitadorProps {
-  id: number
-  nome: string
-  nome_usuario: number
-}
-
-interface avatarProps {
-  id: number
-  url: string
-}
-
-export interface userProps {
-  id: number
-  username: string
-  Cidade: string
-  Estado: string
-  Nacimento: string
-  avatar: avatarProps
-  blocked: boolean
-  confirmed: boolean
-  email: string
-  endereco: string
-  endereco_adicional: string
-  ex_participante: boolean
-  funcao: number
-  grupo: number
-  nome_completo: string
-  role: number
-  telefone: string
-}
-
-export interface groupsProps {
-  id: number
-  facilitadores: facilitadorProps[]
-  nome: string
-  nome_abreviado: string
-  users: userProps[]
-}
-
 function AdminGroups() {
   // const [data, setData] = useState({ username: 'luan' })
-  const [groups, setGroups] = useState<null | groupsProps[]>()
   const [wrapState, setWrapState] = useState<boolean>(false)
 
-  useEffect(() => {
-    api.get('grupos').then(response => {
-      // console.log('resposta', response.data)
-      setGroups(response.data)
-    })
-  }, [setGroups])
+  const { groups } = useAdmin()
+
+  // useEffect(() => {
+  //   api.get('grupos').then(response => {
+  //     // console.log('resposta', response.data)
+  //     setGroups(response.data)
+  //   })
+  // }, [setGroups])
 
   function handleWrap() {
     setWrapState(!wrapState)
