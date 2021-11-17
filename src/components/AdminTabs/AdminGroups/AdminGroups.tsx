@@ -11,7 +11,7 @@ function AdminGroups() {
   // const [data, setData] = useState({ username: 'luan' })
   const [wrapState, setWrapState] = useState<boolean>(false)
 
-  const { groups } = useAdmin()
+  const { groupsContext } = useAdmin()
 
   // useEffect(() => {
   //   api.get('grupos').then(response => {
@@ -49,8 +49,8 @@ function AdminGroups() {
             alignItems="flex-start"
             wrap={wrapState === true ? 'wrap' : 'nowrap'}
           >
-            {groups &&
-              groups.map(element => {
+            {groupsContext &&
+              groupsContext.map(element => {
                 // console.log('element', element)
                 return (
                   <Droppable

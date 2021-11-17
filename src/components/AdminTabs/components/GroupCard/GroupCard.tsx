@@ -6,9 +6,9 @@ import {
   Divider
 } from '@material-ui/core'
 import React from 'react'
-import { MoreVert } from '@material-ui/icons'
+import { AddCircleOutlineRounded, MoreVert } from '@material-ui/icons'
 
-import { Container, CardDnd, SectionTitle } from './styles'
+import { Container, CardDnd, SectionTitle, SpaceNull } from './styles'
 import GroupItem from '../GroupItem/GroupItem'
 import { GroupsData } from '../../../../hooks/admin'
 
@@ -31,10 +31,15 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
           title={data.nome}
           subheader={data.users.length.toString().concat(' Integrantes')}
         />
-        <SectionTitle>Facilitadores:</SectionTitle>
+        <div className="sectionDiv">
+          <SectionTitle>Facilitadores:</SectionTitle>
+          <IconButton size="small">
+            <AddCircleOutlineRounded fontSize="small" />
+          </IconButton>
+        </div>
         <Divider />
         {facilitadores.length === 0 ? (
-          <div>Usuario vazio</div>
+          <SpaceNull>Sem facilitador</SpaceNull>
         ) : (
           facilitadores.map((facilitador, index) => {
             return (
@@ -47,10 +52,15 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
             )
           })
         )}
-        <SectionTitle>Integrantes:</SectionTitle>
+        <div className="sectionDiv">
+          <SectionTitle>Integrantes:</SectionTitle>
+          <IconButton size="small">
+            <AddCircleOutlineRounded fontSize="small" />
+          </IconButton>
+        </div>
         <Divider />
         {users.length === 0 ? (
-          <div>Usuario vazio</div>
+          <SpaceNull>Sem Usuário</SpaceNull>
         ) : (
           users.map((user, index) => {
             return (

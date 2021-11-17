@@ -40,7 +40,7 @@ export default function GroupItem({
   const [userToDelete, setUserToDelete] = useState<number | null>()
 
   const { addToast } = useToast()
-  const { removeFacilitadorFromGroup } = useAdmin()
+  const { removeFacilitadorFromGroup, groupsContext } = useAdmin()
 
   const handleOpenEdit = userId => {
     api.get(`users/${userId}`).then(response => {
@@ -80,14 +80,7 @@ export default function GroupItem({
 
   const handleConfirmDialog = async () => {
     try {
-      // await handleRemoveFacilitador(userToDelete)
-      await removeFacilitadorFromGroup(userToDelete, group)
-
-      addToast({
-        type: 'success',
-        title: `O facilitador foi removido com sucesso`,
-        description: ''
-      })
+      await removeFacilitadorFromGroup(userToDelete, group, groupsContext)
 
       setDialogOpen(false)
       setUserToDelete(null)
@@ -188,6 +181,7 @@ export default function GroupItem({
               <Grid container spacing={1}>
                 <Grid item xs>
                   <IconButton
+                    size="small"
                     onClick={() => handleOpenConfirmation(facilitador.id)}
                   >
                     <HighlightOff color="secondary" />

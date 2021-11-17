@@ -62,10 +62,14 @@ interface DeleteUserCredentials {
 }
 
 interface AuthContextData {
-  groups: GroupsData[]
-  setGroups: Dispatch<SetStateAction<GroupsData[]>>
+  groupsContext: GroupsData[]
+  setGroupsContext: Dispatch<SetStateAction<GroupsData[]>>
   getGroupsData(): Promise<void>
-  removeFacilitadorFromGroup(userID: number, group: string): Promise<void>
+  removeFacilitadorFromGroup(
+    userID: number,
+    group: string,
+    allGroups: GroupsData[]
+  ): Promise<void>
   updateUser(
     currentUser: previousUserCredentials,
     updatedUser: UserUpdateCredentials
@@ -77,7 +81,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 function AdminProvider({ children }) {
   const { addToast } = useToast()
-  const [groups, setGroups] = useState<GroupsData[]>()
+  const [groupsContext, setGroupsContext] = useState<GroupsData[]>()
 
   const getGroupsData = useCallback(async () => {
     const response = await api.get('grupos', {
@@ -86,61 +90,79 @@ function AdminProvider({ children }) {
         'Content-Type': 'application/json'
       }
     })
-
-    setGroups(response.data)
+    setGroupsContext(response.data)
   }, [])
 
-  const removeFacilitadorFromGroup = useCallback(async (userId, group) => {
-    const groupResponse = await api.get('grupos', {
-      params: {
-        nome_abreviado: group
-      }
-    })
-    // console.log('groupResponse', groupResponse)
-    const facilitadorExist = groupResponse.data[0].facilitadores.find(
-      user => user.id === userId
-    )
-
-    // console.log('facilitadorExist', facilitadorExist)
-    if (!facilitadorExist) {
-      addToast({
-        type: 'error',
-        title: 'Erro ao remover o facilitador',
-        description: `O facilitador já se encontra removido, favor verificar`
-      })
-      return
-    }
-
-    const newFacilitadores = groupResponse.data[0].facilitadores.filter(
-      // eslint-disable-next-line array-callback-return
-      user => {
-        if (user.id !== userId) return user
-      }
-    )
-    // console.log('newFacilitadores', newFacilitadores)
-
-    await api
-      .put(`grupos/${groupResponse.data[0].id}`, {
-        facilitadores: newFacilitadores
-      })
-      .then(response => {
-        // console.log('response', response)
-        if (response.status === 200) {
-          const newGroupsValue = groups.map(element => {
-            if (element.id === response.data.id) {
-              element.facilitadores = response.data.facilitadores
-              return element
-            } else {
-              return element
-            }
-          })
-          // console.log('final', newGroupsValue)
-          setGroups(newGroupsValue)
+  const removeFacilitadorFromGroup = useCallback(
+    async (userId, group, allGroups) => {
+      const groupResponse = await api.get('grupos', {
+        params: {
+          nome_abreviado: group
         }
       })
+      const facilitadorExist = groupResponse.data[0].facilitadores.find(
+        user => user.id === userId
+      )
 
-    // console.log('updateResponse', updateResponse)
-  }, [])
+      if (!facilitadorExist) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao remover o facilitador',
+          description: `O facilitador já se encontra removido, favor verificar`
+        })
+        return
+      }
+
+      const newFacilitadores = groupResponse.data[0].facilitadores.filter(
+        // eslint-disable-next-line array-callback-return
+        user => {
+          if (user.id !== userId) return user
+        }
+      )
+
+      await api
+        .put(
+          `grupos/${groupResponse.data[0].id}`,
+          {
+            facilitadores: newFacilitadores
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        .then(response => {
+          if (response.status === 200) {
+            const newGroupsValue = allGroups.map(element => {
+              if (element.id === response.data.id) {
+                element.facilitadores = response.data.facilitadores
+                return element
+              } else {
+                return element
+              }
+            })
+            setGroupsContext(newGroupsValue)
+
+            if (newGroupsValue) {
+              addToast({
+                type: 'success',
+                title: `O facilitador foi removido com sucesso`,
+                description: ''
+              })
+            } else {
+              addToast({
+                type: 'error',
+                title: 'Erro ao remover o facilitador',
+                description: `Houve um erro ao remover o facilitador, recarregue a página e tente novamente.`
+              })
+            }
+          }
+        })
+    },
+    []
+  )
 
   const updateUser = useCallback(async (currentUser, updatedUser) => {
     // console.log('User', currentUser)
@@ -200,8 +222,8 @@ function AdminProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        groups,
-        setGroups,
+        groupsContext,
+        setGroupsContext,
         getGroupsData,
         removeFacilitadorFromGroup,
         updateUser,
