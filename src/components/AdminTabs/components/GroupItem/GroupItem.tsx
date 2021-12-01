@@ -73,7 +73,7 @@ export default function GroupItem({
     })
   }
 
-  const handleOpenConfirmation = userId => {
+  const handleOpenConfirmation = (userId: number) => {
     setDialogOpen(true)
     setUserToDelete(userId)
   }

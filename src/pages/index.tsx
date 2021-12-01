@@ -19,7 +19,7 @@ import {
   FaWhatsapp
 } from 'react-icons/fa'
 import { FiMessageSquare } from 'react-icons/fi'
-import logoImg from '../assets/images/logo.gif'
+import logoImg from '../assets/images/converted-logo.png'
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
 import {
