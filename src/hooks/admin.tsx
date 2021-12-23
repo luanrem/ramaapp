@@ -7,6 +7,7 @@ import {
   useState
 } from 'react'
 import api from '../services/api'
+import { User } from './auth'
 import { useToast } from './toast'
 
 export interface GroupUsersData {
@@ -29,6 +30,22 @@ export interface GroupFacilitadoresData {
     id: number
     url: string
   }
+}
+
+export interface FacilitadorGroups {
+  id: number
+  nome: string
+  data_inicial: string
+  nome_abreviado: string
+  whatsapp_link: string
+  picture: string
+}
+
+export interface FacilitadorData {
+  id: number
+  nome_usuario: User
+  nome: string
+  grupos_que_facilita: FacilitadorGroups[]
 }
 
 export interface GroupsData {
@@ -63,11 +80,18 @@ interface DeleteUserCredentials {
 
 interface AuthContextData {
   groupsContext: GroupsData[]
+  facilitadoresContext: FacilitadorData[]
   setGroupsContext: Dispatch<SetStateAction<GroupsData[]>>
   getGroupsData(): Promise<void>
+  getFacilitadoresData(): Promise<void>
   removeFacilitadorFromGroup(
     userID: number,
     group: string,
+    allGroups: GroupsData[]
+  ): Promise<void>
+  addFacilitadorToGroup(
+    facilitadorId: number,
+    groupId: number,
     allGroups: GroupsData[]
   ): Promise<void>
   updateUser(
@@ -82,6 +106,19 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 function AdminProvider({ children }) {
   const { addToast } = useToast()
   const [groupsContext, setGroupsContext] = useState<GroupsData[]>()
+  const [facilitadoresContext, setFacilitadoresContext] = useState<
+    FacilitadorData[]
+  >()
+
+  const getFacilitadoresData = useCallback(async () => {
+    const response = await api.get('facilitadores', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    setFacilitadoresContext(response.data)
+  }, [])
 
   const getGroupsData = useCallback(async () => {
     const response = await api.get('grupos', {
@@ -164,6 +201,66 @@ function AdminProvider({ children }) {
     []
   )
 
+  const addFacilitadorToGroup = useCallback(
+    async (facilitadorId, groupId, allGroups) => {
+      console.log('dados', facilitadorId, groupId)
+      const groupResponse = await api.get(`grupos?id=${groupId}`)
+
+      const facilitadorExist = groupResponse.data[0].facilitadores.find(
+        user => user.id === facilitadorId
+      )
+
+      if (facilitadorExist) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao adicionar o facilitador',
+          description: `O facilitador já se encontra no grupo, favor verificar`
+        })
+        return
+      }
+
+      await api
+        .put(`grupos/${groupId}`, {
+          facilitadores: [
+            ...groupResponse.data[0].facilitadores,
+            {
+              id: facilitadorId
+            }
+          ]
+        })
+        .then(response => {
+          if (response.status === 200) {
+            const newGroupsValue = allGroups.map(element => {
+              if (element.id === response.data.id) {
+                element.facilitadores = response.data.facilitadores
+                return element
+              } else {
+                return element
+              }
+            })
+            setGroupsContext(newGroupsValue)
+
+            if (newGroupsValue) {
+              addToast({
+                type: 'success',
+                title: `O facilitador foi removido com sucesso`,
+                description: ''
+              })
+            } else {
+              addToast({
+                type: 'error',
+                title: 'Erro ao remover o facilitador',
+                description: `Houve um erro ao remover o facilitador, recarregue a página e tente novamente.`
+              })
+            }
+          }
+        })
+
+      // console.log('gruposquefacilita', facilitadorGroups)
+    },
+    []
+  )
+
   const updateUser = useCallback(async (currentUser, updatedUser) => {
     // console.log('User', currentUser)
     // console.log('updatedUser', updatedUser)
@@ -223,9 +320,12 @@ function AdminProvider({ children }) {
     <AuthContext.Provider
       value={{
         groupsContext,
+        facilitadoresContext,
         setGroupsContext,
         getGroupsData,
+        getFacilitadoresData,
         removeFacilitadorFromGroup,
+        addFacilitadorToGroup,
         updateUser,
         deleteUser
       }}

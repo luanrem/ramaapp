@@ -10,7 +10,7 @@ import { AddCircleOutlineRounded, MoreVert } from '@material-ui/icons'
 
 import { Container, CardDnd, SectionTitle, SpaceNull } from './styles'
 import GroupItem from '../GroupItem/GroupItem'
-import { GroupsData } from '../../../../hooks/admin'
+import { GroupsData, useAdmin } from '../../../../hooks/admin'
 import { useToast } from '../../../../hooks/toast'
 import DialogSelectUser from '../DialogSelectUser/DialogSelectUser'
 
@@ -21,18 +21,26 @@ interface GroupCardDTO extends CardProps {
 export default function GroupCard({ data, ...rest }: GroupCardDTO) {
   const { facilitadores, users } = data
   const [dialogOpen, setDialogOpen] = useState(false)
-  const { addToast } = useToast()
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null)
 
-  const handleOpenFacilitadorSelect = name => {
-    console.log('teste', name)
+  const { addToast } = useToast()
+  const { addFacilitadorToGroup, groupsContext } = useAdmin()
+
+  const handleOpenFacilitadorSelect = (selectedGroupId: number) => {
+    // console.log('selectedGroupId', selectedGroupId)
+    setSelectedGroup(selectedGroupId)
     setDialogOpen(true)
   }
 
-  const handleConfirmDialog = async () => {
+  const handleConfirmDialog = async (facilitadorId: number) => {
     try {
       // await removeFacilitadorFromGroup(userToDelete, group, groupsContext)
       // setDialogOpen(false)
       // setUserToDelete(null)
+      await addFacilitadorToGroup(facilitadorId, selectedGroup, groupsContext)
+
+      setDialogOpen(false)
+      setSelectedGroup(null)
     } catch (err) {
       addToast({
         type: 'error',
@@ -63,7 +71,7 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
         <div className="sectionDiv">
           <SectionTitle>Facilitadores:</SectionTitle>
           <IconButton
-            onClick={() => handleOpenFacilitadorSelect(data.nome)}
+            onClick={() => handleOpenFacilitadorSelect(data.id)}
             size="small"
           >
             <AddCircleOutlineRounded fontSize="small" />

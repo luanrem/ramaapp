@@ -10,7 +10,7 @@ import { useAdmin } from '../../hooks/admin'
 
 function Facilitacao() {
   const [value, setValue] = useState(0)
-  const { getGroupsData } = useAdmin()
+  const { getGroupsData, getFacilitadoresData } = useAdmin()
   // https://missao-rama-sistema.vercel.app/
   const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
@@ -18,6 +18,7 @@ function Facilitacao() {
 
   useEffect(() => {
     getGroupsData()
+    getFacilitadoresData()
   }, [])
 
   // useEffect(() => {

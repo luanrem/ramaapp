@@ -5,7 +5,7 @@ import routes from '../routes/routes'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 
-interface Group {
+export interface Group {
   created_at: string
   data_inicial: string
   id: number
@@ -13,14 +13,14 @@ interface Group {
   nome_abreviado: string
 }
 
-interface Role {
+export interface Role {
   description: string
   id: number
   name: string
   type: string
 }
 
-interface User {
+export interface User {
   avatar: {
     url: string
   }

@@ -3,7 +3,6 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogProps,
   DialogTitle,
   FormControl,
   InputLabel,
@@ -11,11 +10,12 @@ import {
   Select
 } from '@material-ui/core'
 import React, { useState } from 'react'
+import { useAdmin } from '../../../../hooks/admin'
 
 import { ContainerDialog, ContainerBox } from './styles'
 
 interface DialogSelectUserProps {
-  handleConfirm: (string) => void
+  handleConfirm: (data: number) => void
   handleCancel: () => void
   open: boolean
   titleText: string
@@ -24,10 +24,11 @@ interface DialogSelectUserProps {
 
 export default function DialogSelectUser(props: DialogSelectUserProps) {
   const { handleConfirm, handleCancel, open, titleText, commentText } = props
-  const [facilitadorSelected, setFacilitadorSelected] = useState<DialogProps>()
+  const [facilitadorSelected, setFacilitadorSelected] = useState<number>()
+  const { facilitadoresContext } = useAdmin()
 
   const handleFacilitadorSelectedChange = event => {
-    console.log('Chegou aqui', event.target)
+    // console.log('Chegou aqui', event.target)
     setFacilitadorSelected(event.target.value)
     // setMaxWidth(
     //   // @ts-expect-error autofill of arbitrary value is not handled.
@@ -59,11 +60,14 @@ export default function DialogSelectUser(props: DialogSelectUserProps) {
                 id: 'facilitador'
               }}
             >
-              <MenuItem value="Luan">Luan</MenuItem>
-              <MenuItem value="Camila">Camila</MenuItem>
-              <MenuItem value="Teste">Teste</MenuItem>
-              <MenuItem value="Catia">Catia</MenuItem>
-              <MenuItem value="Cristina">Cristina</MenuItem>
+              {facilitadoresContext &&
+                facilitadoresContext.map((facilitador, index) => {
+                  return (
+                    <MenuItem key={index} value={facilitador.id}>
+                      {facilitador.nome}
+                    </MenuItem>
+                  )
+                })}
             </Select>
           </FormControl>
         </ContainerBox>
@@ -71,7 +75,10 @@ export default function DialogSelectUser(props: DialogSelectUserProps) {
           <Button onClick={handleCancel} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleConfirm} color="primary">
+          <Button
+            onClick={() => handleConfirm(facilitadorSelected)}
+            color="primary"
+          >
             Confirmar
           </Button>
         </DialogActions>
