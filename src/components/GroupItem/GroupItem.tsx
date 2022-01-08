@@ -13,9 +13,9 @@ import {
   GroupFacilitadoresData,
   GroupUsersData,
   useAdmin
-} from '../../../../hooks/admin'
-import { useToast } from '../../../../hooks/toast'
-import api from '../../../../services/api'
+} from '../../hooks/admin'
+import { useToast } from '../../hooks/toast'
+import api from '../../services/api'
 import DialogConfirmation from '../DialogConfirmation/DialogConfirmation'
 import DialogUserEdit, { UsersFormat } from '../DialogUserEdit/DialogUserEdit'
 

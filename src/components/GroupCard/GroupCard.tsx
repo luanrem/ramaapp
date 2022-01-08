@@ -10,8 +10,8 @@ import { AddCircleOutlineRounded, MoreVert } from '@material-ui/icons'
 
 import { Container, CardDnd, SectionTitle, SpaceNull } from './styles'
 import GroupItem from '../GroupItem/GroupItem'
-import { GroupsData, useAdmin } from '../../../../hooks/admin'
-import { useToast } from '../../../../hooks/toast'
+import { GroupsData, useAdmin } from '../../hooks/admin'
+import { useToast } from '../../hooks/toast'
 import DialogSelectUser from '../DialogSelectUser/DialogSelectUser'
 
 interface GroupCardDTO extends CardProps {

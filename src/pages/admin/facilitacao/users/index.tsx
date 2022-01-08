@@ -15,7 +15,7 @@ import {
   TableRow
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import api from '../../../services/api'
+import api from '../../../../services/api'
 import { filter } from 'lodash'
 
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
@@ -23,17 +23,21 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import EditIcon from '@material-ui/icons/Edit'
 
 import { Container } from './styles'
-import UserListToolbar from '../components/UserListToolbar/UserListToolbar'
+import UserListToolbar from '../../../../components/UserListToolbar/UserListToolbar'
 import {
   EnhancedTableHead,
   UserListFormat,
   Order
-} from '../components/EnhancedTableHead/EnhancedTableHead'
+} from '../../../../components/EnhancedTableHead/EnhancedTableHead'
 import DialogUserEdit, {
   UsersFormat
-} from '../components/DialogUserEdit/DialogUserEdit'
+} from '../../../../components/DialogUserEdit/DialogUserEdit'
 
-function AdminUsers() {
+import { Content } from '../../../../styles/pages/admin/facilitacao'
+import Facilitacao from '../../../../layouts/facilitacao'
+import Admin from '../../../../layouts/Admin'
+
+function Users() {
   // TODO[epic=project] Create add user Function
   const [users, setUsers] = useState<UsersFormat[]>()
   const [userOpenEdit, setUserOpenEdit] = useState(false)
@@ -197,94 +201,101 @@ function AdminUsers() {
   }
 
   return (
-    <Container>
-      <Card>
-        <UserListToolbar
-          numSelected={selected.length}
-          selectedUsers={selected}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
-        />
-        <Divider />
-        <TableContainer>
-          <Table>
-            {filteredUsers && (
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={filteredUsers.length}
-              />
-            )}
-            <TableBody>
-              {filteredUsers &&
-                stableSort(filteredUsers, getComparator(order, orderBy)).map(
-                  row => {
-                    const { id, nome_completo, avatar_url } = row
-                    const isItemSelected = selected.indexOf(id) !== -1
-                    const group = row.grupo ? row.grupo : 'SEM GRUPO'
-                    const userFunction = row.function
-                      ? row.function
-                      : 'SEM FUNÇÃO'
-                    return (
-                      <TableRow
-                        hover
-                        // onClick={event => handleClick(event, Number(id))}
-                        key={Number(id)}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                      >
-                        <TableCell>
-                          <Checkbox
-                            checked={isItemSelected}
-                            onChange={event => handleClick(event, Number(id))}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Avatar
-                            alt={String(nome_completo)}
-                            src={String(avatar_url)}
-                          />
-                        </TableCell>
-                        <TableCell>{row.id}</TableCell>
-                        <TableCell>{row.username}</TableCell>
-                        <TableCell>{row.nome_completo}</TableCell>
-                        <TableCell>{group}</TableCell>
-                        <TableCell>
-                          {row.blocked ? (
-                            <HighlightOffIcon color="error" />
-                          ) : (
-                            <CheckCircleOutlineIcon color="primary" />
-                          )}
-                        </TableCell>
-                        <TableCell>{userFunction}</TableCell>
-                        <TableCell>
-                          <Button onClick={() => handleOpenEdit(id)}>
-                            <EditIcon />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  }
+    <Facilitacao>
+      <Content>
+        <Container>
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              selectedUsers={selected}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+            />
+            <Divider />
+            <TableContainer>
+              <Table>
+                {filteredUsers && (
+                  <EnhancedTableHead
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={filteredUsers.length}
+                  />
                 )}
-              <TableRow className="TableFooter">
-                Total: {usersList && usersList.length}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+                <TableBody>
+                  {filteredUsers &&
+                    stableSort(
+                      filteredUsers,
+                      getComparator(order, orderBy)
+                    ).map(row => {
+                      const { id, nome_completo, avatar_url } = row
+                      const isItemSelected = selected.indexOf(id) !== -1
+                      const group = row.grupo ? row.grupo : 'SEM GRUPO'
+                      const userFunction = row.function
+                        ? row.function
+                        : 'SEM FUNÇÃO'
+                      return (
+                        <TableRow
+                          hover
+                          // onClick={event => handleClick(event, Number(id))}
+                          key={Number(id)}
+                          tabIndex={-1}
+                          role="checkbox"
+                          selected={isItemSelected}
+                        >
+                          <TableCell>
+                            <Checkbox
+                              checked={isItemSelected}
+                              onChange={event => handleClick(event, Number(id))}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Avatar
+                              alt={String(nome_completo)}
+                              src={String(avatar_url)}
+                            />
+                          </TableCell>
+                          <TableCell>{row.id}</TableCell>
+                          <TableCell>{row.username}</TableCell>
+                          <TableCell>{row.nome_completo}</TableCell>
+                          <TableCell>{group}</TableCell>
+                          <TableCell>
+                            {row.blocked ? (
+                              <HighlightOffIcon color="error" />
+                            ) : (
+                              <CheckCircleOutlineIcon color="primary" />
+                            )}
+                          </TableCell>
+                          <TableCell>{userFunction}</TableCell>
+                          <TableCell>
+                            <Button onClick={() => handleOpenEdit(id)}>
+                              <EditIcon />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  <TableRow className="TableFooter">
+                    Total: {usersList && usersList.length}
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Card>
 
-      <DialogUserEdit
-        user={userOpened}
-        open={userOpenEdit}
-        handleOpen={setUserOpenEdit}
-      />
-    </Container>
+          <DialogUserEdit
+            user={userOpened}
+            open={userOpenEdit}
+            handleOpen={setUserOpenEdit}
+          />
+        </Container>
+      </Content>
+    </Facilitacao>
   )
 }
 
-export default AdminUsers
+Users.layout = Admin
+
+export default Users

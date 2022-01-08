@@ -1,19 +1,38 @@
 import { AppBar, Tabs, Tab } from '@material-ui/core'
+import Link from 'next/link'
 import { ChangeEvent, useEffect, useState } from 'react'
-import Admin from '../../layouts/Admin'
+// import Admin from './Admin'
 
-import { Container, Content } from '../../styles/pages/admin/facilitacao'
-import AdminUsers from '../../components/AdminTabs/AdminUsers/AdminUsers'
-import AdminGroups from '../../components/AdminTabs/AdminGroups/AdminGroups'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useAdmin } from '../../hooks/admin'
+import { useAdmin } from '../hooks/admin'
+import { Content, Container } from '../styles/layouts/Admin'
+import { useRouter } from 'next/router'
 
-function Facilitacao() {
+function Facilitacao({ children }) {
   const [value, setValue] = useState(0)
   const { getGroupsData, getFacilitadoresData } = useAdmin()
+  const router = useRouter()
+
+  useEffect(() => {
+    const path = router.pathname.replace('/admin/facilitacao/', '')
+    console.log('esse e o valor', router.pathname)
+    console.log('esse e o valor', path)
+    switch (router.pathname) {
+      case '/admin/facilitacao/users':
+        setValue(0)
+        break
+      case '/admin/facilitacao/groups':
+        setValue(1)
+        break
+      case '/admin/facilitacao/events':
+        setValue(2)
+        break
+    }
+  }, [router.pathname, value])
+
   // https://missao-rama-sistema.vercel.app/
   const handleTabChange = (event: ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue)
+    // setValue(newValue)
   }
 
   useEffect(() => {
@@ -47,36 +66,24 @@ function Facilitacao() {
               scrollButtons="auto"
               aria-label="scrollable auto tabs example"
             >
-              <Tab label="Usuários" />
-              <Tab label="Grupos" />
+              <Link href="users">
+                <Tab label="Usuários" />
+              </Link>
+              <Link href="groups">
+                <Tab label="Grupos" />
+              </Link>
               <Tab label="Eventos" />
             </Tabs>
           </AppBar>
-
-          <Content>
-            {(() => {
-              switch (value) {
-                case 0:
-                  return <AdminUsers />
-
-                case 1:
-                  return <AdminGroups />
-
-                case 2:
-                  return <div>Teste</div>
-
-                default:
-                  return <div>You are a User.</div>
-              }
-            })()}
-          </Content>
+          {console.log('renderizando')}
+          <Content>{children}</Content>
         </div>
       </Container>
     </DragDropContext>
   )
 }
 
-Facilitacao.layout = Admin
+// Facilitacao.layout = Admin
 
 // export async function getServerSideProps(context) {
 //   const jwt = parseCookies(context).jwt

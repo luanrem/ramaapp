@@ -79,6 +79,8 @@ interface DeleteUserCredentials {
 }
 
 interface AuthContextData {
+  tabValue: number
+  setTabvalue: Dispatch<SetStateAction<number>>
   groupsContext: GroupsData[]
   facilitadoresContext: FacilitadorData[]
   setGroupsContext: Dispatch<SetStateAction<GroupsData[]>>
@@ -109,6 +111,7 @@ function AdminProvider({ children }) {
   const [facilitadoresContext, setFacilitadoresContext] = useState<
     FacilitadorData[]
   >()
+  const [tabValue, setTabvalue] = useState(0)
 
   const getFacilitadoresData = useCallback(async () => {
     const response = await api.get('facilitadores', {
@@ -319,6 +322,8 @@ function AdminProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
+        tabValue,
+        setTabvalue,
         groupsContext,
         facilitadoresContext,
         setGroupsContext,

@@ -10,7 +10,7 @@ import {
   Select
 } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useAdmin } from '../../../../hooks/admin'
+import { useAdmin } from '../../hooks/admin'
 
 import { ContainerDialog, ContainerBox } from './styles'
 

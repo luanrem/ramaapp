@@ -10,8 +10,8 @@ import {
 import { Container } from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
-import { useAdmin } from '../../../../hooks/admin'
-import { useToast } from '../../../../hooks/toast'
+import { useAdmin } from '../../hooks/admin'
+import { useToast } from '../../hooks/toast'
 import { useState } from 'react'
 import DialogConfirmationWithText from '../DialogConfirmationWithText/DialogConfirmationWithText'
 
