@@ -1,9 +1,13 @@
-export default function facilitacao({ Component, pageProps }) {
-  const Layout = Component.layout || (({ children }) => <>{children}</>)
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-  return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  )
+function FacilitacaoIndex() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('facilitacao/users')
+  }, [router])
+  return <></>
 }
+
+export default FacilitacaoIndex
