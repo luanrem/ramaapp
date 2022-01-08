@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useAdmin } from '../hooks/admin'
-import { Content, Container } from '../styles/layouts/Admin'
+import { Content, Container } from '../styles/layouts/facilitacao'
 import { useRouter } from 'next/router'
 
 function Facilitacao({ children }) {

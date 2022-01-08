@@ -11,16 +11,9 @@ import Admin from '../../../../layouts/Admin'
 
 function Groups() {
   // const [data, setData] = useState({ username: 'luan' })
-  const [wrapState, setWrapState] = useState<boolean>(false)
+  const [wrapState, setWrapState] = useState<boolean>(true)
 
   const { groupsContext } = useAdmin()
-
-  // useEffect(() => {
-  //   api.get('grupos').then(response => {
-  //     // console.log('resposta', response.data)
-  //     setGroups(response.data)
-  //   })
-  // }, [setGroups])
 
   function handleWrap() {
     setWrapState(!wrapState)
