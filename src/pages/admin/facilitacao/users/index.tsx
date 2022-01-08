@@ -33,7 +33,7 @@ import DialogUserEdit, {
   UsersFormat
 } from '../../../../components/DialogUserEdit/DialogUserEdit'
 
-import { Content } from '../../../../styles/pages/admin/facilitacao'
+import { Content } from '../../../../styles/layouts/facilitacao'
 import Facilitacao from '../../../../layouts/facilitacao'
 import Admin from '../../../../layouts/Admin'
 
