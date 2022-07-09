@@ -22,7 +22,7 @@ interface DialogSelectUserProps {
   commentText: string
 }
 
-export default function DialogSelectUser(props: DialogSelectUserProps) {
+export const DialogSelectUser: React.FC<DialogSelectUserProps> = props => {
   const { handleConfirm, handleCancel, open, titleText, commentText } = props
   const [facilitadorSelected, setFacilitadorSelected] = useState<number>()
   const { facilitadoresContext } = useAdmin()
@@ -60,14 +60,7 @@ export default function DialogSelectUser(props: DialogSelectUserProps) {
                 id: 'facilitador'
               }}
             >
-              {facilitadoresContext &&
-                facilitadoresContext.map((facilitador, index) => {
-                  return (
-                    <MenuItem key={index} value={facilitador.id}>
-                      {facilitador.nome}
-                    </MenuItem>
-                  )
-                })}
+              {props.children}
             </Select>
           </FormControl>
         </ContainerBox>

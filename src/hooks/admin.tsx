@@ -246,14 +246,14 @@ function AdminProvider({ children }) {
             if (newGroupsValue) {
               addToast({
                 type: 'success',
-                title: `O facilitador foi removido com sucesso`,
+                title: `O facilitador foi adicionado com sucesso`,
                 description: ''
               })
             } else {
               addToast({
                 type: 'error',
-                title: 'Erro ao remover o facilitador',
-                description: `Houve um erro ao remover o facilitador, recarregue a página e tente novamente.`
+                title: 'Erro ao adicionar o facilitador',
+                description: `Houve um erro ao adicionar o facilitador, recarregue a página e tente novamente.`
               })
             }
           }

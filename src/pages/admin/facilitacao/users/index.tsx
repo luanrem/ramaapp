@@ -22,7 +22,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import EditIcon from '@material-ui/icons/Edit'
 
-import { Container } from './styles'
+import { Container, Content } from './styles'
 import UserListToolbar from '../../../../components/UserListToolbar/UserListToolbar'
 import {
   EnhancedTableHead,
@@ -33,7 +33,6 @@ import DialogUserEdit, {
   UsersFormat
 } from '../../../../components/DialogUserEdit/DialogUserEdit'
 
-import { Content } from '../../../../styles/layouts/facilitacao'
 import Facilitacao from '../../../../layouts/facilitacao'
 import Admin from '../../../../layouts/Admin'
 

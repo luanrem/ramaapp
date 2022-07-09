@@ -10,3 +10,5 @@ export const Container = styled.div`
 
   margin-bottom: 3rem;
 `
+
+export const Content = styled.div``

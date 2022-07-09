@@ -3,7 +3,8 @@ import {
   CardHeader,
   IconButton,
   CardProps,
-  Divider
+  Divider,
+  MenuItem
 } from '@material-ui/core'
 import React, { useState } from 'react'
 import { AddCircleOutlineRounded, MoreVert } from '@material-ui/icons'
@@ -12,7 +13,7 @@ import { Container, CardDnd, SectionTitle, SpaceNull } from './styles'
 import GroupItem from '../GroupItem/GroupItem'
 import { GroupsData, useAdmin } from '../../hooks/admin'
 import { useToast } from '../../hooks/toast'
-import DialogSelectUser from '../DialogSelectUser/DialogSelectUser'
+import { DialogSelectUser } from '../DialogSelectUser/DialogSelectUser'
 
 interface GroupCardDTO extends CardProps {
   data: GroupsData
@@ -24,10 +25,20 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null)
 
   const { addToast } = useToast()
-  const { addFacilitadorToGroup, groupsContext } = useAdmin()
+  const {
+    addFacilitadorToGroup,
+    groupsContext,
+    facilitadoresContext
+  } = useAdmin()
 
   const handleOpenFacilitadorSelect = (selectedGroupId: number) => {
     // console.log('selectedGroupId', selectedGroupId)
+    setSelectedGroup(selectedGroupId)
+    setDialogOpen(true)
+  }
+
+  const handleOpenUserSelect = (selectedGroupId: number) => {
+    console.log('selectedGroupId', selectedGroupId)
     setSelectedGroup(selectedGroupId)
     setDialogOpen(true)
   }
@@ -94,7 +105,10 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
         )}
         <div className="sectionDiv">
           <SectionTitle>Integrantes:</SectionTitle>
-          <IconButton size="small">
+          <IconButton
+            onClick={() => handleOpenUserSelect(data.id)}
+            size="small"
+          >
             <AddCircleOutlineRounded fontSize="small" />
           </IconButton>
         </div>
@@ -120,6 +134,23 @@ export default function GroupCard({ data, ...rest }: GroupCardDTO) {
         open={dialogOpen}
         titleText="Adicionar Facilitador"
         commentText="Selecione um facilitador para ser adicionado ao grupo"
+      >
+        {facilitadoresContext &&
+          facilitadoresContext.map((facilitador, index) => {
+            console.log('chegando aqui')
+            return (
+              <MenuItem key={index} value={facilitador.id}>
+                {facilitador.nome}
+              </MenuItem>
+            )
+          })}
+      </DialogSelectUser>
+      <DialogSelectUser
+        handleConfirm={handleConfirmDialog}
+        handleCancel={handleCancelDialog}
+        open={dialogOpen}
+        titleText="Adicionar Usuário"
+        commentText="Selecione um usuário para ser adicionado ao grupo"
       />
     </Container>
   )
