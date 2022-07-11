@@ -121,18 +121,26 @@ function AuthProvider({ children }) {
   const [data, setData] = useState<AuthState>(() => {
     const { jwt, user, menus, photoURL, smallPhotoURL } = parseCookies()
 
-    if (jwt && user && menus && photoURL && smallPhotoURL) {
-      api.defaults.headers.authorization = `Bearer ${jwt}`
+    let userParsed, menusParsed
+    try {
+      menusParsed = JSON.parse(menus)
+      userParsed = JSON.parse(user)
+    } catch (err) {
+      // 👇️ This runs
+      console.log('Error: ', err.message)
+    }
 
+    if (jwt && user && menus && photoURL && smallPhotoURL) {
+      api.defaults.headers.common.Authorization = `Bearer ${jwt}`
+      console.log('photo')
       return {
         token: jwt,
-        user: JSON.parse(user),
-        menus: JSON.parse(menus),
+        user: userParsed,
+        menus: menusParsed,
         photoURL,
         smallPhotoURL
       }
     }
-
     return {} as AuthState
   })
 
@@ -154,7 +162,7 @@ function AuthProvider({ children }) {
   )
 
   const signIn = useCallback(async ({ email, password }) => {
-    delete api.defaults.headers.authorization
+    delete api.defaults.headers.common.Authorization
     const response = await api.post(
       'auth/local',
       {
@@ -170,16 +178,38 @@ function AuthProvider({ children }) {
     )
 
     const { jwt: token, user } = response.data
-    // console.log('axios login', response.data)
+    console.log('user', user)
+    let photoURL
+    let smallPhotoURL = null
 
-    // console.log('resposne', response)
+    if (response.data.user.avatar !== null) {
+      photoURL = process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
 
-    const photoURL =
-      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+      smallPhotoURL =
+        process.env.NEXT_PUBLIC_API_URL +
+        response.data.user.avatar.formats.small.url
 
-    const smallPhotoURL =
-      process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.formats.small.url
+      setCookie(null, 'photoURL', photoURL, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+      setCookie(null, 'smallPhotoURL', smallPhotoURL, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+    } else {
+      photoURL = 'https://avatars.dicebear.com/api/initials/' + user.username
+      smallPhotoURL = photoURL
+
+      setCookie(null, 'photoURL', photoURL, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+      setCookie(null, 'smallPhotoURL', smallPhotoURL, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      })
+    }
 
     const menusResponse = await api.get('funcaos/me', {
       headers: {
@@ -207,22 +237,14 @@ function AuthProvider({ children }) {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
     })
-    setCookie(null, 'photoURL', photoURL, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-    setCookie(null, 'smallPhotoURL', smallPhotoURL, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
 
-    api.defaults.headers.Authorization = `Bearer ${token}`
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
 
     setData({ token, user, menus: paths, photoURL, smallPhotoURL })
   }, [])
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
-    delete api.defaults.headers.authorization
+    delete api.defaults.headers.common.Authorization
     const response = await api.post(
       // TODO[epic=project] field blocked needs to be false as default
       'auth/local/register',
@@ -292,7 +314,7 @@ function AuthProvider({ children }) {
       path: '/'
     })
 
-    api.defaults.headers.authorization = `Bearer ${token}`
+    api.defaults.headers.common.Authorization = `Bearer ${token}`
 
     setData({ token, user, menus: paths, photoURL, smallPhotoURL })
   }, [])
@@ -453,7 +475,7 @@ function AuthProvider({ children }) {
 
       const { jwt: token } = response.data
 
-      api.defaults.headers.Authorization = `Bearer ${token}`
+      api.defaults.headers.common.Authorization = `Bearer ${token}`
 
       setCookie(null, 'jwt', token, {
         maxAge: 30 * 24 * 60 * 60,

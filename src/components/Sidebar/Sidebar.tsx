@@ -9,18 +9,19 @@ export default function Sidebar() {
 
   return (
     <Container>
-      {menus.map((prop, key) => {
-        // console.log(menus);
-        return (
-          <MenuButton
-            key={key}
-            layout={prop.layout}
-            path={prop.path}
-            name={prop.name}
-            icon={prop.icon}
-          />
-        )
-      })}
+      {menus &&
+        menus.map((prop, key) => {
+          // console.log(menus);
+          return (
+            <MenuButton
+              key={key}
+              layout={prop.layout}
+              path={prop.path}
+              name={prop.name}
+              icon={prop.icon}
+            />
+          )
+        })}
       <div className="space" />
       <MenuButton
         layout="/admin"
