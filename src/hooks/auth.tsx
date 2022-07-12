@@ -183,11 +183,14 @@ function AuthProvider({ children }) {
     let smallPhotoURL = null
 
     if (response.data.user.avatar !== null) {
-      photoURL = process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+      photoURL =
+        process.env.NEXT_PUBLIC_API_URL +
+        response.data.user.avatar.url.substring(1)
 
       smallPhotoURL =
         process.env.NEXT_PUBLIC_API_URL +
-        response.data.user.avatar.formats.small.url
+        response.data.user.avatar.formats.thumbnail.url.substring(1)
+      console.log('entrou aqui', smallPhotoURL)
 
       setCookie(null, 'photoURL', photoURL, {
         maxAge: 30 * 24 * 60 * 60,
@@ -245,6 +248,8 @@ function AuthProvider({ children }) {
 
   const signUp = useCallback(async ({ username, name, email, password }) => {
     delete api.defaults.headers.common.Authorization
+    const userID = process.env.NEW_USER_FUNCTION_ID
+    console.log('id', userID)
     const response = await api.post(
       // TODO[epic=project] field blocked needs to be false as default
       'auth/local/register',
@@ -254,7 +259,7 @@ function AuthProvider({ children }) {
         email: email,
         password: password,
         funcao: {
-          id: 5
+          id: process.env.NEW_USER_FUNCTION_ID
         }
       },
       {
@@ -268,11 +273,12 @@ function AuthProvider({ children }) {
     // console.log('response', response.data)
 
     const photoURL =
-      process.env.NEXT_PUBLIC_API_URL + response.data.user.avatar.url
+      process.env.NEXT_PUBLIC_API_URL +
+      response.data.user.avatar.url.substring(1)
 
     const smallPhotoURL =
       process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.formats.small.url
+      response.data.user.avatar.formats.thumbnail.url.substring(1)
 
     // console.log('photo')
 
@@ -411,17 +417,21 @@ function AuthProvider({ children }) {
 
   const updateProfilePicture = useCallback(async form => {
     // Upload photo to repo
+    console.log('entrou aqui')
     const response = await api.post('/upload', form, {
       headers: {
         'Content-Type': 'multipart/form-data;'
       }
     })
-    // console.log('response of repo put', response)
 
-    const photoURL = process.env.NEXT_PUBLIC_API_URL + response.data[0].url
+    console.log('response of repo put')
+
+    const photoURL =
+      process.env.NEXT_PUBLIC_API_URL + response.data[0].url.substring(1)
 
     const smallPhotoURL =
-      process.env.NEXT_PUBLIC_API_URL + response.data[0].formats.small.url
+      process.env.NEXT_PUBLIC_API_URL +
+      response.data[0].formats.thumbnail.url.substring(1)
 
     setCookie(null, 'photoURL', photoURL, {
       maxAge: 30 * 24 * 60 * 60,
