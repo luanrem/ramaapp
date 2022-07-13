@@ -54,7 +54,7 @@ function Users() {
       const userList: UserListFormat[] = response.data.map(user => {
         // console.log('userSingle', user)
         const avatar = user.avatar
-          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
+          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url.substring(1)}`
           : null
         const funcao = user.funcao ? user.funcao.Funcao : null
         const group = user.grupo ? user.grupo.nome_abreviado : null
@@ -71,7 +71,7 @@ function Users() {
       const usersCompletedList: UsersFormat[] = response.data.map(user => {
         // console.log('userSingle', user)
         const avatar = user.avatar
-          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url}`
+          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url.substring(1)}`
           : null
         const funcao = user.funcao ? user.funcao.Funcao : null
         const group = user.grupo ? user.grupo.nome : null

@@ -218,7 +218,9 @@ export default function Home({ data, carousel }) {
         height={500}
         imgURL={
           data[0].image[0]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[0].url}`
+            ? `${
+                process.env.NEXT_PUBLIC_API_URL
+              }${data[0].image[0].url.substring(1)}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
       >
@@ -260,7 +262,9 @@ export default function Home({ data, carousel }) {
         height={500}
         imgURL={
           data[0].image[1]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[1].url}`
+            ? `${
+                process.env.NEXT_PUBLIC_API_URL
+              }${data[0].image[1].url.substring(1)}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
       />
@@ -349,7 +353,9 @@ export default function Home({ data, carousel }) {
         height={500}
         imgURL={
           data[0].image[2]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[2].url}`
+            ? `${
+                process.env.NEXT_PUBLIC_API_URL
+              }${data[0].image[2].url.substring(1)}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
       />
@@ -374,7 +380,9 @@ export default function Home({ data, carousel }) {
               <img
                 src={
                   data[0].image[2]
-                    ? `${process.env.NEXT_PUBLIC_API_URL}${carousel[0].image[0].url}`
+                    ? `${
+                        process.env.NEXT_PUBLIC_API_URL
+                      }${carousel[0].image[0].url.substring(1)}`
                     : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
                 }
                 alt="ComoParticiparFoto"
@@ -417,7 +425,9 @@ export default function Home({ data, carousel }) {
         height={500}
         imgURL={
           data[0].image[3]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[3].url}`
+            ? `${
+                process.env.NEXT_PUBLIC_API_URL
+              }${data[0].image[3].url.substring(1)}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
       />
@@ -448,7 +458,9 @@ export default function Home({ data, carousel }) {
       <HomeBanner
         imgURL={
           data[0].image[4]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[4].url}`
+            ? `${
+                process.env.NEXT_PUBLIC_API_URL
+              }${data[0].image[4].url.substring(1)}`
             : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
         }
         height="auto"

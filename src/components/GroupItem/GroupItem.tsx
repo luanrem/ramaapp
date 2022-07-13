@@ -122,7 +122,9 @@ export default function GroupItem({
                   <Avatar
                     src={
                       user.avatar &&
-                      process.env.NEXT_PUBLIC_API_URL.concat(user.avatar.url)
+                      process.env.NEXT_PUBLIC_API_URL.concat(
+                        user.avatar.url.substring(1)
+                      )
                     }
                     alt="Profile Image"
                   />
@@ -168,7 +170,9 @@ export default function GroupItem({
               <Avatar
                 src={
                   facilitador.avatar &&
-                  process.env.NEXT_PUBLIC_API_URL.concat(facilitador.avatar.url)
+                  process.env.NEXT_PUBLIC_API_URL.concat(
+                    facilitador.avatar.url.substring(1)
+                  )
                 }
                 alt="Profile Image"
               />
