@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useCallback, useRef, useState } from 'react'
 
-import { Carousel } from 'react-responsive-carousel'
+// import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
 import Input from '../components/Input/Input'
@@ -19,7 +19,7 @@ import {
   FaWhatsapp
 } from 'react-icons/fa'
 import { FiMessageSquare } from 'react-icons/fi'
-import logoImg from '../assets/images/logo.gif'
+import logoImg from '../assets/images/converted-logo.png'
 
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
 import {
@@ -216,11 +216,14 @@ export default function Home({ data, carousel }) {
       <HomeBanner
         className="HomeBanner"
         height={500}
-        imgURL={
-          data[0].image[0]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[0].url}`
-            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-        }
+        // imgURL={
+        //   data[0].image[0]
+        //     ? `${
+        //         process.env.NEXT_PUBLIC_API_URL
+        //       }${data[0].image[0].url.substring(1)}`
+        //     : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
+        // }
+        imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
       >
         <h1 className="nomeSite">Missão Rama Brasil</h1>
       </HomeBanner>
@@ -258,11 +261,7 @@ export default function Home({ data, carousel }) {
 
       <HomeBanner
         height={500}
-        imgURL={
-          data[0].image[1]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[1].url}`
-            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-        }
+        imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
       />
 
       <NossaMetaSection id="NossaMeta">
@@ -347,11 +346,7 @@ export default function Home({ data, carousel }) {
 
       <HomeBanner
         height={500}
-        imgURL={
-          data[0].image[2]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[2].url}`
-            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-        }
+        imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
       />
 
       <ComoParticiparSection id="ComoParticipar">
@@ -372,11 +367,7 @@ export default function Home({ data, carousel }) {
           >
             <Grid item md={5} xs={11} className="image">
               <img
-                src={
-                  data[0].image[2]
-                    ? `${process.env.NEXT_PUBLIC_API_URL}${carousel[0].image[0].url}`
-                    : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-                }
+                src="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
                 alt="ComoParticiparFoto"
               />
             </Grid>
@@ -415,17 +406,13 @@ export default function Home({ data, carousel }) {
 
       <HomeBanner
         height={500}
-        imgURL={
-          data[0].image[3]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[3].url}`
-            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-        }
+        imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
       />
 
       <GaleriaAtividadesSection>
         <h1>Galeria de atividades</h1>
         <hr />
-        <Carousel
+        {/* <Carousel
           autoPlay
           interval={5000}
           infiniteLoop
@@ -442,15 +429,11 @@ export default function Home({ data, carousel }) {
               </div>
             )
           })}
-        </Carousel>
+        </Carousel> */}
       </GaleriaAtividadesSection>
 
       <HomeBanner
-        imgURL={
-          data[0].image[4]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${data[0].image[4].url}`
-            : 'https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg'
-        }
+        imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
         height="auto"
       >
         <FaremosContatoSection>

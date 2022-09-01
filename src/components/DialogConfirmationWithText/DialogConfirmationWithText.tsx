@@ -9,14 +9,16 @@ import {
 } from '@material-ui/core'
 import { useRef } from 'react'
 
-interface DialogConfirmationProps {
+interface DialogConfirmationWithTextProps {
   handleConfirm: (string) => void
   handleCancel: () => void
   open: boolean
   textToConfirm: string
 }
 
-export default function DialogConfirmation(props: DialogConfirmationProps) {
+export default function DialogConfirmationWithText(
+  props: DialogConfirmationWithTextProps
+) {
   const { handleConfirm, handleCancel, open, textToConfirm } = props
   const inputEl = useRef(null)
 

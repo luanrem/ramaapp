@@ -16,12 +16,13 @@ import {
   ListSubheader
 } from '@material-ui/core'
 import Link from 'next/link'
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 
 export default function DrawerSideBar({ setOpen, open }) {
   const { user, photoURL } = useAuth()
   const { menus } = useAuth()
-  console.log('Menus dentro do drawer', menus)
+  // console.log('Menus dentro do drawer', menus)
 
   const HandleOpenDrawer = useCallback(() => {
     setOpen(!open)

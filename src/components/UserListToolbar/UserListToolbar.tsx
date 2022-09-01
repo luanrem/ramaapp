@@ -10,10 +10,11 @@ import {
 import { Container } from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
-import { useAdmin } from '../../../../hooks/admin'
-import { useToast } from '../../../../hooks/toast'
+// import { useAdmin } from '../../hooks/admin'
+import { useAdmin } from '../../mock/admin'
+import { useToast } from '../../hooks/toast'
 import { useState } from 'react'
-import DialogConfirmation from '../DialogConfirmation/DialogConfirmation'
+import DialogConfirmationWithText from '../DialogConfirmationWithText/DialogConfirmationWithText'
 
 export default function UserListToolbar({
   numSelected,
@@ -91,7 +92,7 @@ export default function UserListToolbar({
         <></>
       )}
 
-      <DialogConfirmation
+      <DialogConfirmationWithText
         handleConfirm={handleConfirmDialog}
         handleCancel={handleCancelDialog}
         open={dialogOpen}

@@ -11,10 +11,11 @@ import * as Yup from 'yup'
 
 import { motion } from 'framer-motion'
 
-import logoImg from '../../assets/images/logo.gif'
+import logoImg from '../../assets/images/converted-logo.png'
 // import googleImg from '../../assets/images/google_signin.png'
 import Link from 'next/link'
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 
 import Input from '../../components/Input/Input'
 import ButtonComponent from '../../components/Button/Button'

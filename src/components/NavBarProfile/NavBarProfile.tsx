@@ -24,7 +24,8 @@ import {
 import List from '@material-ui/core/List'
 import Link from 'next/link'
 
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 import Divisor from '../Divisor/Divisor'
 
 export default function NavBarProfile() {
@@ -154,10 +155,8 @@ export default function NavBarProfile() {
       </Poppers>
 
       <NameContainer>
-        <h2>{user.username}</h2>
-        <span>
-          {user.grupo ? `Grupo: ${user.grupo.nome_abreviado}` : `Usuário`}
-        </span>
+        <h2>{user === undefined ? 'Fulano' : user.username}</h2>
+        <span>{user ? `Grupo: ${user.grupo.nome_abreviado}` : `Grupo`}</span>
       </NameContainer>
 
       <Button>

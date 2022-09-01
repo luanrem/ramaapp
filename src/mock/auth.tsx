@@ -5,6 +5,9 @@ import routes from '../routes/routes'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 
+import { mockMenus, mockToken, mockUser } from './mock'
+import { useToast } from '../hooks/toast'
+
 export interface Group {
   created_at: string
   data_inicial: string
@@ -117,20 +120,21 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
-function AuthProvider({ children }) {
+function AuthMockProvider({ children }) {
   const [data, setData] = useState<AuthState>(() => {
     const { jwt, user, menus, photoURL, smallPhotoURL } = parseCookies()
 
     let userParsed, menusParsed
-    try {
-      menusParsed = JSON.parse(menus)
-      userParsed = JSON.parse(user)
-    } catch (err) {
-      // 👇️ This runs
-      console.log('Error: ', err.message)
-    }
 
     if (jwt && user && menus && photoURL && smallPhotoURL) {
+      try {
+        menusParsed = JSON.parse(menus)
+        userParsed = JSON.parse(user)
+      } catch (err) {
+        // 👇️ This runs
+        console.log('Error: ', err.message)
+      }
+
       api.defaults.headers.common.Authorization = `Bearer ${jwt}`
       return {
         token: jwt,
@@ -143,6 +147,8 @@ function AuthProvider({ children }) {
     return {} as AuthState
   })
 
+  const { addToast } = useToast()
+
   const menuValidation = useCallback(
     (sideMenus: Array<Menus>): Array<Routes> => {
       const menusResult = []
@@ -154,7 +160,7 @@ function AuthProvider({ children }) {
         }
       })
 
-      // console.log('resultado do menuValidation', menusResult)
+      console.log('resultado do menuValidation', menusResult)
       return menusResult
     },
     []
@@ -162,157 +168,14 @@ function AuthProvider({ children }) {
 
   const signIn = useCallback(async ({ email, password }) => {
     delete api.defaults.headers.common.Authorization
-    const response = await api.post(
-      'auth/local',
-      {
-        identifier: email,
-        password: password
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-    console.log('response', response)
-    const { jwt: token, user } = response.data
-    console.log('user', user)
-    let photoURL
-    let smallPhotoURL = null
 
-    if (response.data.user.avatar !== null) {
-      photoURL =
-        process.env.NEXT_PUBLIC_API_URL +
-        response.data.user.avatar.url.substring(1)
+    console.log(email, password)
 
-      smallPhotoURL =
-        process.env.NEXT_PUBLIC_API_URL +
-        response.data.user.avatar.formats.thumbnail.url.substring(1)
-      console.log('entrou aqui', smallPhotoURL)
+    const token = JSON.stringify(mockToken.jwt)
+    const user = mockUser
+    const photoURL = 'https://xsgames.co/randomusers/avatar.php?g=pixel'
+    const smallPhotoURL = 'https://xsgames.co/randomusers/avatar.php?g=pixel'
 
-      setCookie(null, 'photoURL', photoURL, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      setCookie(null, 'smallPhotoURL', smallPhotoURL, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-    } else {
-      photoURL = 'https://avatars.dicebear.com/api/initials/' + user.username
-      smallPhotoURL = photoURL
-
-      setCookie(null, 'photoURL', photoURL, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      setCookie(null, 'smallPhotoURL', smallPhotoURL, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-
-    }
-
-    const menusResponse = await api.get('funcaos/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-
-    console.log('menusResponse', menusResponse)
-
-    const { menus } = menusResponse.data
-    // console.log('menus', menus)
-
-    const paths = menuValidation(menus)
-    console.log('paths', paths)
-
-    setCookie(null, 'jwt', token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-    setCookie(null, 'user', JSON.stringify(user), {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-    setCookie(null, 'menus', JSON.stringify(paths), {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-
-    api.defaults.headers.common.Authorization = `Bearer ${token}`
-
-    setData({ token, user, menus: paths, photoURL, smallPhotoURL })
-  }, [])
-
-  const signUp = useCallback(async ({ username, name, email, password }) => {
-    delete api.defaults.headers.common.Authorization
-    const userID = process.env.NEW_USER_FUNCTION_ID
-    console.log('id', userID)
-    const response = await api.post(
-      // TODO[epic=project] field blocked needs to be false as default
-      'auth/local/register',
-      {
-        username: username,
-        nome_completo: name,
-        email: email,
-        password: password,
-        blocked: true,
-        funcao: {
-          id: process.env.NEW_USER_FUNCTION_ID
-        }
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-
-    // console.log('response', response.data)
-
-    const photoURL =
-      process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.url.substring(1)
-
-    const smallPhotoURL =
-      process.env.NEXT_PUBLIC_API_URL +
-      response.data.user.avatar.formats.thumbnail.url.substring(1)
-
-
-    const { jwt: token, user } = response.data
-    // console.log('axios login', response.data)
-
-    const menusResponse = await api.get('funcaos/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const { menus } = menusResponse.data
-    // console.log('menus', menus)
-
-    const paths = menuValidation(menus)
-    // console.log(paths)
-
-    setCookie(null, 'jwt', token, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-    setCookie(null, 'user', JSON.stringify(user), {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
-    setCookie(null, 'menus', JSON.stringify(paths), {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/'
-    })
     setCookie(null, 'photoURL', photoURL, {
       maxAge: 30 * 24 * 60 * 60,
       path: '/'
@@ -322,9 +185,39 @@ function AuthProvider({ children }) {
       path: '/'
     })
 
+    const { menus } = mockMenus
+    // console.log('menus', menus)
+
+    const paths = menuValidation(menus)
+    console.log(paths)
+
+    setCookie(null, 'jwt', token, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    setCookie(null, 'user', JSON.stringify(user), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+    setCookie(null, 'menus', JSON.stringify(paths), {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
+
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
     setData({ token, user, menus: paths, photoURL, smallPhotoURL })
+    Router.reload()
+  }, [])
+
+  const signUp = useCallback(async ({ username, name, email, password }) => {
+    delete api.defaults.headers.common.Authorization
+    addToast({
+      type: 'error',
+      title: 'Feature disabled',
+      description:
+        'Please, go to signin and use the credentials email: user@gmail.com password: user123456.'
+    })
   }, [])
 
   const signOut = useCallback(() => {
@@ -382,37 +275,12 @@ function AuthProvider({ children }) {
 
       // console.log('requestData', requestData)
 
-      const response = await api.put('users/me', requestData, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+      addToast({
+        type: 'error',
+        title: 'Feature disabled',
+        description:
+          'Please, go to signin and use the credentials email: user@gmail.com password: user123456.'
       })
-
-      console.log('Usuario Atualizado', response.data)
-
-      destroyCookie(null, 'jwt', {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      destroyCookie(null, 'user', {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      destroyCookie(null, 'menus', {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      destroyCookie(null, 'photoURL', {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-      destroyCookie(null, 'smallPhotoURL', {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/'
-      })
-
-      Router.push('/auth/signin')
     },
     []
   )
@@ -526,4 +394,4 @@ function useAuth() {
   return context
 }
 
-export { AuthProvider, useAuth }
+export { AuthMockProvider, useAuth }

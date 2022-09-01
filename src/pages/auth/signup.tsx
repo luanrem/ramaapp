@@ -11,11 +11,12 @@ import * as Yup from 'yup'
 
 import { motion } from 'framer-motion'
 
-import logoImg from '../../assets/images/logo.gif'
+import logoImg from '../../assets/images/converted-logo.png'
 // import googleImg from '../../assets/images/google_signin.png'
 import Link from 'next/link'
 import Router from 'next/router'
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 
 import Input from '../../components/Input/Input'
 import ButtonComponent from '../../components/Button/Button'
@@ -85,10 +86,16 @@ export default function SignUp() {
         }
 
         setEntering(false)
+        // addToast({
+        //   type: 'error',
+        //   title: 'Erro ao cadastrar',
+        //   description: 'Ocorreu um erro ao se cadastrar, cheque as credenciais.'
+        // })
         addToast({
           type: 'error',
-          title: 'Erro ao cadastrar',
-          description: 'Ocorreu um erro ao se cadastrar, cheque as credenciais.'
+          title: 'Feature disabled',
+          description:
+            'Please, go to signin and use the credentials email: user@gmail.com password: user123456.'
         })
       }
     },

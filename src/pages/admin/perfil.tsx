@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import Admin from '../../layouts/Admin'
-import getValidationErrors from '../../utils/getValidationErrors'
+// import getValidationErrors from '../../utils/getValidationErrors'
 
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
@@ -10,7 +10,7 @@ import Divisor from '../../components/Divisor/Divisor'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import 'react-day-picker/lib/style.css'
-import * as Yup from 'yup'
+// import * as Yup from 'yup'
 import { useToast } from '../../hooks/toast'
 import { format } from 'date-fns'
 
@@ -27,11 +27,13 @@ import {
   AvatarContainer,
   UserContent
 } from '../../styles/pages/admin/perfil'
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 import { useCallback, useRef, useState } from 'react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
-import { parseCookies } from 'nookies'
+// import { parseCookies } from 'nookies'
 import UpdatePhoto from '../../components/UpdatePhoto/UpdatePhoto'
+import { mockUser } from '../../mock/mock'
 
 // 0: "xs"
 // 1: "sm"
@@ -75,62 +77,76 @@ function Perfil({ response: updatedUser }) {
   const handleSubmit = useCallback(
     async (data: UserFormData) => {
       setUpdating(true)
-      try {
-        formRef.current?.setErrors({})
-
-        const schema = Yup.object().shape({
-          username: Yup.string(),
-          email: Yup.string().email('Digite um e-mail valido'),
-          nome_completo: Yup.string(),
-          endereco: Yup.string(),
-          endereco_adicional: Yup.string(),
-          Cidade: Yup.string(),
-          Estado: Yup.string(),
-          telefone: Yup.string(),
-          sobre_mim: Yup.string()
-        })
-
-        await schema.validate(data, {
-          abortEarly: false
-        })
-        console.log('submit')
-        console.log(data)
-
-        await updateUser({
-          username: data.username,
-          email: data.email,
-          nome_completo: data.nome_completo,
-          Nacimento: data.Nacimento,
-          endereco: data.endereco,
-          endereco_adicional: data.endereco_adicional,
-          Cidade: data.Cidade,
-          Estado: data.Estado,
-          telefone: data.telefone,
-          sobre_mim: data.sobre_mim
-        })
-
-        setUpdating(false)
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err)
-
-          formRef.current?.setErrors(errors)
-
-          setUpdating(false)
-          return
-        }
-
-        setUpdating(false)
-        addToast({
-          type: 'error',
-          title: 'Erro na atualização',
-          description:
-            'Ocorreu um erro ao atualizar o usuário, cheque os dados.'
-        })
-      }
+      addToast({
+        type: 'error',
+        title: 'Feature disabled',
+        description:
+          'This feature has been disabled for now, this version is just to show the available features.'
+      })
+      setUpdating(false)
     },
     [updateUser]
   )
+
+  // const handleSubmit = useCallback(
+  //   async (data: UserFormData) => {
+  //     setUpdating(true)
+  //     try {
+  //       formRef.current?.setErrors({})
+
+  //       const schema = Yup.object().shape({
+  //         username: Yup.string(),
+  //         email: Yup.string().email('Digite um e-mail valido'),
+  //         nome_completo: Yup.string(),
+  //         endereco: Yup.string(),
+  //         endereco_adicional: Yup.string(),
+  //         Cidade: Yup.string(),
+  //         Estado: Yup.string(),
+  //         telefone: Yup.string(),
+  //         sobre_mim: Yup.string()
+  //       })
+
+  //       await schema.validate(data, {
+  //         abortEarly: false
+  //       })
+  //       console.log('submit')
+  //       console.log(data)
+
+  //       await updateUser({
+  //         username: data.username,
+  //         email: data.email,
+  //         nome_completo: data.nome_completo,
+  //         Nacimento: data.Nacimento,
+  //         endereco: data.endereco,
+  //         endereco_adicional: data.endereco_adicional,
+  //         Cidade: data.Cidade,
+  //         Estado: data.Estado,
+  //         telefone: data.telefone,
+  //         sobre_mim: data.sobre_mim
+  //       })
+
+  //       setUpdating(false)
+  //     } catch (err) {
+  //       if (err instanceof Yup.ValidationError) {
+  //         const errors = getValidationErrors(err)
+
+  //         formRef.current?.setErrors(errors)
+
+  //         setUpdating(false)
+  //         return
+  //       }
+
+  //       setUpdating(false)
+  //       addToast({
+  //         type: 'error',
+  //         title: 'Erro na atualização',
+  //         description:
+  //           'Ocorreu um erro ao atualizar o usuário, cheque os dados.'
+  //       })
+  //     }
+  //   },
+  //   [updateUser]
+  // )
 
   return (
     <Container>
@@ -364,18 +380,19 @@ function Perfil({ response: updatedUser }) {
 Perfil.layout = Admin
 
 export async function getServerSideProps(context) {
-  const jwt = parseCookies(context).jwt
+  // const jwt = parseCookies(context).jwt
 
-  const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${jwt}`
-    }
-  })
+  // const login = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+  //   method: 'GET',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Bearer ${jwt}`
+  //   }
+  // })
 
-  const response = await login.json()
+  // const response = await login.json()
+  const response = JSON.stringify(mockUser)
 
   return {
     props: {

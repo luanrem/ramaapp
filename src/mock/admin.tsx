@@ -8,7 +8,8 @@ import {
 } from 'react'
 import api from '../services/api'
 import { User } from './auth'
-import { useToast } from './toast'
+import { useToast } from '../hooks/toast'
+import { mockGroups } from './mock'
 
 export interface GroupUsersData {
   id: number
@@ -105,7 +106,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
-function AdminProvider({ children }) {
+function AdminMockProvider({ children }) {
   const { addToast } = useToast()
   const [groupsContext, setGroupsContext] = useState<GroupsData[]>()
   const [facilitadoresContext, setFacilitadoresContext] = useState<
@@ -114,23 +115,19 @@ function AdminProvider({ children }) {
   const [tabValue, setTabvalue] = useState(0)
 
   const getFacilitadoresData = useCallback(async () => {
-    const response = await api.get('facilitadores', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    setFacilitadoresContext(response.data)
+    const facilitadores = []
+    setFacilitadoresContext(facilitadores)
   }, [])
 
   const getGroupsData = useCallback(async () => {
-    const response = await api.get('grupos', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    setGroupsContext(response.data)
+    // const response = await api.get('grupos', {
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    const mockGroup = JSON.stringify(mockGroups)
+    setGroupsContext(JSON.parse(mockGroup))
   }, [])
 
   const removeFacilitadorFromGroup = useCallback(
@@ -346,4 +343,4 @@ function useAdmin() {
   return context
 }
 
-export { AdminProvider, useAdmin }
+export { AdminMockProvider, useAdmin }

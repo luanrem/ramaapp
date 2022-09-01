@@ -11,10 +11,11 @@ import {
 import { useEffect } from 'react'
 import { Container, UserAccountView, AboutMeView, AddressView } from './styles'
 import { Form } from '@unform/web'
-import UnformTextField from '../../../UnformTextField/UnformTextField'
-import UnformSwitch from '../../../UnformSwitch/UnformSwitch'
-import { useAdmin } from '../../../../hooks/admin'
-import { useToast } from '../../../../hooks/toast'
+import UnformTextField from '../UnformTextField/UnformTextField'
+import UnformSwitch from '../UnformSwitch/UnformSwitch'
+// import { useAdmin } from '../../hooks/admin'
+import { useAdmin } from '../../mock/admin'
+import { useToast } from '../../hooks/toast'
 
 export interface UsersFormat {
   id: number
