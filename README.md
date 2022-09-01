@@ -1,35 +1,34 @@
 <h1 align="center">
   <br>
-  <img src=".github/NextJSLogo.png" alt="NextJS Logo" height="125" width="125">
+  <img src=".github/converted-logo.png" alt="NextJS Logo" height="200" width="200">
   <br><br>
 </h1>
 
-<p align="center">A minimal, clean and beautiful admin system template to help people to create yours admin system  friend more easily and quickly </p>
+<p align="center">A minimal, clean and beautiful admin system</p>
 
 <p align="center">
   <a href="http://makeapullrequest.com">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/luanrem/nextjs-adminsystem">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/luanrem/ramaapp">
   </a>
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/luanrem/nextjs-adminsystem">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/luanrem/ramaapp">
 
   <a href="http://makeapullrequest.com">
     <img src="https://img.shields.io/badge/contribuition-welcome-brightgreen.svg" alt="PRs Welcome">
   </a>
   <a href="https://saythanks.io/to/wendelfreitas">
-      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/luanrem/nextjs-adminsystem">
+      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/luanrem/ramaapp">
   </a>
   <a href="https://saythanks.io/to/wendelfreitas">
-      <img alt="Repository size" src="https://img.shields.io/github/repo-size/luanrem/nextjs-adminsystem">
+      <img alt="Repository size" src="https://img.shields.io/github/repo-size/luanrem/ramaapp">
   </a>
   <a href="https://www.repostatus.org/#wip">
     <img src="https://img.shields.io/github/license/x0n4d0/ecoleta" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public." />
   </a>  
 </p>
 
-  <a href="#dizzy-roadmap">Roadmap</a> •
 <p align="center">
   <a href="#blush-why">Why</a> •
-  <a href="#dizzy-roadmap">Install Instructions</a> •
+  <a href="#install-instructions">Install Instructions</a> •
   <a href="#zap-tech-stack">Tech Stack</a> •
   <a href="#handshake-contributing">Contributing</a> •  
 </p>
@@ -46,7 +45,7 @@
 
 ## :blush: **Why?**
 
-During the programming career we faced numerous difficulties to create. This repository aims to facilitate the creation of administrative systems with. It is available for anyone to use to recreate their projects with a great initial step already taken.
+This was a challenge I had to create an admin system using NextJS for a company with all admin systems menus. I started this project as a simple template for admin systems but over time I started to implement other features like the profile menu and the user administration menu. I spent a lot of time on this project because I also used it to study new technologies and insert technologies that I have always wanted to play with.
 
 ## **Install instructions**
 
@@ -54,7 +53,7 @@ During the programming career we faced numerous difficulties to create. This rep
 
 #### 1) Clone & Install Dependencies on Linux/MacOS
 
-- 1.1) `git clone https://github.com/luanrem/nextjs-adminsystem`
+- 1.1) `git clone https://github.com/luanrem/ramaapp`
 - 1.2) `cd nextjs-adminsystem` - cd into your newly created project directory.
 - 1.3) Install NPM packages with `yarn install`
         **Note:** I am using the `yarn` but you can use `npm` if you want.
@@ -73,12 +72,14 @@ During the programming career we faced numerous difficulties to create. This rep
 ## :zap: **Tech Stack**
 
 -   [ReactJS](https://reactjs.org/)
--   [Next.JS](https://github.com/expo/expo)
+-   [Next.JS](https://nextjs.org)
+-   [Typescript](https://www.typescriptlang.org)
 -   [Styled Components](https://www.styled-components.com/)
 -   [Material UI](https://material-ui.com/pt/)
 -   [Framer Motion](https://www.framer.com/motion/)
 -   [React-Use](https://github.com/streamich/react-use)
 -   [React-custom-scrollbars](https://github.com/malte-wessel/react-custom-scrollbars)
+-   [Nookies](https://github.com/maticzav/nookies)
 
 and much more...
 
