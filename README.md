@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#blush-why">Why</a> •
+  <a href="#test-it">Test it</a> •
   <a href="#install-instructions">Install Instructions</a> •
   <a href="#zap-tech-stack">Tech Stack</a> •
   <a href="#handshake-contributing">Contributing</a> •  
@@ -43,13 +44,24 @@
   </kbd>
 </p>
 
-## :blush: **Why?**
+## :man_shrugging: **Why?**
 
 This was a challenge I had to create an admin system using NextJS for a company with all admin systems menus. I started this project as a simple template for admin systems but over time I started to implement other features like the profile menu and the user administration menu. I spent a lot of time on this project because I also used it to study new technologies and insert technologies that I have always wanted to play with.
 
-## **Install instructions**
+## :microscope: Test it
 
-### Getting Started
+You can access the example in this link: [Rama Admin](https://adminrama.luanmartins.com)
+
+This way you will open the initial page. To access the admin menu you need to click on the hamburger button in the top right corner and Login.
+
+<img width="auto" style="border-radius: 5px" height="200" src=".github/loginButton.png" alt="Login Button Image">
+
+You can use any email and any password to access the admin system. 
+
+FYI: The email needs to have an e-mail format to work like (example@example.com) 
+
+
+## :jigsaw: Install instructions
 
 #### 1) Clone & Install Dependencies on Linux/MacOS
 
