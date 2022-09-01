@@ -16,7 +16,8 @@ import {
   ListSubheader
 } from '@material-ui/core'
 import Link from 'next/link'
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 
 export default function DrawerSideBar({ setOpen, open }) {
   const { user, photoURL } = useAuth()

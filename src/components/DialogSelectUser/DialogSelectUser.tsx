@@ -6,11 +6,10 @@ import {
   DialogTitle,
   FormControl,
   InputLabel,
-  MenuItem,
   Select
 } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useAdmin } from '../../hooks/admin'
+// import { useAdmin } from '../../hooks/admin'
 
 import { ContainerDialog, ContainerBox } from './styles'
 
@@ -25,7 +24,7 @@ interface DialogSelectUserProps {
 export const DialogSelectUser: React.FC<DialogSelectUserProps> = props => {
   const { handleConfirm, handleCancel, open, titleText, commentText } = props
   const [facilitadorSelected, setFacilitadorSelected] = useState<number>()
-  const { facilitadoresContext } = useAdmin()
+  // const { facilitadoresContext } = useAdmin()
 
   const handleFacilitadorSelectedChange = event => {
     // console.log('Chegou aqui', event.target)

@@ -24,7 +24,8 @@ import {
 import List from '@material-ui/core/List'
 import Link from 'next/link'
 
-import { useAuth } from '../../hooks/auth'
+// import { useAuth } from '../../hooks/auth'
+import { useAuth } from '../../mock/auth'
 import Divisor from '../Divisor/Divisor'
 
 export default function NavBarProfile() {

@@ -22,7 +22,10 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import EditIcon from '@material-ui/icons/Edit'
 
-import { Container, Content } from './styles'
+import {
+  Container,
+  Content
+} from '../../../../styles/pages/admin/facilitacao/users'
 import UserListToolbar from '../../../../components/UserListToolbar/UserListToolbar'
 import {
   EnhancedTableHead,
@@ -35,6 +38,7 @@ import DialogUserEdit, {
 
 import Facilitacao from '../../../../layouts/facilitacao'
 import Admin from '../../../../layouts/Admin'
+import { mockUserList } from '../../../../mock/mock'
 
 function Users() {
   // TODO[epic=project] Create add user Function
@@ -50,29 +54,26 @@ function Users() {
 
   useEffect(() => {
     // TODO[epic=project] Create a function to update the list without reload
-    api.get('users').then(response => {
-      const userList: UserListFormat[] = response.data.map(user => {
+    const mockUsersList = JSON.stringify(mockUserList)
+    const userList: UserListFormat[] = JSON.parse(mockUsersList).map(user => {
+      // console.log('userSingle', user)
+      const avatar = 'https://xsgames.co/randomusers/avatar.php?g=pixel'
+      const funcao = user.funcao ? user.funcao.Funcao : null
+      const group = user.grupo ? user.grupo.nome_abreviado : null
+      return {
+        id: user.id,
+        avatar_url: avatar,
+        username: user.username,
+        nome_completo: user.nome_completo,
+        blocked: user.blocked,
+        grupo: group,
+        function: funcao
+      }
+    })
+    const usersCompletedList: UsersFormat[] = JSON.parse(mockUsersList).map(
+      user => {
         // console.log('userSingle', user)
-        const avatar = user.avatar
-          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url.substring(1)}`
-          : null
-        const funcao = user.funcao ? user.funcao.Funcao : null
-        const group = user.grupo ? user.grupo.nome_abreviado : null
-        return {
-          id: user.id,
-          avatar_url: avatar,
-          username: user.username,
-          nome_completo: user.nome_completo,
-          blocked: user.blocked,
-          grupo: group,
-          function: funcao
-        }
-      })
-      const usersCompletedList: UsersFormat[] = response.data.map(user => {
-        // console.log('userSingle', user)
-        const avatar = user.avatar
-          ? `${process.env.NEXT_PUBLIC_API_URL}${user.avatar.url.substring(1)}`
-          : null
+        const avatar = 'https://xsgames.co/randomusers/avatar.php?g=pixel'
         const funcao = user.funcao ? user.funcao.Funcao : null
         const group = user.grupo ? user.grupo.nome : null
         return {
@@ -92,12 +93,12 @@ function Users() {
           estado: user.Estado,
           telefone: user.telefone
         }
-      })
-      setUsers(usersCompletedList)
-      setUsersList(userList)
-      setFilteredUsers(userList)
-      // console.log('userList', response.data)
-    })
+      }
+    )
+    setUsers(usersCompletedList)
+    setUsersList(userList)
+    setFilteredUsers(userList)
+    // console.log('userList', response.data)
   }, [])
 
   const handleRequestSort = (

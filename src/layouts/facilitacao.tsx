@@ -4,7 +4,8 @@ import { ChangeEvent, useEffect, useState } from 'react'
 // import Admin from './Admin'
 
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useAdmin } from '../hooks/admin'
+// import { useAdmin } from '../hooks/admin'
+import { useAdmin } from '../mock/admin'
 import { Content, Container } from '../styles/layouts/facilitacao'
 import { useRouter } from 'next/router'
 
@@ -14,9 +15,6 @@ function Facilitacao({ children }) {
   const router = useRouter()
 
   useEffect(() => {
-    const path = router.pathname.replace('/admin/facilitacao/', '')
-    console.log('esse e o valor', router.pathname)
-    console.log('esse e o valor', path)
     switch (router.pathname) {
       case '/admin/facilitacao/users':
         setValue(0)
@@ -75,7 +73,6 @@ function Facilitacao({ children }) {
               <Tab label="Eventos" />
             </Tabs>
           </AppBar>
-          {console.log('renderizando')}
           <Content>{children}</Content>
         </div>
       </Container>
