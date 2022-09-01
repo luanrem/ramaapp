@@ -211,6 +211,7 @@ function AuthProvider({ children }) {
         maxAge: 30 * 24 * 60 * 60,
         path: '/'
       })
+
     }
 
     const menusResponse = await api.get('funcaos/me', {
@@ -259,6 +260,7 @@ function AuthProvider({ children }) {
         nome_completo: name,
         email: email,
         password: password,
+        blocked: true,
         funcao: {
           id: process.env.NEW_USER_FUNCTION_ID
         }
@@ -280,6 +282,7 @@ function AuthProvider({ children }) {
     const smallPhotoURL =
       process.env.NEXT_PUBLIC_API_URL +
       response.data.user.avatar.formats.thumbnail.url.substring(1)
+
 
     const { jwt: token, user } = response.data
     // console.log('axios login', response.data)
