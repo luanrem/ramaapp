@@ -33,7 +33,7 @@ export default function AdminNavbar() {
           <Title>
             <Button>
               <Link href="/admin/dashboard">
-                <h1>MISSÃO RAMA</h1>
+                <h1>Company</h1>
               </Link>
             </Button>
 

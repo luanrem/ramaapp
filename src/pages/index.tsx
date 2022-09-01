@@ -13,8 +13,8 @@ import * as Yup from 'yup'
 
 import BackToTopIcon from '../components/BackToTopIcon/BackToTopIcon'
 import {
-  FaFacebookSquare,
-  FaYoutube,
+  FaGithubAlt,
+  FaLinkedin,
   FaInstagram,
   FaWhatsapp
 } from 'react-icons/fa'
@@ -225,7 +225,7 @@ export default function Home({ data, carousel }) {
         // }
         imgURL="https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg"
       >
-        <h1 className="nomeSite">Missão Rama Brasil</h1>
+        <h1 className="nomeSite">Company</h1>
       </HomeBanner>
 
       <QuemSomosNosSection id="QuemSomosNosC">
@@ -249,10 +249,13 @@ export default function Home({ data, carousel }) {
             </Grid>
             <Grid item xs={9} md={4} className="text">
               <p>
-                Somos um grupo de pessoas que dedica suas vidas a realizar um
-                Programa de Treinamento para que nos tornemos Cidadãos Cósmicos,
-                aperfeiçoando-nos a cada dia, para conquistarmos a
-                internalização da Ética Universal
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
               </p>
             </Grid>
           </Grid>
@@ -276,26 +279,30 @@ export default function Home({ data, carousel }) {
             <h2>Âmbito pessoal:</h2>
             <ul>
               <li>
-                Conhecimento e o autoconhecimento como meios de alquimiar as
-                barreiras ( o que nos tem impedido de amar) que impedem a
-                evolução rumo à conquista da consciência positiva;{' '}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.{' '}
               </li>
-              <li>Desenvolvimento de habilidades para o viver em harmonia.</li>
             </ul>
           </Grid>
 
           <Grid item md={8} xs={11} className="content">
-            <h3>Objetivos a serem alcançados pelo grupo:</h3>
+            <h3>Objetivos a serem alcançados:</h3>
           </Grid>
 
           <Grid item md={8} xs={11} className="content">
             <h2>Geral:</h2>
             <ul>
               <li>
-                Estabelecimento de uma comunidade compromissada com as regras da
-                vida e com a promoção do bem comum, tendo o respeito e o amor
-                como metas coletivas. A partir desta conquista, desenvolver
-                habilidades para viver em harmonia.
+                ELorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Varius duis at consectetur lorem. Convallis a cras semper auctor
+                neque vitae. Nisl rhoncus mattis rhoncus urna neque. Mauris nunc
+                congue nisi vitae suscipit tellus mauris a.
               </li>
             </ul>
           </Grid>
@@ -304,42 +311,36 @@ export default function Home({ data, carousel }) {
             <h2>Específicos:</h2>
             <ul>
               <li>
-                Servir de referencial ao meio, tanto de forma grupal, quanto
-                individual;
+                ELorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua;
+              </li>
+              <li>Varius duis at consectetur lorem;</li>
+              <li>
+                Varius duis at consectetur lorem. Convallis a cras semper auctor
+                neque vitae. Nisl rhoncus mattis rhoncus urna neque;
               </li>
               <li>
-                Atuar na sociedade, gerando a partir dessas atividades, reflexão
-                sobre a vida e tudo o que ela representa;
+                Maecenas accumsan lacus vel facilisis volutpat est velit egestas
+                dui. Libero nunc consequat interdum varius. Aliquam sem et
+                tortor consequat id.;
               </li>
               <li>
-                Reunir e organizar o conhecimento necessário para criar uma
-                sociedade auto-sustentada;
+                Sagittis purus sit amet volutpat consequat mauris nunc congue.
+                Duis ut diam quam nulla. Diam vulputate ut pharetra sit. Urna et
+                pharetra pharetra massa massa ultricies mi quis hendrerit;
               </li>
               <li>
-                Manter, desenvolver e aprimorar o próprio grupo preparando
-                sempre novos Semeadores para servir ao Propósito da
-                Confederação, estando sempre recebendo o acréscimo de novos
-                participantes;
+                Ultricies leo integer malesuada nunc vel risus commodo viverra
+                maecenas. Condimentum vitae sapien pellentesque habitant morbi
+                tristique senectus;
               </li>
               <li>
-                Conquistarmos o contato com outras sociedades extra-terrestres a
-                partir da Convivência harmônica entre nós (Encontrem-se e nos
-                encontrarão);
-              </li>
-              <li>
-                Investir em experiências em campos mais sutis, em atividades
-                transcendentais e paranormais passando a considerar a existência
-                multidimensional do Ser;
-              </li>
-              <li>
-                Abrir a possibilidade para uma presença extra-terrestre mais
-                efetiva dentro do grupo, quando necessário.
+                Nunc mattis enim ut tellus elementum sagittis vitae et leo.
+                Elementum sagittis vitae et leo duis ut diam quam nulla. Quis
+                vel eros donec ac odio tempor.
               </li>
             </ul>
-            <p>
-              (Instruções passados por Charlie Wells em palestra no Projeto Amar
-              em 1996)
-            </p>
+            <p>(Pharetra pharetra massa massa ultricies mi quis hendrerit)</p>
           </Grid>
         </Grid>
       </NossaMetaSection>
@@ -375,27 +376,25 @@ export default function Home({ data, carousel }) {
             <Grid item md={7} xs={12} className="text">
               <ul>
                 <li>
-                  Inicialmente, faz-se necessário ler o livro: "Os Semeadores de
-                  Vida" de C.R.P.Wells.
+                  Justo laoreet sit amet cursus sit amet. Tellus rutrum tellus
+                  pellentesque eu tincidunt.
                 </li>
                 <li>
-                  Esse livro contêm um importante histórico de nosso trabalho
-                  que se iniciou através do contato dos Seres Extra-terrestres
-                  com a família deste autor, e que,depois, se diversificou pelo
-                  mundo com grupos utilizando metodologias de trabalho
-                  diferentes, mas com o mesmo objetivo. Através desta leitura,
-                  você poderá ou não se identificar com o objetivo a ser
-                  alcançado. Por este motivo, a leitura se torna fundamental!
+                  Turpis egestas pretium aenean pharetra magna ac placerat.
+                  Congue eu consequat ac felis donec et odio. Tristique magna
+                  sit amet purus gravida quis blandit turpis. Enim blandit
+                  volutpat maecenas volutpat. Libero enim sed faucibus turpis in
+                  eu.
                 </li>
                 <li>
-                  O segundo passo é escrever um e-mail para a coordenação
-                  falando se seu interesse, através do endereço
-                  contato@missaorama.com.br ou envie mensagem para o WhatsApp
-                  31.98882.9997. Receberá todas as instruções e será direcionado
-                  para um grupo de trabalho em sua cidade.
+                  Egestas diam in arcu cursus euismod. Tortor at risus viverra
+                  adipiscing at in tellus integer feugiat. Eget nunc scelerisque
+                  viverra mauris in aliquam sem. Arcu dictum varius duis at
+                  consectetur lorem donec. Auctor elit sed vulputate mi sit.
+                  Quis eleifend quam adipiscing vitae proin.
                 </li>
-                <li>Seja muito bem-vindo(a)!</li>
-                <li>Coordenação Missão Rama Brasil</li>
+                <li>Welcome!</li>
+                <li>Company coordination</li>
               </ul>
             </Grid>
           </Grid>
@@ -468,25 +467,24 @@ export default function Home({ data, carousel }) {
         <div className="iconsLinked">
           <a
             className="social-padding"
-            href="https://www.facebook.com/ramabrasil"
+            href="https://www.linkedin.com/in/luanrem"
           >
-            <FaFacebookSquare size={40} />
+            <FaLinkedin size={40} />
+          </a>
+          <a className="social-padding" href="https://github.com/luanrem">
+            <FaGithubAlt size={40} />
           </a>
           <a
             className="social-padding"
-            href="https://www.youtube.com/channel/UChCB5Kj0wvr-KgmtLUHwhTw"
-          >
-            <FaYoutube size={40} />
-          </a>
-          <a
-            className="social-padding"
-            href="https://www.instagram.com/missaorama"
+            href="https://www.instagram.com/luanrem/"
           >
             <FaInstagram size={40} />
           </a>
         </div>
 
-        <span className="text-primary">Missão Rama do Brasil &copy;</span>
+        <span className="text-primary">
+          Luan Roberto Estrada Martins &copy;
+        </span>
       </Footer>
 
       <BackToTopIcon showBelow={80} />
