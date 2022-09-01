@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src=".github/NextJSLogo.png" alt="NextJS Logo" height="125" width="125">
+  <img src=".github/converted-logo.png" alt="NextJS Logo" height="200" width="200">
   <br><br>
 </h1>
 
@@ -8,25 +8,24 @@
 
 <p align="center">
   <a href="http://makeapullrequest.com">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/luanrem/nextjs-adminsystem">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/luanrem/ramaapp">
   </a>
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/luanrem/nextjs-adminsystem">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/luanrem/ramaapp">
 
   <a href="http://makeapullrequest.com">
     <img src="https://img.shields.io/badge/contribuition-welcome-brightgreen.svg" alt="PRs Welcome">
   </a>
   <a href="https://saythanks.io/to/wendelfreitas">
-      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/luanrem/nextjs-adminsystem">
+      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/luanrem/ramaapp">
   </a>
   <a href="https://saythanks.io/to/wendelfreitas">
-      <img alt="Repository size" src="https://img.shields.io/github/repo-size/luanrem/nextjs-adminsystem">
+      <img alt="Repository size" src="https://img.shields.io/github/repo-size/luanrem/ramaapp">
   </a>
   <a href="https://www.repostatus.org/#wip">
     <img src="https://img.shields.io/github/license/x0n4d0/ecoleta" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public." />
   </a>  
 </p>
 
-  <a href="#dizzy-roadmap">Roadmap</a> •
 <p align="center">
   <a href="#blush-why">Why</a> •
   <a href="#install-instructions">Install Instructions</a> •
