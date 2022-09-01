@@ -73,6 +73,7 @@ const mockUser = {
   }
 }
 
+// This is an example token, it doesn't work
 const mockToken = {
   jwt:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYxOTU2OTY3LCJleHAiOjE2NjQ1NDg5Njd9.7B6P7Jjrp1ylB1Ylr1k6r-ndimKFgH9gcHKkpQy8uYg'
@@ -172,8 +173,8 @@ const mockMenus = {
 const mockUserList = [
   {
     id: 2,
-    username: 'camila',
-    email: 'camilacvberti@gmail.com',
+    username: 'Luke',
+    email: 'luke.bell@example.com',
     provider: 'local',
     confirmed: true,
     blocked: false,
@@ -185,23 +186,23 @@ const mockUserList = [
     },
     ex_participante: false,
     funcao: null,
-    nome_completo: 'Camila Cristi Vieira Berti',
+    nome_completo: 'Luke Bell',
     telefone: null,
     grupo: {
       id: 1,
-      nome: 'Curitiba 1',
+      nome: 'Area 1',
       data_inicial: '2017-11-11',
-      nome_abreviado: 'CTB1',
+      nome_abreviado: 'AR1',
       whatsapp_link: null,
       published_at: '2022-07-09T19:38:16.673Z',
       created_at: '2022-07-09T19:38:15.001Z',
       updated_at: '2022-07-09T19:38:16.758Z',
       picture: null
     },
-    Cidade: 'Curitiba',
-    Estado: 'Paraná',
-    Nacimento: '2015-03-04',
-    sobre_mim: 'Sobre Mim',
+    Cidade: 'Area 1',
+    Estado: 'Example Place',
+    Nacimento: '1992-03-04',
+    sobre_mim: 'About me',
     endereco: null,
     endereco_adicional: null,
     created_at: '2022-07-09T19:39:17.031Z',
@@ -210,8 +211,8 @@ const mockUserList = [
   },
   {
     id: 3,
-    username: 'Flávia',
-    email: 'flavia@gmail.com',
+    username: 'Brett',
+    email: 'brettgrant@gmail.com',
     provider: 'local',
     confirmed: true,
     blocked: false,
@@ -229,13 +230,13 @@ const mockUserList = [
       created_at: '2022-07-09T19:41:20.647Z',
       updated_at: '2022-07-09T19:41:22.232Z'
     },
-    nome_completo: 'Flavia Vidal',
+    nome_completo: 'Brett Grant',
     telefone: null,
     grupo: {
       id: 4,
-      nome: 'Curitiba 3',
+      nome: 'Brazil 3',
       data_inicial: '2020-09-14',
-      nome_abreviado: 'CTB3',
+      nome_abreviado: 'BR3',
       whatsapp_link: null,
       published_at: '2022-07-12T22:18:52.256Z',
       created_at: '2022-07-12T22:18:49.704Z',
@@ -245,7 +246,7 @@ const mockUserList = [
     Cidade: null,
     Estado: null,
     Nacimento: '2020-01-01',
-    sobre_mim: 'Sobre Mim',
+    sobre_mim: 'This is me',
     endereco: null,
     endereco_adicional: null,
     created_at: '2022-07-12T22:17:11.730Z',
@@ -254,8 +255,8 @@ const mockUserList = [
   },
   {
     id: 7,
-    username: 'teste1',
-    email: 'teste1@gmail.com',
+    username: 'Gail',
+    email: 'gailcarpenter@example2.com',
     provider: 'local',
     confirmed: true,
     blocked: null,
@@ -273,13 +274,48 @@ const mockUserList = [
       created_at: '2022-07-09T19:41:20.647Z',
       updated_at: '2022-07-09T19:41:22.232Z'
     },
-    nome_completo: 'teste1',
+    nome_completo: 'Gail Carpenter',
     telefone: null,
     grupo: null,
     Cidade: null,
     Estado: null,
-    Nacimento: '2020-01-01',
-    sobre_mim: 'Sobre Mim',
+    Nacimento: '1995-01-01',
+    sobre_mim: 'Hi, I am Gail Carpenter, this is about me',
+    endereco: null,
+    endereco_adicional: null,
+    created_at: '2022-07-12T22:28:53.942Z',
+    updated_at: '2022-07-12T22:28:53.951Z',
+    avatar: null
+  },
+  {
+    id: 8,
+    username: 'Clyde',
+    email: 'clyderodrigues@example3.com',
+    provider: 'local',
+    confirmed: true,
+    blocked: null,
+    role: {
+      id: 1,
+      name: 'Authenticated',
+      description: 'Default role given to authenticated user.',
+      type: 'authenticated'
+    },
+    ex_participante: null,
+    funcao: {
+      id: 3,
+      Funcao: 'Integrante',
+      published_at: '2022-07-09T19:41:22.195Z',
+      created_at: '2022-07-09T19:41:20.647Z',
+      updated_at: '2022-07-09T19:41:22.232Z'
+    },
+    nome_completo: 'Clyde Rodriquez',
+    telefone: null,
+    grupo: null,
+    Cidade: null,
+    Estado: null,
+    Nacimento: '1995-01-01',
+    sobre_mim:
+      'Hi, I am Clyde Rodriquez, this is about me. Please reach me out on Linkedin',
     endereco: null,
     endereco_adicional: null,
     created_at: '2022-07-12T22:28:53.942Z',
